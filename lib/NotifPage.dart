@@ -2,6 +2,8 @@ import 'package:bst/AllNotifications.dart';
 import 'package:bst/UnreadNotifications.dart';
 import 'package:flutter/material.dart';
 
+import 'header/HeaderNavigation.dart';
+
 class NotifPage extends StatefulWidget {
   const NotifPage({Key? key}) : super(key: key);
 
@@ -21,7 +23,7 @@ class _NotifPageState extends State<NotifPage> {
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Center(child: Text("Notifikasi")),
+          title: HeaderNavigation(title: "Notifikasi"),
           bottom: TabBar(
             tabs: myTabs,
           ),
