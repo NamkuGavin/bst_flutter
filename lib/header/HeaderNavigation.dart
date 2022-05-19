@@ -30,8 +30,12 @@ class HeaderNavigationViewState extends State<HeaderNavigationView> {
 
   @override
   Widget build(BuildContext context) {
-    var widthSreen = MediaQuery.of(context).size.width;
     return Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.white,// changes position of shadow
+          ),
+        ]),
         padding: EdgeInsets.only(top: 15, bottom: 10, right: 20),
         width: MediaQuery.of(context).size.width,
         child: Stack(
@@ -54,22 +58,15 @@ class HeaderNavigationViewState extends State<HeaderNavigationView> {
                 GestureDetector(
                   onTapDown: (TapDownDetails details) {},
                   child: Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.9),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 0), // changes position of shadow
-                        ),
-                      ], shape: BoxShape.circle, color: Colors.green),
+
                       width: 30,
                       height: 30,
                       child: Align(
                           alignment: Alignment.center,
                           child: Image.asset(
                             'assets/images/profil.png',
-                            width: 30,
-                            height: 30,
+                            width: 20,
+                            height: 20,
                           ))),
                 )
               ],
@@ -84,7 +81,7 @@ class HeaderNavigationViewState extends State<HeaderNavigationView> {
           child: Text(
         title,
         style: TextStyle(
-            color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
+            color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700),
       )),
     );
   }

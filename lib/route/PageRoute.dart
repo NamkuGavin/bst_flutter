@@ -1,5 +1,5 @@
-import 'package:bst/AllNotifications.dart';
-import 'package:bst/NotifPage.dart';
+import 'package:bst/view/fragment/AllNotifications.dart';
+import 'package:bst/view/NotifPage.dart';
 import 'package:flutter/material.dart';
 
 class PageRouteView extends StatefulWidget {
@@ -49,16 +49,16 @@ class _PageRouteViewState extends State<PageRouteView> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Image.asset('assets/images/catalog.png',width: 30,height: 30,),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Image.asset('assets/images/catalog.png',width: 30,height: 30,),
             label: '',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        // selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
     );
