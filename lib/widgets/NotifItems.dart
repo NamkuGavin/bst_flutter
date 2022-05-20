@@ -30,7 +30,7 @@ class NotifItems extends StatelessWidget {
               children: [
                 Text(
                   model.getTime,
-                  style: GoogleFonts.openSans(fontWeight: FontWeight.w400),
+                  style: GoogleFonts.openSans(fontWeight: FontWeight.w400, color: model.getStatus ? Colors.black : Colors.grey),
                 ),
                 SizedBox(
                   width: 7,
@@ -39,6 +39,7 @@ class NotifItems extends StatelessWidget {
                   model.getName,
                   style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w600,
+                      color: model.getStatus ? Colors.black : Colors.grey
                   ),
                 ),
                 SizedBox(
@@ -56,7 +57,7 @@ class NotifItems extends StatelessWidget {
             ),
             Text(
               model.getdesc,
-              style: GoogleFonts.openSans(fontWeight: FontWeight.w400),
+              style: GoogleFonts.openSans(fontWeight: FontWeight.w400, color: model.getStatus ? Colors.black : Colors.grey),
             ),
             SizedBox(
               height: 12,
@@ -64,6 +65,7 @@ class NotifItems extends StatelessWidget {
             Divider(
               height: 1,
               thickness: 1,
+
             )
           ],
         ),

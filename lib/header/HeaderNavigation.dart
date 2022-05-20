@@ -37,7 +37,6 @@ class HeaderNavigationViewState extends State<HeaderNavigationView> {
           ),
         ]),
         padding: EdgeInsets.only(top: 15, bottom: 10, right: 20),
-        width: MediaQuery.of(context).size.width,
         child: Stack(
           children: [
             Row(
@@ -58,7 +57,6 @@ class HeaderNavigationViewState extends State<HeaderNavigationView> {
                 GestureDetector(
                   onTapDown: (TapDownDetails details) {},
                   child: Container(
-
                       width: 30,
                       height: 30,
                       child: Align(
@@ -87,11 +85,7 @@ class HeaderNavigationViewState extends State<HeaderNavigationView> {
   }
 
   buildImageLogo() {
-    var widthSreen = MediaQuery.of(context).size.width;
     double heighLogo = 40;
-    if (widthSreen < 768) {
-      heighLogo = 30;
-    }
     return Image.asset('assets/images/mainlogo.png',
         fit: BoxFit.contain, height: heighLogo);
   }
