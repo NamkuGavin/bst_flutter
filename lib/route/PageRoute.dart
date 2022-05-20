@@ -14,15 +14,30 @@ class _PageRouteViewState extends State<PageRouteView> {
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
+    Text('Index 1: Article', style: optionStyle,),
     NotifPage(),
     Text(
-      'Index 1: Business',
+      'Index 3: Sports',
       style: optionStyle,
     ),
     Text(
-      'Index 2: School',
+      'Index 4: Main',
       style: optionStyle,
     ),
+    Text(
+      'Index 5: Meteran',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 6: Catalog',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 7: Help',
+      style: optionStyle,
+    ),
+
+
   ];
 
   void _onItemTapped(int index) {
@@ -45,15 +60,31 @@ class _PageRouteViewState extends State<PageRouteView> {
         showUnselectedLabels: false,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Image.asset('assets/images/catalog.png',width: 30,height: 30,),
+            icon: Image.asset('assets/images/article.png',width: 24,height: 24,),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset('assets/images/catalog.png',width: 30,height: 30,),
+            icon: Image.asset('assets/images/chat.png',width: 24,height: 24,),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset('assets/images/catalog.png',width: 30,height: 30,),
+            icon: Image.asset('assets/images/barbel.png',width: 24,height: 24,),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('assets/images/mainicon.png',width: 27,height: 38,),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('assets/images/meteran.png',width: 24,height: 24,),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('assets/images/catalog.png',width: 24,height: 24,),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('assets/images/help.png',width: 24,height: 24,),
             label: '',
           ),
         ],
