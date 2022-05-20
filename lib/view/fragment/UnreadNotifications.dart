@@ -13,10 +13,10 @@ class UnreadNotifications extends StatefulWidget {
 
 class _UnreadNotificationsState extends State<UnreadNotifications> {
   List<NotifModel> items = [
+    NotifModel('Lindsey Vaccaro', '05:45', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.', true, 1),
+    NotifModel('Lindsey Vaccaro', '05:45', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.', false, 0),
     NotifModel('Lindsey Vaccaro', '05:45', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.', false, 1),
     NotifModel('Lindsey Vaccaro', '05:45', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.', true, 0),
-    NotifModel('Lindsey Vaccaro', '05:45', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.', false, 1),
-    NotifModel('Lindsey Vaccaro', '05:45', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.', false, 0),
     NotifModel('Lindsey Vaccaro', '05:45', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.', true, 1),
     NotifModel('Lindsey Vaccaro', '05:45', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.', false, 0)
   ];
@@ -26,12 +26,9 @@ class _UnreadNotificationsState extends State<UnreadNotifications> {
       color: Colors.white,
       child: Column(
         children: [
-          SizedBox(
-            height: 14,
-          ),
           Container(
-            color: Color(0xF6F6F6),
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            color: Colors.grey.shade100,
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 14),
             child: Column(
               children: [
                 Text(

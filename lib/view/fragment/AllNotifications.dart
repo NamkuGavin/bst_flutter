@@ -29,7 +29,7 @@ class _AllNotificationsState extends State<AllNotifications> {
         'Lindsey Vaccaro',
         '05:45',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        false,
+        true,
         0),
     NotifModel(
         'Lindsey Vaccaro',
@@ -41,13 +41,13 @@ class _AllNotificationsState extends State<AllNotifications> {
         'Lindsey Vaccaro',
         '05:45',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        false,
+        true,
         1),
     NotifModel(
         'Lindsey Vaccaro',
         '05:45',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        false,
+        true,
         0)
   ];
 
@@ -57,9 +57,6 @@ class _AllNotificationsState extends State<AllNotifications> {
       color: Colors.white,
       child: Column(
         children: [
-          SizedBox(
-            height: 14,
-          ),
           Container(
             color: Colors.grey.shade100,
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 14),
@@ -68,7 +65,7 @@ class _AllNotificationsState extends State<AllNotifications> {
                 Text(
                   'Hari ini Kamu belum memasukkan informasi ukuran dan berat badan. ',
                   style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w600, fontSize: 12),
+                      fontWeight: FontWeight.w600, fontSize: 12,),
                 ),
                 SizedBox(
                   height: 12,
