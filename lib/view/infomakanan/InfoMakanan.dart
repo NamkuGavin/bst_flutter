@@ -14,6 +14,7 @@ class InfoMakanan extends StatefulWidget {
 }
 
 class _InfoMakananState extends State<InfoMakanan> {
+  String? dropdownValue;
   List<FoodModel> firstPageList = [
     FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
         3.2, 1.2, 3.5, 2.2, 6.7),
@@ -86,27 +87,36 @@ class _InfoMakananState extends State<InfoMakanan> {
           SizedBox(
             height: 15,
           ),
-          TextField(
-            style: TextStyle(fontSize: 15),
-            textCapitalization: TextCapitalization.sentences,
-            autocorrect: true,
-            enableSuggestions: true,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(12),
-              isDense: true,
-              filled: true,
-              fillColor: Colors.transparent,
-              hintText: 'Pilih kategori makanan',
-              hintStyle: GoogleFonts.openSans(color: Colors.grey),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(width: 0.5)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1),
-                borderRadius: BorderRadius.circular(25),
-              ),
-            ),
-          ),
+          Container(
+              height: 40,
+              width: 320,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 0.5, color: Colors.black),
+                  borderRadius: BorderRadius.circular(50)),
+              child: DropdownButton<String>(
+                iconSize: 20,
+                isExpanded: true,
+                hint: Text("Pilih Kategori makanan"),
+                value: dropdownValue,
+                icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFF99CB57)),
+                underline: SizedBox.shrink(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                },
+                items: <String>[
+                  'Makanan Indonesia',
+                  'Makanan Eropa / Amreica',
+                  'Makanan Asia'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              )),
           SizedBox(
             height: 16,
           ),
@@ -165,9 +175,9 @@ class _InfoMakananState extends State<InfoMakanan> {
                       onPressed: () {},
                       style: ButtonStyle(
                           shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16))),
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16))),
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Color(0xFF99CB57))),
                       child: Text(
@@ -191,7 +201,7 @@ class _InfoMakananState extends State<InfoMakanan> {
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16))),
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                      MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
             ),
           )
         ],
@@ -204,27 +214,37 @@ class _InfoMakananState extends State<InfoMakanan> {
       height: 600,
       child: Column(
         children: [
-          TextField(
-            style: TextStyle(fontSize: 15),
-            textCapitalization: TextCapitalization.sentences,
-            autocorrect: true,
-            enableSuggestions: true,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(12),
-              isDense: true,
-              filled: true,
-              fillColor: Colors.transparent,
-              hintText: 'Pilih kategori makanan',
-              hintStyle: GoogleFonts.openSans(color: Colors.grey),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(width: 0.5)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1),
-                borderRadius: BorderRadius.circular(25),
-              ),
-            ),
-          ),
+          Container(
+              height: 40,
+              width: 320,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 0.5, color: Colors.black),
+                  borderRadius: BorderRadius.circular(50)),
+              child: DropdownButton<String>(
+                iconSize: 20,
+                isExpanded: true,
+                hint: Text("Pilih waktu makan"),
+                value: dropdownValue,
+                icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFF99CB57)),
+                underline: SizedBox.shrink(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                },
+                items: <String>[
+                  'Sarapan',
+                  'Makan Siang',
+                  'Makan Malam',
+                  'Snack'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              )),
           SizedBox(
             height: 16,
           ),
@@ -363,10 +383,10 @@ class _InfoMakananState extends State<InfoMakanan> {
               pageIndicator == 1
                   ? firstPage()
                   : pageIndicator == 2
-                  ? secondPage()
-                  : pageIndicator == 3
-                  ? thirdPage()
-                  : Container(),
+                      ? secondPage()
+                      : pageIndicator == 3
+                          ? thirdPage()
+                          : Container(),
             ],
           ),
         ),
