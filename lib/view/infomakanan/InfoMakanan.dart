@@ -1,6 +1,7 @@
 import 'package:bst/header/HeaderNavigation.dart';
 import 'package:bst/model/FoodModel.dart';
 import 'package:bst/reuse/FoodItems.dart';
+import 'package:bst/view/infomakanan/InputMakanan.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,6 +16,7 @@ class InfoMakanan extends StatefulWidget {
 
 class _InfoMakananState extends State<InfoMakanan> {
   String? dropdownValue;
+  String? dropdownValue1;
   List<FoodModel> firstPageList = [
     FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
         3.2, 1.2, 3.5, 2.2, 6.7),
@@ -89,7 +91,7 @@ class _InfoMakananState extends State<InfoMakanan> {
           ),
           Container(
               height: 40,
-              width: 320,
+              width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
                   border: Border.all(width: 0.5, color: Colors.black),
@@ -195,7 +197,10 @@ class _InfoMakananState extends State<InfoMakanan> {
             width: 280,
             child: ElevatedButton(
               child: Text('TAMBAH MENU MAKANAN'),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => InputMakanan()));
+              },
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
@@ -216,7 +221,7 @@ class _InfoMakananState extends State<InfoMakanan> {
         children: [
           Container(
               height: 40,
-              width: 320,
+              width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
                   border: Border.all(width: 0.5, color: Colors.black),
@@ -225,12 +230,12 @@ class _InfoMakananState extends State<InfoMakanan> {
                 iconSize: 20,
                 isExpanded: true,
                 hint: Text("Pilih waktu makan"),
-                value: dropdownValue,
+                value: dropdownValue1,
                 icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFF99CB57)),
                 underline: SizedBox.shrink(),
                 onChanged: (String? newValue) {
                   setState(() {
-                    dropdownValue = newValue!;
+                    dropdownValue1 = newValue!;
                   });
                 },
                 items: <String>[
