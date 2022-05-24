@@ -1,6 +1,7 @@
 import 'package:bst/header/HeaderNavigation.dart';
 import 'package:bst/model/FoodModel.dart';
 import 'package:bst/reuse/FoodItems.dart';
+import 'package:bst/view/infomakanan/InputMakanan.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -89,7 +90,7 @@ class _InfoMakananState extends State<InfoMakanan> {
           ),
           Container(
               height: 40,
-              width: 320,
+              width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
                   border: Border.all(width: 0.5, color: Colors.black),
@@ -195,7 +196,10 @@ class _InfoMakananState extends State<InfoMakanan> {
             width: 280,
             child: ElevatedButton(
               child: Text('TAMBAH MENU MAKANAN'),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => InputMakanan()));
+              },
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
@@ -216,7 +220,7 @@ class _InfoMakananState extends State<InfoMakanan> {
         children: [
           Container(
               height: 40,
-              width: 320,
+              width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
                   border: Border.all(width: 0.5, color: Colors.black),
