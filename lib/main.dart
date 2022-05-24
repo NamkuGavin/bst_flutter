@@ -1,4 +1,4 @@
-import 'package:bst/view/NotifPage.dart';
+import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:bst/route/PageRoute.dart';
 import 'package:flutter/material.dart';
 
