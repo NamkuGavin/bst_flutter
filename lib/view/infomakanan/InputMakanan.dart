@@ -227,12 +227,37 @@ class _InputMakananState extends State<InputMakanan> {
               SizedBox(
                 height: 35,
               ),
-              Container(
-                width: double.infinity,
-                height: 190,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/inputimage.png'))),
+              Stack(
+                alignment: AlignmentDirectional.bottomEnd,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 190,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/inputimage.png'))),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10, right: 40),
+                    width: 140,
+                    height: 35,
+                    child: ElevatedButton(
+                        child: Text('UPGRADE NOW', textAlign: TextAlign.center, style: GoogleFonts.montserrat(fontSize: 12),),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InputMakanan()));
+                        },
+                        style: ButtonStyle(
+                            shape:
+                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16))),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xFF4CAF50)))),
+                  )
+                ],
               )
             ],
           ),

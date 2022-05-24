@@ -18,17 +18,17 @@ class _InfoMakananState extends State<InfoMakanan> {
   String? dropdownValue;
   String? dropdownValue1;
   List<FoodModel> firstPageList = [
-    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
+    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 430, 1,
         3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
+    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 202, 2,
         3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
+    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 221, 3,
         3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
+    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 301, 1,
         3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
+    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 220, 5,
         3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
+    FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 100, 3,
         3.2, 1.2, 3.5, 2.2, 6.7),
   ];
   int pageIndicator = 0;
@@ -110,7 +110,7 @@ class _InfoMakananState extends State<InfoMakanan> {
                 },
                 items: <String>[
                   'Makanan Indonesia',
-                  'Makanan Eropa / Amreica',
+                  'Makanan Eropa / America',
                   'Makanan Asia'
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
@@ -391,7 +391,17 @@ class _InfoMakananState extends State<InfoMakanan> {
                       ? secondPage()
                       : pageIndicator == 3
                           ? thirdPage()
-                          : Container(),
+                          : Center(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 180),
+                                width: 130,
+                                height: 130,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/mainlogo.png'))),
+                              ),
+                            ),
             ],
           ),
         ),
