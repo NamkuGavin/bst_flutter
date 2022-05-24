@@ -154,7 +154,8 @@ class _InputMakananState extends State<InputMakanan> {
                     isExpanded: true,
                     hint: Text("Pilih waktu makan"),
                     value: dropdownValue,
-                    icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFF99CB57)),
+                    icon: Icon(Icons.keyboard_arrow_down,
+                        color: Color(0xFF99CB57)),
                     underline: SizedBox.shrink(),
                     onChanged: (String? newValue) {
                       setState(() {

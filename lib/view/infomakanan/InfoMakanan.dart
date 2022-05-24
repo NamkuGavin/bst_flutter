@@ -16,6 +16,7 @@ class InfoMakanan extends StatefulWidget {
 
 class _InfoMakananState extends State<InfoMakanan> {
   String? dropdownValue;
+  String? dropdownValue1;
   List<FoodModel> firstPageList = [
     FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 20, 2,
         3.2, 1.2, 3.5, 2.2, 6.7),
@@ -229,12 +230,12 @@ class _InfoMakananState extends State<InfoMakanan> {
                 iconSize: 20,
                 isExpanded: true,
                 hint: Text("Pilih waktu makan"),
-                value: dropdownValue,
+                value: dropdownValue1,
                 icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFF99CB57)),
                 underline: SizedBox.shrink(),
                 onChanged: (String? newValue) {
                   setState(() {
-                    dropdownValue = newValue!;
+                    dropdownValue1 = newValue!;
                   });
                 },
                 items: <String>[
