@@ -1,8 +1,9 @@
-import 'package:bst/view/fragment/AllNotifications.dart';
-import 'package:bst/view/fragment/UnreadNotifications.dart';
+
+import 'package:bst/view/notifikasi/fragment/AllNotifications.dart';
 import 'package:flutter/material.dart';
 
-import '../header/HeaderNavigation.dart';
+import '../../header/HeaderNavigation.dart';
+import 'fragment/UnreadNotifications.dart';
 
 class NotifPage extends StatefulWidget {
   const NotifPage({Key? key}) : super(key: key);

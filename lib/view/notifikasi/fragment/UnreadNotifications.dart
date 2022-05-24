@@ -1,8 +1,8 @@
+import 'package:bst/model/NotifModel.dart';
+import 'package:bst/widgets/NotifItems.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../model/NotifModel.dart';
-import '../../widgets/NotifItems.dart';
 
 class UnreadNotifications extends StatefulWidget {
   const UnreadNotifications({Key? key}) : super(key: key);
