@@ -33,28 +33,32 @@ class MyRadioListTile<T> extends StatelessWidget {
 
   Widget get _customRadioButton {
     final bool isSelected = value == groupValue;
-    return Container(
-      width: 110,
-      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-      decoration: BoxDecoration(
-        color: isSelected ? Color(0xFF99CB57) : null,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: isSelected ? Color(0xFF99CB57) : Colors.grey[600]!,
-          width: 1,
-        ),
-      ),
-      child: Center(
-        child: Text(
-          leading,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.grey[600],
-            fontWeight: FontWeight.bold,
-            fontSize: 13,
+    return Builder(
+      builder: (context) {
+        return Container(
+          width: MediaQuery.of(context).size.width * 0.28,
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+          decoration: BoxDecoration(
+            color: isSelected ? Color(0xFF99CB57) : null,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isSelected ? Color(0xFF99CB57) : Colors.grey[600]!,
+              width: 1,
+            ),
           ),
-        ),
-      ),
+          child: Center(
+            child: Text(
+              leading,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.grey[600],
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+          ),
+        );
+      }
     );
   }
 }

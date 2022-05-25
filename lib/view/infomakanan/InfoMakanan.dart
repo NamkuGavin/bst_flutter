@@ -17,6 +17,7 @@ class InfoMakanan extends StatefulWidget {
 class _InfoMakananState extends State<InfoMakanan> {
   String? dropdownValue;
   String? dropdownValue1;
+  bool _showButton = false;
   List<FoodModel> firstPageList = [
     FoodModel('Bubur Ayam Spesial Plus \n Lengkap dengan Telor Puyuh', 430, 1,
         3.2, 1.2, 3.5, 2.2, 6.7),
@@ -58,39 +59,130 @@ class _InfoMakananState extends State<InfoMakanan> {
     );
   }
 
+  Widget foodItem(FoodModel model) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text(
+                model.getName,
+                style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w700, color: Color(0xFF5C5C60)),
+              ),
+            ),
+            Text(
+              model.getkal.toString(),
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w700, fontSize: 12),
+            ),
+            SizedBox(
+              width: 2,
+            ),
+            Text(
+              'Kal',
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12,
+                  color: Color(0xFF5C5C60)),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Container(
+              width: 28,
+              height: 18,
+              child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _showButton = true;
+                    });
+                  },
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16))),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                  child: Text(
+                    '+',
+                    textAlign: TextAlign.center,
+                  )),
+            )
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          model.getportion.toString() + ' Mangkok',
+          style: GoogleFonts.openSans(),
+        ),
+        SizedBox(
+          height: 6,
+        ),
+        Text(
+          'K : ' +
+              model.getK.toString() +
+              ' |  L : ' +
+              model.getL.toString() +
+              '  |   P : ' +
+              model.getP.toString() +
+              '   |   G : ' +
+              model.getG.toString() +
+              '   |   S :  ' +
+              model.getS.toString() +
+              '  ',
+          style: GoogleFonts.openSans(fontSize: 13),
+        ),
+        SizedBox(
+          height: 11,
+        )
+      ],
+    );
+  }
+
   Widget firstPage() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.67,
+      height: MediaQuery.of(context).size.height * 0.724,
       child: Column(
         children: [
-          TextField(
-            controller: controller,
-            style: TextStyle(fontSize: 15),
-            textCapitalization: TextCapitalization.sentences,
-            autocorrect: true,
-            enableSuggestions: true,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(12),
-              isDense: true,
-              filled: true,
-              fillColor: Colors.transparent,
-              hintText: 'Cari nama makanan...',
-              hintStyle: GoogleFonts.openSans(color: Colors.grey),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 0.5),
-                borderRadius: BorderRadius.circular(25),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1),
-                borderRadius: BorderRadius.circular(25),
+          Container(
+            width: double.infinity,
+            child: TextField(
+              controller: controller,
+              style: TextStyle(fontSize: 15),
+              textCapitalization: TextCapitalization.sentences,
+              autocorrect: true,
+              enableSuggestions: true,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(12),
+                isDense: true,
+                filled: true,
+                fillColor: Colors.transparent,
+                hintText: 'Cari nama makanan...',
+                hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0.5),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1),
+                  borderRadius: BorderRadius.circular(25),
+                ),
               ),
             ),
           ),
           SizedBox(
-            height: 15,
+            height: MediaQuery.of(context).size.height * 0.02,
           ),
           Container(
-              height: 40,
+              height: MediaQuery.of(context).size.height * 0.06,
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
@@ -120,17 +212,17 @@ class _InfoMakananState extends State<InfoMakanan> {
                 }).toList(),
               )),
           SizedBox(
-            height: 16,
+            height: MediaQuery.of(context).size.height * 0.02,
           ),
           lineSeparator(),
           SizedBox(
-            height: 20,
+            height: MediaQuery.of(context).size.height * 0.02,
           ),
           Expanded(
             child: ListView.separated(
                 itemBuilder: ((context, index) {
-                  return FoodItems(
-                    model: firstPageList[index],
+                  return foodItem(
+                    firstPageList[index],
                   );
                 }),
                 separatorBuilder: (BuildContext context, int index) {
@@ -138,10 +230,142 @@ class _InfoMakananState extends State<InfoMakanan> {
                 },
                 itemCount: firstPageList.length),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget secondPage() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.724,
+      child: Column(
+        children: [
+          Container(
+              height: MediaQuery.of(context).size.height * 0.06,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 0.5, color: Colors.black),
+                  borderRadius: BorderRadius.circular(50)),
+              child: DropdownButton<String>(
+                iconSize: 20,
+                isExpanded: true,
+                hint: Text("Pilih waktu makan"),
+                value: dropdownValue1,
+                icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFF99CB57)),
+                underline: SizedBox.shrink(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue1 = newValue!;
+                  });
+                },
+                items: <String>[
+                  'Sarapan',
+                  'Makan Siang',
+                  'Makan Malam',
+                  'Snack'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              )),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
           lineSeparator(),
           SizedBox(
-            height: 19,
+            height: MediaQuery.of(context).size.height * 0.02,
           ),
+          Expanded(
+            child: ListView.separated(
+                itemBuilder: ((context, index) {
+                  return foodItem(
+                    firstPageList[index],
+                  );
+                }),
+                separatorBuilder: (BuildContext context, int index) {
+                  return lineSeparator();
+                },
+                itemCount: firstPageList.length),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget thirdPage() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.724,
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            child: TextField(
+              controller: controller,
+              style: TextStyle(fontSize: 15),
+              textCapitalization: TextCapitalization.sentences,
+              autocorrect: true,
+              enableSuggestions: true,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(12),
+                isDense: true,
+                filled: true,
+                fillColor: Colors.transparent,
+                hintText: 'Cari nama makanan...',
+                hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide(width: 0.5)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          lineSeparator(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Expanded(
+            child: ListView.separated(
+                itemBuilder: ((context, index) {
+                  return foodItem(
+                    firstPageList[index],
+                  );
+                }),
+                separatorBuilder: (BuildContext context, int index) {
+                  return lineSeparator();
+                },
+                itemCount: firstPageList.length),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget addFood() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
           Container(
             margin: EdgeInsets.symmetric(horizontal: 15),
             child: Row(
@@ -174,7 +398,11 @@ class _InfoMakananState extends State<InfoMakanan> {
                   width: 28,
                   height: 18,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          _showButton = false;
+                        });
+                      },
                       style: ButtonStyle(
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -183,7 +411,7 @@ class _InfoMakananState extends State<InfoMakanan> {
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Color(0xFF99CB57))),
                       child: Text(
-                        '+',
+                        '-',
                         textAlign: TextAlign.center,
                       )),
                 )
@@ -214,117 +442,6 @@ class _InfoMakananState extends State<InfoMakanan> {
     );
   }
 
-  Widget secondPage() {
-    return Container(
-      height: 600,
-      child: Column(
-        children: [
-          Container(
-              height: 40,
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              decoration: BoxDecoration(
-                  border: Border.all(width: 0.5, color: Colors.black),
-                  borderRadius: BorderRadius.circular(50)),
-              child: DropdownButton<String>(
-                iconSize: 20,
-                isExpanded: true,
-                hint: Text("Pilih waktu makan"),
-                value: dropdownValue1,
-                icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFF99CB57)),
-                underline: SizedBox.shrink(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownValue1 = newValue!;
-                  });
-                },
-                items: <String>[
-                  'Sarapan',
-                  'Makan Siang',
-                  'Makan Malam',
-                  'Snack'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              )),
-          SizedBox(
-            height: 16,
-          ),
-          lineSeparator(),
-          SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: ListView.separated(
-                itemBuilder: ((context, index) {
-                  return FoodItems(
-                    model: firstPageList[index],
-                  );
-                }),
-                separatorBuilder: (BuildContext context, int index) {
-                  return lineSeparator();
-                },
-                itemCount: firstPageList.length),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget thirdPage() {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.67,
-      child: Column(
-        children: [
-          TextField(
-            controller: controller,
-            style: TextStyle(fontSize: 15),
-            textCapitalization: TextCapitalization.sentences,
-            autocorrect: true,
-            enableSuggestions: true,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(12),
-              isDense: true,
-              filled: true,
-              fillColor: Colors.transparent,
-              hintText: 'Cari nama makanan...',
-              hintStyle: GoogleFonts.openSans(color: Colors.grey),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(width: 0.5)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1),
-                borderRadius: BorderRadius.circular(25),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          lineSeparator(),
-          SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: ListView.separated(
-                itemBuilder: ((context, index) {
-                  return FoodItems(
-                    model: firstPageList[index],
-                  );
-                }),
-                separatorBuilder: (BuildContext context, int index) {
-                  return lineSeparator();
-                },
-                itemCount: firstPageList.length),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -334,76 +451,83 @@ class _InfoMakananState extends State<InfoMakanan> {
         title: HeaderNavigation(title: ""),
       ),
       body: Container(
+        height: MediaQuery.of(context).size.height * 0.9,
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Informasi Makanan",
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF4CAF50),
-                    fontSize: 16),
-              ),
-              SizedBox(
-                height: 13,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MyRadioListTile<int>(
-                    value: 1,
-                    groupValue: pageIndicator,
-                    leading: 'Pilihan \n Makanan',
-                    // title: Text('One'),
-                    onChanged: (value) => setState(() {
-                      pageIndicator = value;
-                    }),
-                  ),
-                  MyRadioListTile<int>(
-                    value: 2,
-                    groupValue: pageIndicator,
-                    leading: 'Makanan \n Terakhir',
-                    // title: Text('Two'),
-                    onChanged: (value) => setState(() {
-                      pageIndicator = value;
-                    }),
-                  ),
-                  MyRadioListTile<int>(
-                    value: 3,
-                    groupValue: pageIndicator,
-                    leading: 'Makanan \n Favorit',
-                    // title: Text('Three'),
-                    onChanged: (value) => setState(() {
-                      pageIndicator = value;
-                    }),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              pageIndicator == 1
-                  ? firstPage()
-                  : pageIndicator == 2
-                      ? secondPage()
-                      : pageIndicator == 3
-                          ? thirdPage()
-                          : Center(
-                              child: Container(
-                                margin: EdgeInsets.only(top: 180),
-                                width: 130,
-                                height: 130,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/images/mainlogo.png'))),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Informasi Makanan",
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF4CAF50),
+                  fontSize: 16),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MyRadioListTile<int>(
+                  value: 1,
+                  groupValue: pageIndicator,
+                  leading: 'Pilihan \n Makanan',
+                  // title: Text('One'),
+                  onChanged: (value) => setState(() {
+                    pageIndicator = value;
+                  }),
+                ),
+                MyRadioListTile<int>(
+                  value: 2,
+                  groupValue: pageIndicator,
+                  leading: 'Makanan \n Terakhir',
+                  // title: Text('Two'),
+                  onChanged: (value) => setState(() {
+                    pageIndicator = value;
+                  }),
+                ),
+                MyRadioListTile<int>(
+                  value: 3,
+                  groupValue: pageIndicator,
+                  leading: 'Makanan \n Favorit',
+                  // title: Text('Three'),
+                  onChanged: (value) => setState(() {
+                    pageIndicator = value;
+                  }),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                pageIndicator == 1
+                    ? firstPage()
+                    : pageIndicator == 2
+                        ? secondPage()
+                        : pageIndicator == 3
+                            ? thirdPage()
+                            : Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 180),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/mainlogo.png'))),
+                                ),
                               ),
-                            ),
-            ],
-          ),
+                _showButton ? addFood() : Container()
+              ],
+            ),
+          ],
         ),
       ),
     );

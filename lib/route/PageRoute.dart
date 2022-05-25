@@ -1,3 +1,4 @@
+import 'package:bst/view/MainPage.dart';
 import 'package:bst/view/infomakanan/InfoMakanan.dart';
 import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +21,11 @@ class _PageRouteViewState extends State<PageRouteView> {
       'Index 3: Sports',
       style: optionStyle,
     ),
+    MainPage(),
     Text(
-      'Index 4: Main',
+      'Index 5: Meteran',
       style: optionStyle,
     ),
-    InfoMakanan(),
     Text(
       'Index 6: Catalog',
       style: optionStyle,

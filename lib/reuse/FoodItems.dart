@@ -3,12 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../model/FoodModel.dart';
 
-class FoodItems extends StatelessWidget {
+class FoodItems extends StatefulWidget {
   final FoodModel model;
-  FoodItems(
-      {Key? key,
-        required this.model})
-      : super(key: key);
+  FoodItems({Key? key, required this.model}) : super(key: key);
+
+  @override
+  State<FoodItems> createState() => _FoodItemsState();
+}
+
+class _FoodItemsState extends State<FoodItems> {
   final TextEditingController controller = TextEditingController();
 
   @override
@@ -16,19 +19,21 @@ class FoodItems extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Text(
-                model.getName,
+                widget.model.getName,
                 style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w700, color: Color(0xFF5C5C60)),
               ),
             ),
             Text(
-              model.getkal.toString(),
+              widget.model.getkal.toString(),
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w700, fontSize: 12),
             ),
@@ -49,15 +54,13 @@ class FoodItems extends StatelessWidget {
               width: 28,
               height: 18,
               child: ElevatedButton(
-                  onPressed: () {
-                    print("LOL");
-                  },
+                  onPressed: () {},
                   style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16))),
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                          MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
                   child: Text(
                     '+',
                     textAlign: TextAlign.center,
@@ -69,7 +72,7 @@ class FoodItems extends StatelessWidget {
           height: 10,
         ),
         Text(
-          model.getportion.toString() + ' Mangkok',
+          widget.model.getportion.toString() + ' Mangkok',
           style: GoogleFonts.openSans(),
         ),
         SizedBox(
@@ -77,19 +80,21 @@ class FoodItems extends StatelessWidget {
         ),
         Text(
           'K : ' +
-              model.getK.toString() +
+              widget.model.getK.toString() +
               ' |  L : ' +
-              model.getL.toString() +
+              widget.model.getL.toString() +
               '  |   P : ' +
-              model.getP.toString() +
+              widget.model.getP.toString() +
               '   |   G : ' +
-              model.getG.toString() +
+              widget.model.getG.toString() +
               '   |   S :  ' +
-              model.getS.toString() +
+              widget.model.getS.toString() +
               '  ',
           style: GoogleFonts.openSans(fontSize: 13),
         ),
-        SizedBox(height: 11,)
+        SizedBox(
+          height: 11,
+        )
       ],
     );
   }
