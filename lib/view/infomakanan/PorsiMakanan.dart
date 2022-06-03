@@ -14,6 +14,13 @@ class PorsiMakanan extends StatefulWidget {
 
 class _PorsiMakananState extends State<PorsiMakanan> {
   String? dropdownValue1;
+  TextEditingController porsiControl = TextEditingController();
+
+  @override
+  void initState() {
+    porsiControl.text = widget.model.getportion.toString();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Sate",
+            widget.model.getName,
             textAlign: TextAlign.start,
             style: TextStyle(fontSize: 20),
           ),
@@ -109,6 +116,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
           height: 10,
         ),
         TextField(
+          controller: porsiControl,
           keyboardType: TextInputType.number,
           style: TextStyle(
             fontSize: 12,
@@ -185,7 +193,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
               width: 8,
             ),
             Text(
-              "38 Kalori",
+              widget.model.getkal.toString() + " Kalori",
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600, color: Color(0xFF4CAF50)),
             ),
