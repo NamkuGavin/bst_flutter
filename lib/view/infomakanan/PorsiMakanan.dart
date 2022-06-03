@@ -49,8 +49,8 @@ class _PorsiMakananState extends State<PorsiMakanan> {
           SizedBox(height: 10),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            height: 150,
-            width: 340,
+            height: MediaQuery.of(context).size.height * 0.25,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Colors.white,
@@ -68,8 +68,8 @@ class _PorsiMakananState extends State<PorsiMakanan> {
           SizedBox(height: 10),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            height: 225,
-            width: 340,
+            height: MediaQuery.of(context).size.height * 0.37,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Colors.white,
@@ -113,7 +113,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
       children: [
         Text("Tambah makanan"),
         SizedBox(
-          height: 10,
+          height: MediaQuery.of(context).size.height * 0.02,
         ),
         TextField(
           controller: porsiControl,
@@ -141,7 +141,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
             ),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
         Container(
             height: MediaQuery.of(context).size.height * 0.06,
             width: double.infinity,
@@ -179,7 +179,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
       children: [
         Text("Informasi Nutrisi"),
         SizedBox(
-          height: 10,
+          height: MediaQuery.of(context).size.height * 0.02,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -190,7 +190,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
                   fontWeight: FontWeight.w500, color: Color(0xFF818181)),
             ),
             SizedBox(
-              width: 8,
+              width: MediaQuery.of(context).size.width * 0.01,
             ),
             Text(
               widget.model.getkal.toString() + " Kalori",
@@ -200,7 +200,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
           ],
         ),
         SizedBox(
-          height: 10,
+          height: MediaQuery.of(context).size.height * 0.02,
         ),
         tableNutrisi("Karbo", widget.model.getK),
         tableNutrisi("Lemak", widget.model.getL),
@@ -223,7 +223,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
                   fontWeight: FontWeight.w500, color: Color(0xFF818181)),
             ),
             SizedBox(
-              width: 8,
+              width: MediaQuery.of(context).size.width * 0.01,
             ),
             Text(
               gr.toString() + " gr",
@@ -233,7 +233,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
           ],
         ),
         SizedBox(
-          height: 10,
+          height: MediaQuery.of(context).size.height * 0.02,
         ),
       ],
     );
