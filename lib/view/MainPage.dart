@@ -1,5 +1,6 @@
 import 'package:bst/header/HeaderNavigation.dart';
 import 'package:bst/view/infomakanan/InfoMakanan.dart';
+import 'package:bst/view/infomakanan/PorsiMakanan.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -475,8 +476,8 @@ class _MainPageState extends State<MainPage> {
               height: 18,
               child: ElevatedButton(
                   onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PorsiMakanan()));
                     setState(() {
-                      _showButton = true;
                       foodIndex = index;
                     });
                   },
