@@ -476,7 +476,7 @@ class _MainPageState extends State<MainPage> {
               height: 18,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PorsiMakanan()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PorsiMakanan(model: model,)));
                     setState(() {
                       foodIndex = index;
                     });
