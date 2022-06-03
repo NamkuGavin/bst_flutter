@@ -1,10 +1,12 @@
 import 'package:bst/header/HeaderNavigation.dart';
+import 'package:bst/model/FoodModel.dart';
 import 'package:bst/view/MainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PorsiMakanan extends StatefulWidget {
-  const PorsiMakanan({Key? key}) : super(key: key);
+  final FoodModel model;
+  const PorsiMakanan({Key? key, required this.model}) : super(key: key);
 
   @override
   State<PorsiMakanan> createState() => _PorsiMakananState();
@@ -192,11 +194,11 @@ class _PorsiMakananState extends State<PorsiMakanan> {
         SizedBox(
           height: 10,
         ),
-        tableNutrisi("Karbo", 0.94),
-        tableNutrisi("Lemak", 1.62),
-        tableNutrisi("Protein", 5.01),
-        tableNutrisi("Gula", 0.13),
-        tableNutrisi("Serat", 0.2),
+        tableNutrisi("Karbo", widget.model.getK),
+        tableNutrisi("Lemak", widget.model.getL),
+        tableNutrisi("Protein", widget.model.getP),
+        tableNutrisi("Gula", widget.model.getG),
+        tableNutrisi("Serat", widget.model.getS),
       ],
     );
   }
