@@ -1,5 +1,5 @@
 import 'package:bst/view/MainPage.dart';
-import 'package:bst/view/infomakanan/InfoMakanan.dart';
+
 import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:flutter/material.dart';
 
