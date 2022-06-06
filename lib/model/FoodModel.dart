@@ -42,4 +42,7 @@ class FoodModel {
   double get getS {
     return s;
   }
+
+  
+
 }

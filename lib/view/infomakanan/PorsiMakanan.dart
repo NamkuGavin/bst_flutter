@@ -44,12 +44,12 @@ class _PorsiMakananState extends State<PorsiMakanan> {
           Text(
             widget.model.getName,
             textAlign: TextAlign.start,
-            style: TextStyle(fontSize: 20),
+            style: GoogleFonts.montserrat(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 10),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            height: MediaQuery.of(context).size.height * 0.25,
+            height: MediaQuery.of(context).size.height * 0.23,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
@@ -68,7 +68,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
           SizedBox(height: 10),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            height: MediaQuery.of(context).size.height * 0.37,
+            height: MediaQuery.of(context).size.height * 0.34,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
@@ -85,7 +85,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
             child: infoNutrisi(),
           ),
           Container(
-            margin: EdgeInsets.only(left: 255),
+            margin: EdgeInsets.only(left: 275),
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context,
@@ -111,7 +111,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Tambah makanan"),
+        Text("Tambah makanan", style: GoogleFonts.montserrat(),),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.02,
         ),
@@ -177,7 +177,7 @@ class _PorsiMakananState extends State<PorsiMakanan> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Informasi Nutrisi"),
+        Text("Informasi Nutrisi", style: GoogleFonts.montserrat(),),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.02,
         ),
@@ -231,8 +231,8 @@ class _PorsiMakananState extends State<PorsiMakanan> {
                   fontWeight: FontWeight.w600, color: Color(0xFF4CAF50)),
             ),
           ],
-        ),
-        SizedBox(
+        ), SizedBox
+          (
           height: MediaQuery.of(context).size.height * 0.02,
         ),
       ],
