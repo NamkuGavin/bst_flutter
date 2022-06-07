@@ -328,9 +328,37 @@ class _MainPageState extends State<MainPage> {
                                     borderRadius: BorderRadius.circular(16))),
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 Color(0xFF4CAF50)))),
-                  )
+                  ),
+
                 ],
-              )
+              ),
+              SizedBox(height: 10,),
+              Container(
+                margin: EdgeInsets.only( left: 23),
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.05,
+                child: ElevatedButton(
+                    child: Text(
+                      'TAMBAH MAKANAN BARU',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.montserrat(fontSize: 14),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        mainPageShown = true;
+                        porsiPageMakanan = false;
+                        inputPageShown = false;
+                        listPageShown = false;
+                      });
+                    },
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all<
+                            RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24))),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xFF99CB57)))),
+              ),
             ],
           ),
         ),
@@ -507,8 +535,8 @@ class _MainPageState extends State<MainPage> {
               width: 8,
             ),
             Container(
-              width: 28,
-              height: 18,
+              width: MediaQuery.of(context).size.width * 0.1,
+              height: MediaQuery.of(context).size.height * 0.02,
               child: ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -638,7 +666,7 @@ class _MainPageState extends State<MainPage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.43,
               child: RefreshIndicator(
                   onRefresh: _refresh,
                   child: isLoading
@@ -656,7 +684,7 @@ class _MainPageState extends State<MainPage> {
                           itemCount: firstPageList.length)),
             ),
             SizedBox(
-              height: 15,
+              height: 8,
             ),
             Container(
               height: 45,
