@@ -17,14 +17,17 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   String? dropdownInputValue;
+  bool porsiPageMakanan = false;
   bool mainPageShown = true;
   bool listPageShown = false;
   bool inputPageShown = false;
   TextEditingController makananController = TextEditingController();
   TextEditingController porsiController = TextEditingController();
+  TextEditingController inputController = TextEditingController();
   String? dropdownValue;
   int pageIndicator = 0;
 
+  TextEditingController porsiControl = TextEditingController();
   TextEditingController controller = TextEditingController();
 
   String? dropdownValue1;
@@ -61,6 +64,7 @@ class _MainPageState extends State<MainPage> {
 
   void initState() {
     mainPageShown = true;
+    porsiPageMakanan = false;
     inputPageShown = false;
     listPageShown = false;
     FoodModel food = firstPageList[foodIndex];
@@ -133,6 +137,7 @@ class _MainPageState extends State<MainPage> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               TypeAheadField<FoodModel>(
                   textFieldConfiguration: TextFieldConfiguration(
+                    controller: inputController,
                       decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.only(left: 18, top: 12, bottom: 12),
@@ -149,9 +154,7 @@ class _MainPageState extends State<MainPage> {
                             borderSide: BorderSide(width: 1),
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          hintText: dropdownHint == ""
-                              ? "Choose your Food"
-                              : dropdownHint)),
+                          hintText: "Choose your Food")),
                   itemBuilder: (BuildContext context, FoodModel suggestion) {
                     final food = suggestion;
                     return Container(
@@ -164,7 +167,7 @@ class _MainPageState extends State<MainPage> {
                   onSuggestionSelected: (FoodModel? suggestion) {
                     final food = suggestion!;
                     setState(() {
-                      dropdownHint = food.getName;
+                      inputController.text = food.getName;
                       kalori = food.getkal;
                       karbohidrat = food.getK;
                       lemak = food.getL;
@@ -290,8 +293,7 @@ class _MainPageState extends State<MainPage> {
                         nutritionTable(
                             Colors.grey.shade200, 'Protein', protein),
                         nutritionTable(Colors.transparent, 'Gula', gula),
-                        nutritionTable(
-                            Colors.grey.shade200, 'Serat', serat)
+                        nutritionTable(Colors.grey.shade200, 'Serat', serat)
                       ],
                     )
                   ],
@@ -509,14 +511,13 @@ class _MainPageState extends State<MainPage> {
               height: 18,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PorsiMakanan(
-                                  model: model,
-                                )));
                     setState(() {
                       foodIndex = index;
+                      mainPageShown = false;
+                      inputPageShown = false;
+                      porsiPageMakanan = true;
+                      listPageShown = false;
+                      porsiControl.text = model.getportion.toString();
                     });
                   },
                   style: ButtonStyle(
@@ -637,7 +638,7 @@ class _MainPageState extends State<MainPage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.42,
+              height: MediaQuery.of(context).size.height * 0.3,
               child: RefreshIndicator(
                   onRefresh: _refresh,
                   child: isLoading
@@ -664,6 +665,8 @@ class _MainPageState extends State<MainPage> {
                 child: Text('TAMBAH MENU MAKANAN'),
                 onPressed: () {
                   setState(() {
+                    mainPageShown = false;
+                    porsiPageMakanan = false;
                     inputPageShown = true;
                     listPageShown = false;
                   });
@@ -813,11 +816,230 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  Widget porsiMakanan(FoodModel model) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              model.getName,
+              textAlign: TextAlign.start,
+              style: GoogleFonts.montserrat(
+                  fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              height: MediaQuery.of(context).size.height * 0.23,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tambah makanan",
+                    style: GoogleFonts.montserrat(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  TextField(
+                    controller: porsiControl,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                    textCapitalization: TextCapitalization.sentences,
+                    autocorrect: true,
+                    enableSuggestions: true,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.only(left: 18, top: 10, bottom: 12),
+                      isDense: true,
+                      filled: true,
+                      fillColor: Colors.transparent,
+                      hintText: 'Edit Porsi',
+                      hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 0.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.5, color: Colors.black),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DropdownButton<String>(
+                        iconSize: 20,
+                        isExpanded: true,
+                        hint: Text("Ubah waktu"),
+                        value: dropdownValue1,
+                        icon: Icon(Icons.keyboard_arrow_down,
+                            color: Color(0xFF99CB57)),
+                        underline: SizedBox.shrink(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue1 = newValue!;
+                          });
+                        },
+                        items: <String>[
+                          'Sarapan',
+                          'Makan Siang',
+                          'Makan Malam',
+                          'Snack'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              height: MediaQuery.of(context).size.height * 0.34,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Informasi Nutrisi",
+                    style: GoogleFonts.montserrat(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Kalori",
+                        style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF818181)),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.01,
+                      ),
+                      Text(
+                        model.getkal.toString() + " Kalori",
+                        style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF4CAF50)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  tableNutrisi("Karbo", model.getK),
+                  tableNutrisi("Lemak", model.getL),
+                  tableNutrisi("Protein", model.getP),
+                  tableNutrisi("Gula", model.getG),
+                  tableNutrisi("Serat", model.getS),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 275),
+              child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      mainPageShown = true;
+                      porsiPageMakanan = false;
+                      inputPageShown = false;
+                      listPageShown = false;
+                    });
+                  },
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5))),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                  child: Text(
+                    'Simpan',
+                    textAlign: TextAlign.center,
+                  )),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget tableNutrisi(String name, double gr) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              name,
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w500, color: Color(0xFF818181)),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.01,
+            ),
+            Text(
+              gr.toString() + " gr",
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600, color: Color(0xFF4CAF50)),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+      ],
+    );
+  }
+
   Widget mainPage() {
     return Center(
       child: ElevatedButton(
         onPressed: () {
           setState(() {
+            inputPageShown = false;
             mainPageShown = false;
             listPageShown = true;
           });
@@ -841,8 +1063,10 @@ class _MainPageState extends State<MainPage> {
             ? mainPage()
             : listPageShown
                 ? foodListPage()
-                : inputPageShown
-                    ? inputFoodPage(firstPageList[foodIndex])
-                    : Container());
+                : porsiPageMakanan
+                    ? porsiMakanan(firstPageList[foodIndex])
+                    : inputPageShown
+                        ? inputFoodPage(firstPageList[foodIndex])
+                        : Container());
   }
 }
