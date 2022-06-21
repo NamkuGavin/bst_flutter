@@ -5,6 +5,7 @@ import 'package:bst/model/CategoryModel.dart';
 
 import 'package:bst/view/infomakanan/PorsiMakanan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,15 +35,21 @@ class _MainPageState extends State<MainPage> {
   bool isLoading = false;
   bool _showButton = false;
   bool _requiredFilter = false;
-  TextEditingController makananController = TextEditingController();
-  TextEditingController porsiController = TextEditingController();
-  TextEditingController inputController = TextEditingController();
+  CategoryModel? firstPageList1;
+  List<Datum> items = [];
+  TextEditingController foodnameController = TextEditingController();
+  TextEditingController portionController = TextEditingController();
+  TextEditingController uomController = TextEditingController();
+  TextEditingController kaloriController = TextEditingController();
+  TextEditingController karbohidratController = TextEditingController();
+  TextEditingController lemakController = TextEditingController();
+  TextEditingController sugarController = TextEditingController();
+  TextEditingController proteinController = TextEditingController();
+  TextEditingController seratController = TextEditingController();
   TextEditingController porsiControl = TextEditingController();
   TextEditingController controller = TextEditingController();
   int pageIndicator = 0;
   int foodIndex = 0;
-  CategoryModel? firstPageList1;
-  List<Datum> items = [];
   List<FoodModel> firstPageList = [
     FoodModel('Bubur Ayam Spesial Plus Lengkap dengan Telor Puyuh', 430, 1, 3.2,
         1.2, 3.5, 2.2, 6.7),
@@ -104,6 +111,16 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  Future _refresh() async {
+    setState(() {
+      isLoading = true;
+      Future.delayed(Duration(seconds: 2), () {
+        getList_PilihanMakanan();
+        isLoading = false;
+      });
+    });
+  }
+
   Future<String> getCategory() async {
     Map<String, dynamic> body = {
       "action": "list_food_category",
@@ -146,61 +163,12 @@ class _MainPageState extends State<MainPage> {
     porsiPageMakanan = false;
     inputPageShown = false;
     listPageShown = false;
-    FoodModel food = firstPageList[foodIndex];
-    // TODO: implement initState
-    makananController.text = food.getName;
-    porsiController.text = food.portion.toString();
   }
 
-  List<FoodModel> getSuggestions(String query) =>
-      List.of(dropdownItems).where((item) {
-        final items = item.getName;
-        final queries = query;
-        return items.contains(queries);
-      }).toList();
-
-  Widget nutritionTable(Color color, String name, double gr) {
-    return Container(
-      width: 160,
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(color: color),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            name,
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w500, color: Color(0xFF818181)),
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          Text(
-            gr.toString(),
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w600, color: Color(0xFF4CAF50)),
-          ),
-          Text(
-            '\ngr',
-            style:
-                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget inputFoodPage(FoodModel model) {
-    int kalori = 0;
-    double karbohidrat = 0.0;
-    double lemak = 0.0;
-    double protein = 0.0;
-    double gula = 0.0;
-    double serat = 0.0;
+  Widget inputFoodPage() {
     return Builder(builder: (context) {
       return SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.9,
           margin: EdgeInsets.only(top: 10),
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -214,48 +182,33 @@ class _MainPageState extends State<MainPage> {
                     fontSize: 16),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              TypeAheadField<FoodModel>(
-                  textFieldConfiguration: TextFieldConfiguration(
-                      controller: inputController,
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.only(left: 18, top: 12, bottom: 12),
-                          isDense: true,
-                          filled: true,
-                          suffixIcon: Icon(Icons.arrow_drop_down),
-                          fillColor: Colors.transparent,
-                          hintStyle: GoogleFonts.openSans(color: Colors.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 0.5),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 1),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          hintText: "Choose your Food")),
-                  itemBuilder: (BuildContext context, FoodModel suggestion) {
-                    final food = suggestion;
-                    return Container(
-                        margin: EdgeInsets.all(10),
-                        child: Text(
-                          food.getName,
-                          style: GoogleFonts.openSans(),
-                        ));
-                  },
-                  onSuggestionSelected: (FoodModel? suggestion) {
-                    final food = suggestion!;
-                    setState(() {
-                      inputController.text = food.getName;
-                      kalori = food.getkal;
-                      karbohidrat = food.getK;
-                      lemak = food.getL;
-                      protein = food.getP;
-                      gula = food.getG;
-                      serat = food.getS;
-                    });
-                  },
-                  suggestionsCallback: getSuggestions),
+              Container(
+                width: double.infinity,
+                child: TextField(
+                  controller: foodnameController,
+                  style: TextStyle(fontSize: 15),
+                  textCapitalization: TextCapitalization.sentences,
+                  autocorrect: true,
+                  enableSuggestions: true,
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.only(left: 18, top: 12, bottom: 12),
+                    isDense: true,
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    hintText: 'Choose your food',
+                    hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 0.5),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,7 +216,7 @@ class _MainPageState extends State<MainPage> {
                   Container(
                     width: 173,
                     child: TextField(
-                      controller: porsiController,
+                      controller: portionController,
                       style: TextStyle(fontSize: 15),
                       textCapitalization: TextCapitalization.sentences,
                       autocorrect: true,
@@ -288,14 +241,32 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 18, top: 12, bottom: 12),
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 0.5),
-                        borderRadius: BorderRadius.circular(25)),
                     width: 173,
-                    child: Text('Makanan',
-                        style: GoogleFonts.openSans(color: Colors.grey)),
-                  )
+                    child: TextField(
+                      controller: uomController,
+                      style: TextStyle(fontSize: 15),
+                      textCapitalization: TextCapitalization.sentences,
+                      autocorrect: true,
+                      enableSuggestions: true,
+                      decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.only(left: 18, top: 12, bottom: 12),
+                        isDense: true,
+                        filled: true,
+                        fillColor: Colors.transparent,
+                        hintText: 'Uom',
+                        hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 0.5),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -307,29 +278,61 @@ class _MainPageState extends State<MainPage> {
                       border: Border.all(width: 0.5, color: Colors.black),
                       borderRadius: BorderRadius.circular(50)),
                   child: DropdownButton<String>(
-                    iconSize: 20,
+                    hint: Text("Pilih kategori makan"),
                     isExpanded: true,
-                    hint: Text("Pilih waktu makan"),
-                    value: dropdownTambahMenu,
-                    icon: Icon(Icons.keyboard_arrow_down,
-                        color: Color(0xFF99CB57)),
-                    underline: SizedBox.shrink(),
+                    value: dropdownCategory,
+                    iconSize: 20,
+                    icon: Icon(Icons.arrow_drop_down),
                     onChanged: (String? newValue) {
                       setState(() {
-                        dropdownTambahMenu = newValue!;
+                        dropdownCategory = newValue!;
                       });
                     },
-                    items: <String>[
-                      'Sarapan',
-                      'Makan Siang',
-                      'Makan Malam',
-                      'Snack'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+                    isDense: true,
+                    underline: SizedBox.shrink(),
+                    items: categoryList?.map((item) {
+                          return DropdownMenuItem(
+                            child: Text(
+                              item['name'],
+                              style: GoogleFonts.openSans(color: Colors.grey),
+                            ),
+                            value: item['id'].toString(),
+                          );
+                        }).toList() ??
+                        [],
+                  )),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              Container(
+                  height: 40,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black),
+                      borderRadius: BorderRadius.circular(50)),
+                  child: DropdownButton<String>(
+                    hint: Text("Pilih tipe waktu makan"),
+                    isExpanded: true,
+                    value: dropdownType,
+                    iconSize: 20,
+                    icon: Icon(Icons.arrow_drop_down),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownType = newValue!;
+                      });
+                    },
+                    isDense: true,
+                    underline: SizedBox.shrink(),
+                    items: typeList?.map((item) {
+                          return DropdownMenuItem(
+                            child: Text(
+                              item['text'],
+                              style: TextStyle(
+                                  fontSize: 10, fontWeight: FontWeight.bold),
+                            ),
+                            value: item['id'].toString(),
+                          );
+                        }).toList() ??
+                        [],
                   )),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               Text(
@@ -337,7 +340,7 @@ class _MainPageState extends State<MainPage> {
                 style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF4CAF50),
-                    fontSize: 16),
+                    fontSize: 18),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Container(
@@ -349,30 +352,49 @@ class _MainPageState extends State<MainPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(kalori.toString(),
+                        Container(
+                          width: 75,
+                          child: TextField(
                             style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF99CB57),
-                              fontSize: 58,
-                            )),
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF4CAF50),
+                                fontSize: 20),
+                            textAlign: TextAlign.center,
+                            controller: kaloriController,
+                            autocorrect: true,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            decoration: InputDecoration(
+                              isDense: true,
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 0),
+                              ),
+                            ),
+                          ),
+                        ),
                         Text(
                           'Kalori',
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w600,
                               color: Color(0xFF818181),
-                              fontSize: 18),
+                              fontSize: 25),
                         )
                       ],
                     ),
                     Column(
                       children: [
-                        nutritionTable(
-                            Colors.grey.shade200, 'Karbohidrat', karbohidrat),
-                        nutritionTable(Colors.transparent, 'Lemak', lemak),
-                        nutritionTable(
-                            Colors.grey.shade200, 'Protein', protein),
-                        nutritionTable(Colors.transparent, 'Gula', gula),
-                        nutritionTable(Colors.grey.shade200, 'Serat', serat)
+                        karbohidratFill(),
+                        lemakFill(),
+                        proteinFill(),
+                        gulaFill(),
+                        seratFill(),
                       ],
                     )
                   ],
@@ -415,6 +437,237 @@ class _MainPageState extends State<MainPage> {
         ),
       );
     });
+  }
+
+  Widget karbohidratFill() {
+    return Container(
+      width: 225,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(color: Colors.grey.shade200),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 190,
+            child: TextField(
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF4CAF50),
+                  fontSize: 16),
+              textAlign: TextAlign.end,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              controller: karbohidratController,
+              decoration: new InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                labelStyle: TextStyle(fontSize: 14),
+                hintStyle: TextStyle(fontSize: 14),
+                suffixStyle: TextStyle(fontSize: 14),
+                // suffixText: suffix,
+                prefixText: "Karbohidrat",
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            '\ngr',
+            style:
+                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget lemakFill() {
+    return Container(
+      width: 225,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(color: Colors.transparent),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 190,
+            child: TextField(
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF4CAF50),
+                  fontSize: 16),
+              textAlign: TextAlign.end,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              controller: lemakController,
+              decoration: new InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                labelStyle: TextStyle(fontSize: 14),
+                hintStyle: TextStyle(fontSize: 14),
+                suffixStyle: TextStyle(fontSize: 14),
+                prefixText: "Lemak",
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            '\ngr',
+            style:
+                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget proteinFill() {
+    return Container(
+      width: 225,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(color: Colors.grey.shade200),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 190,
+            child: TextField(
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF4CAF50),
+                  fontSize: 16),
+              textAlign: TextAlign.end,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              controller: proteinController,
+              decoration: new InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                labelStyle: TextStyle(fontSize: 14),
+                hintStyle: TextStyle(fontSize: 14),
+                suffixStyle: TextStyle(fontSize: 14),
+                prefixText: "Protein",
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            '\ngr',
+            style:
+                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget gulaFill() {
+    return Container(
+      width: 225,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(color: Colors.transparent),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 190,
+            child: TextField(
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF4CAF50),
+                  fontSize: 16),
+              textAlign: TextAlign.end,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              controller: sugarController,
+              decoration: new InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                labelStyle: TextStyle(fontSize: 14),
+                hintStyle: TextStyle(fontSize: 14),
+                suffixStyle: TextStyle(fontSize: 14),
+                prefixText: "Gula",
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            '\ngr',
+            style:
+                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget seratFill() {
+    return Container(
+      width: 225,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(color: Colors.grey.shade200),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 190,
+            child: TextField(
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF4CAF50),
+                  fontSize: 16),
+              textAlign: TextAlign.end,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              controller: seratController,
+              decoration: new InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                labelStyle: TextStyle(fontSize: 14),
+                hintStyle: TextStyle(fontSize: 14),
+                suffixStyle: TextStyle(fontSize: 14),
+                prefixText: "Serat",
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            '\ngr',
+            style:
+                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
+          )
+        ],
+      ),
+    );
   }
 
   Widget foodListPage() {
@@ -496,34 +749,6 @@ class _MainPageState extends State<MainPage> {
       );
     });
   }
-
-  Future _refresh() async {
-    setState(() {
-      isLoading = true;
-      Future.delayed(Duration(seconds: 2), () {
-        getList_PilihanMakanan();
-        isLoading = false;
-      });
-    });
-  }
-
-  void addData() {
-    setState(() {
-      for (int i = firstPageList.length; i < 5; i++) {
-        firstPageList.add(FoodModel(
-            'Bubur Ayam Spesial Plus Lengkap dengan Telor Puyuh',
-            100,
-            2,
-            3.2,
-            1.2,
-            3.5,
-            2.2,
-            6.7));
-      }
-    });
-  }
-
-  void pageSwitcher() {}
 
   Widget lineSeparator() {
     return LayoutBuilder(
@@ -1242,7 +1467,7 @@ class _MainPageState extends State<MainPage> {
                 : porsiPageMakanan
                     ? porsiMakanan(firstPageList[foodIndex])
                     : inputPageShown
-                        ? inputFoodPage(firstPageList[foodIndex])
+                        ? inputFoodPage()
                         : Container());
   }
 }
