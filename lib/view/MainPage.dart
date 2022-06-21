@@ -282,7 +282,8 @@ class _MainPageState extends State<MainPage> {
                     isExpanded: true,
                     value: dropdownCategory,
                     iconSize: 20,
-                    icon: Icon(Icons.arrow_drop_down),
+                    iconEnabledColor: Color(0xFF4CAF50),
+                    icon: Icon(Icons.keyboard_arrow_down),
                     onChanged: (String? newValue) {
                       setState(() {
                         dropdownCategory = newValue!;
@@ -314,7 +315,8 @@ class _MainPageState extends State<MainPage> {
                     isExpanded: true,
                     value: dropdownType,
                     iconSize: 20,
-                    icon: Icon(Icons.arrow_drop_down),
+                    iconEnabledColor: Color(0xFF4CAF50),
+                    icon: Icon(Icons.keyboard_arrow_down),
                     onChanged: (String? newValue) {
                       setState(() {
                         dropdownType = newValue!;
@@ -426,11 +428,31 @@ class _MainPageState extends State<MainPage> {
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16))),
+                                    borderRadius: BorderRadius.circular(10))),
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 Color(0xFF4CAF50)))),
                   )
                 ],
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+              Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  child: ElevatedButton(
+                      child: Text(
+                        'TAMBAHKAN CATATAN MAKANAN',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.montserrat(fontSize: 12),
+                      ),
+                      onPressed: () {},
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24))),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color(0xFF99CB57)))),
+                ),
               )
             ],
           ),
@@ -448,7 +470,7 @@ class _MainPageState extends State<MainPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 190,
+            width: 208,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -464,8 +486,9 @@ class _MainPageState extends State<MainPage> {
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
                 hintStyle: TextStyle(fontSize: 14),
-                suffixStyle: TextStyle(fontSize: 14),
-                // suffixText: suffix,
+                suffixStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 10),
+                suffixText: 'gr',
                 prefixText: "Karbohidrat",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 0),
@@ -476,11 +499,6 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          Text(
-            '\ngr',
-            style:
-                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
-          )
         ],
       ),
     );
@@ -495,7 +513,7 @@ class _MainPageState extends State<MainPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 190,
+            width: 208,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -511,7 +529,9 @@ class _MainPageState extends State<MainPage> {
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
                 hintStyle: TextStyle(fontSize: 14),
-                suffixStyle: TextStyle(fontSize: 14),
+                suffixStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 10),
+                suffixText: 'gr',
                 prefixText: "Lemak",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 0),
@@ -522,11 +542,6 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          Text(
-            '\ngr',
-            style:
-                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
-          )
         ],
       ),
     );
@@ -541,7 +556,7 @@ class _MainPageState extends State<MainPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 190,
+            width: 208,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -557,7 +572,9 @@ class _MainPageState extends State<MainPage> {
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
                 hintStyle: TextStyle(fontSize: 14),
-                suffixStyle: TextStyle(fontSize: 14),
+                suffixStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 10),
+                suffixText: 'gr',
                 prefixText: "Protein",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 0),
@@ -568,11 +585,6 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          Text(
-            '\ngr',
-            style:
-                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
-          )
         ],
       ),
     );
@@ -587,7 +599,7 @@ class _MainPageState extends State<MainPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 190,
+            width: 208,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -603,7 +615,9 @@ class _MainPageState extends State<MainPage> {
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
                 hintStyle: TextStyle(fontSize: 14),
-                suffixStyle: TextStyle(fontSize: 14),
+                suffixStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 10),
+                suffixText: 'gr',
                 prefixText: "Gula",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 0),
@@ -614,11 +628,6 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          Text(
-            '\ngr',
-            style:
-                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
-          )
         ],
       ),
     );
@@ -633,7 +642,7 @@ class _MainPageState extends State<MainPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 190,
+            width: 208,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -649,7 +658,9 @@ class _MainPageState extends State<MainPage> {
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
                 hintStyle: TextStyle(fontSize: 14),
-                suffixStyle: TextStyle(fontSize: 14),
+                suffixStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 10),
+                suffixText: 'gr',
                 prefixText: "Serat",
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 0),
@@ -660,11 +671,6 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          Text(
-            '\ngr',
-            style:
-                GoogleFonts.montserrat(color: Color(0xFFC4C4C4), fontSize: 10),
-          )
         ],
       ),
     );
