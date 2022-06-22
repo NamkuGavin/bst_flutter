@@ -31,9 +31,10 @@ class _MainPageState extends State<MainPage> {
   List? typeList;
   String? dropdownUom;
   List? uomList;
-  String? dropdownTambahMenu;
   String? dropdownUbahWaktu;
-  bool porsiPageMakanan = false;
+  bool porsiPageMakananCategory = false;
+  bool porsiPageMakananType = false;
+  bool porsiPageMakananFavorite = false;
   bool mainPageShown = true;
   bool listPageShown = false;
   bool inputPageShown = false;
@@ -58,17 +59,6 @@ class _MainPageState extends State<MainPage> {
   TextEditingController controller = TextEditingController();
   int pageIndicator = 0;
   int foodIndex = 0;
-  List<FoodModel> dropdownItems = [
-    FoodModel('Bubur Ayam Spesial Plus Lengkap dengan Telor Puyuh', 430, 1, 3.2,
-        1.2, 3.5, 2.2, 6.7),
-    FoodModel('Sate Maranggi', 202, 2, 3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Sate Kambing', 221, 3, 3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Sop Betawi', 301, 1, 3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Capcay', 220, 5, 3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Udeh', 100, 3, 3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Udang tepung', 100, 3, 3.2, 1.2, 3.5, 2.2, 6.7),
-    FoodModel('Mi Goreng', 100, 3, 3.2, 1.2, 3.5, 2.2, 6.7),
-  ];
 
   getList_PilihanMakanan() async {
     final getUrl = "https://www.zeroone.co.id/bst/food.php";
@@ -306,7 +296,9 @@ class _MainPageState extends State<MainPage> {
     getCategory();
     getUom();
     mainPageShown = true;
-    porsiPageMakanan = false;
+    porsiPageMakananCategory = false;
+    porsiPageMakananType = false;
+    porsiPageMakananFavorite = false;
     inputPageShown = false;
     listPageShown = false;
   }
@@ -606,7 +598,9 @@ class _MainPageState extends State<MainPage> {
                       onPressed: () {
                         saveList_PilihanMakanan();
                         mainPageShown = true;
-                        porsiPageMakanan = false;
+                        porsiPageMakananCategory = false;
+                        porsiPageMakananType = false;
+                        porsiPageMakananFavorite = false;
                         inputPageShown = false;
                         listPageShown = false;
                       },
@@ -1086,7 +1080,11 @@ class _MainPageState extends State<MainPage> {
                                                   foodIndex = index;
                                                   mainPageShown = false;
                                                   inputPageShown = false;
-                                                  porsiPageMakanan = true;
+                                                  porsiPageMakananCategory =
+                                                      true;
+                                                  porsiPageMakananType = false;
+                                                  porsiPageMakananFavorite =
+                                                      false;
                                                   listPageShown = false;
                                                   porsiControl.text =
                                                       itemsCategory[index]
@@ -1158,7 +1156,9 @@ class _MainPageState extends State<MainPage> {
                 onPressed: () {
                   setState(() {
                     mainPageShown = false;
-                    porsiPageMakanan = false;
+                    porsiPageMakananCategory = false;
+                    porsiPageMakananType = false;
+                    porsiPageMakananFavorite = false;
                     inputPageShown = true;
                     listPageShown = false;
                   });
@@ -1284,7 +1284,11 @@ class _MainPageState extends State<MainPage> {
                                                   foodIndex = index;
                                                   mainPageShown = false;
                                                   inputPageShown = false;
-                                                  porsiPageMakanan = true;
+                                                  porsiPageMakananCategory =
+                                                      false;
+                                                  porsiPageMakananType = true;
+                                                  porsiPageMakananFavorite =
+                                                      false;
                                                   listPageShown = false;
                                                   porsiControl.text =
                                                       itemsType[index].portion;
@@ -1444,7 +1448,9 @@ class _MainPageState extends State<MainPage> {
                                               foodIndex = index;
                                               mainPageShown = false;
                                               inputPageShown = false;
-                                              porsiPageMakanan = true;
+                                              porsiPageMakananCategory = false;
+                                              porsiPageMakananType = false;
+                                              porsiPageMakananFavorite = true;
                                               listPageShown = false;
                                               porsiControl.text =
                                                   itemsFavorite[index].portion;
@@ -1510,7 +1516,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  Widget porsiMakanan() {
+  Widget porsiMakananCategory(DatumCategory _model1) {
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -1518,7 +1524,7 @@ class _MainPageState extends State<MainPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "model.getName",
+              _model1.foodName,
               textAlign: TextAlign.start,
               style: GoogleFonts.montserrat(
                   fontSize: 20, fontWeight: FontWeight.bold),
@@ -1678,7 +1684,393 @@ class _MainPageState extends State<MainPage> {
                   onPressed: () {
                     setState(() {
                       mainPageShown = true;
-                      porsiPageMakanan = false;
+                      porsiPageMakananCategory = false;
+                      porsiPageMakananType = false;
+                      porsiPageMakananFavorite = false;
+                      inputPageShown = false;
+                      listPageShown = false;
+                    });
+                  },
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5))),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                  child: Text(
+                    'Simpan',
+                    textAlign: TextAlign.center,
+                  )),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget porsiMakananType(DatumType _model2) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _model2.foodName,
+              textAlign: TextAlign.start,
+              style: GoogleFonts.montserrat(
+                  fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              height: MediaQuery.of(context).size.height * 0.23,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tambah makanan",
+                    style: GoogleFonts.montserrat(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  TextField(
+                    controller: porsiControl,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                    textCapitalization: TextCapitalization.sentences,
+                    autocorrect: true,
+                    enableSuggestions: true,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.only(left: 18, top: 10, bottom: 12),
+                      isDense: true,
+                      filled: true,
+                      fillColor: Colors.transparent,
+                      hintText: 'Edit Porsi',
+                      hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 0.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.5, color: Colors.black),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DropdownButton<String>(
+                        iconSize: 20,
+                        isExpanded: true,
+                        hint: Text("Ubah waktu"),
+                        value: dropdownUbahWaktu,
+                        icon: Icon(Icons.keyboard_arrow_down,
+                            color: Color(0xFF99CB57)),
+                        underline: SizedBox.shrink(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownUbahWaktu = newValue!;
+                          });
+                        },
+                        items: <String>[
+                          'Sarapan',
+                          'Makan Siang',
+                          'Makan Malam',
+                          'Snack'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              height: MediaQuery.of(context).size.height * 0.34,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Informasi Nutrisi",
+                    style: GoogleFonts.montserrat(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Kalori",
+                        style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF818181)),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.01,
+                      ),
+                      Text(
+                        "model.getkal.toString()" + " Kalori",
+                        style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF4CAF50)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  tableNutrisi("Karbo", 0),
+                  tableNutrisi("Lemak", 0),
+                  tableNutrisi("Protein", 0),
+                  tableNutrisi("Gula", 0),
+                  tableNutrisi("Serat", 0),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 275),
+              child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      mainPageShown = true;
+                      porsiPageMakananCategory = false;
+                      porsiPageMakananType = false;
+                      porsiPageMakananFavorite = false;
+                      inputPageShown = false;
+                      listPageShown = false;
+                    });
+                  },
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5))),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                  child: Text(
+                    'Simpan',
+                    textAlign: TextAlign.center,
+                  )),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget porsiMakananFavorite(DatumFavorite _model3) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _model3.foodName,
+              textAlign: TextAlign.start,
+              style: GoogleFonts.montserrat(
+                  fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              height: MediaQuery.of(context).size.height * 0.23,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tambah makanan",
+                    style: GoogleFonts.montserrat(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  TextField(
+                    controller: porsiControl,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                    textCapitalization: TextCapitalization.sentences,
+                    autocorrect: true,
+                    enableSuggestions: true,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.only(left: 18, top: 10, bottom: 12),
+                      isDense: true,
+                      filled: true,
+                      fillColor: Colors.transparent,
+                      hintText: 'Edit Porsi',
+                      hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 0.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.5, color: Colors.black),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DropdownButton<String>(
+                        iconSize: 20,
+                        isExpanded: true,
+                        hint: Text("Ubah waktu"),
+                        value: dropdownUbahWaktu,
+                        icon: Icon(Icons.keyboard_arrow_down,
+                            color: Color(0xFF99CB57)),
+                        underline: SizedBox.shrink(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownUbahWaktu = newValue!;
+                          });
+                        },
+                        items: <String>[
+                          'Sarapan',
+                          'Makan Siang',
+                          'Makan Malam',
+                          'Snack'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              height: MediaQuery.of(context).size.height * 0.34,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Informasi Nutrisi",
+                    style: GoogleFonts.montserrat(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Kalori",
+                        style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF818181)),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.01,
+                      ),
+                      Text(
+                        "model.getkal.toString()" + " Kalori",
+                        style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF4CAF50)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  tableNutrisi("Karbo", 0),
+                  tableNutrisi("Lemak", 0),
+                  tableNutrisi("Protein", 0),
+                  tableNutrisi("Gula", 0),
+                  tableNutrisi("Serat", 0),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 275),
+              child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      mainPageShown = true;
+                      porsiPageMakananCategory = false;
+                      porsiPageMakananType = false;
+                      porsiPageMakananFavorite = false;
                       inputPageShown = false;
                       listPageShown = false;
                     });
@@ -1757,10 +2149,14 @@ class _MainPageState extends State<MainPage> {
             ? mainPage()
             : listPageShown
                 ? foodListPage()
-                : porsiPageMakanan
-                    ? porsiMakanan()
-                    : inputPageShown
-                        ? inputFoodPage()
-                        : Container());
+                : porsiPageMakananCategory
+                    ? porsiMakananCategory(itemsCategory[foodIndex])
+                    : porsiPageMakananType
+                        ? porsiMakananType(itemsType[foodIndex])
+                        : porsiPageMakananFavorite
+                            ? porsiMakananFavorite(itemsFavorite[foodIndex])
+                            : inputPageShown
+                                ? inputFoodPage()
+                                : Container());
   }
 }
