@@ -18,12 +18,12 @@ class CategoryModel {
 
   String response;
   String message;
-  List<Datum> data;
+  List<DatumCategory> data;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
     response: json["response"],
     message: json["message"],
-    data: List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
+    data: List<DatumCategory>.from(json["Data"].map((x) => DatumCategory.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -33,8 +33,8 @@ class CategoryModel {
   };
 }
 
-class Datum {
-  Datum({
+class DatumCategory {
+  DatumCategory({
     required this.id,
     required this.foodName,
     required this.portion,
@@ -58,7 +58,7 @@ class Datum {
   String sugar;
   String fiber;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory DatumCategory.fromJson(Map<String, dynamic> json) => DatumCategory(
     id: json["id"],
     foodName: json["FoodName"],
     portion: json["Portion"],
