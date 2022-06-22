@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bst/header/HeaderNavigation.dart';
 import 'package:bst/model/CategoryModel.dart';
+import 'package:bst/model/FavoriteModel.dart';
 
 import 'package:bst/view/infomakanan/PorsiMakanan.dart';
 import 'package:flutter/material.dart';
@@ -22,21 +23,26 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  int? idxUom;
   String? dropdownCategory;
   List? categoryList;
   String? dropdownType;
   List? typeList;
+  String? dropdownUom;
+  List? uomList;
   String? dropdownTambahMenu;
   String? dropdownUbahWaktu;
   bool porsiPageMakanan = false;
   bool mainPageShown = true;
   bool listPageShown = false;
   bool inputPageShown = false;
-  bool isLoading = false;
+  bool _isLoading = false;
   bool _showButton = false;
   bool _requiredFilter = false;
   CategoryModel? firstPageList1;
-  List<Datum> items = [];
+  FavoriteModel? thirdPageList;
+  List<DatumCategory> itemsCategory = [];
+  List<DatumFavorite> itemsFavorite = [];
   TextEditingController foodnameController = TextEditingController();
   TextEditingController portionController = TextEditingController();
   TextEditingController uomController = TextEditingController();
@@ -93,17 +99,17 @@ class _MainPageState extends State<MainPage> {
     );
     if (res.statusCode == 200) {
       setState(() {
-        isLoading = true;
+        _isLoading = true;
       });
       firstPageList1 = CategoryModel.fromJson(json.decode(res.body.toString()));
-      items = firstPageList1!.data;
+      itemsCategory = firstPageList1!.data;
       setState(() {
-        isLoading = false;
+        _isLoading = false;
       });
     } else {
       Map<String, dynamic> body = jsonDecode(res.body);
       setState(() {
-        isLoading = false;
+        _isLoading = false;
       });
       Fluttertoast.showToast(
         msg: body['message'],
@@ -111,12 +117,111 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  Future _refresh() async {
+  getList_FavoriteMakanan() async {
+    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    print(getUrl);
+    Map<String, dynamic> data = {
+      "apikey": "bstapp2022",
+      "action": "list_food_by_favorite",
+      "UserId": "1",
+    };
+    var dataUtf = utf8.encode(json.encode(data));
+    var dataBase64 = base64.encode(dataUtf);
+    final res = await http.post(
+      Uri.parse(getUrl),
+      body: {'data': dataBase64},
+    );
+    if (res.statusCode == 200) {
+      setState(() {
+        _isLoading = true;
+      });
+      thirdPageList = FavoriteModel.fromJson(json.decode(res.body.toString()));
+      itemsFavorite = thirdPageList!.data;
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+      Fluttertoast.showToast(
+        msg: body['message'],
+      );
+    }
+  }
+
+  saveList_PilihanMakanan() async {
+    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    print(getUrl);
+    Map<String, dynamic> data = {
+      "apikey": "bstapp2022",
+      "action": "add_food",
+      "UserId": "1",
+      "FoodName": foodnameController.text,
+      "Portion": portionController.text,
+      "Uom": dropdownUom,
+      "FoodCategory": dropdownCategory,
+      "FoodType": dropdownType,
+      "Calories": kaloriController.text,
+      "Carbohydrate": karbohidratController.text,
+      "Fat": lemakController.text,
+      "Protein": proteinController.text,
+      "Sugar": sugarController.text,
+      "Fiber": seratController.text,
+    };
+    var dataUtf = utf8.encode(json.encode(data));
+    var dataBase64 = base64.encode(dataUtf);
+    final res = await http.post(
+      Uri.parse(getUrl),
+      body: {'data': dataBase64},
+    );
+    if (res.statusCode == 200) {
+      setState(() {
+        _isLoading = true;
+      });
+      jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+      Fluttertoast.showToast(
+        msg: body['message'],
+      );
+    }
+  }
+
+  Future _refreshFirstPage() async {
     setState(() {
-      isLoading = true;
+      _isLoading = true;
       Future.delayed(Duration(seconds: 2), () {
         getList_PilihanMakanan();
-        isLoading = false;
+        _isLoading = false;
+      });
+    });
+  }
+
+  Future _refreshSecondPage() async {
+    setState(() {
+      _isLoading = true;
+      Future.delayed(Duration(seconds: 2), () {
+        firstPageList.clear();
+        addData();
+        _isLoading = false;
+      });
+    });
+  }
+
+  Future _refreshThirdPage() async {
+    setState(() {
+      _isLoading = true;
+      Future.delayed(Duration(seconds: 2), () {
+        getList_FavoriteMakanan();
+        _isLoading = false;
       });
     });
   }
@@ -128,7 +233,7 @@ class _MainPageState extends State<MainPage> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = "https://www.zeroone.co.id/bst/list.php";
+    String url = "https://www.zeroone.co.id/bst/food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -145,7 +250,7 @@ class _MainPageState extends State<MainPage> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = "https://www.zeroone.co.id/bst/list.php";
+    String url = "https://www.zeroone.co.id/bst/food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -155,10 +260,45 @@ class _MainPageState extends State<MainPage> {
     return "Success";
   }
 
+  Future<String> getUom() async {
+    Map<String, dynamic> body = {
+      "apikey": "bstapp2022",
+      "action": "list_uom",
+    };
+    var dataUtf = utf8.encode(json.encode(body));
+    var dataBase64 = base64.encode(dataUtf);
+    String url = "https://www.zeroone.co.id/bst/food.php";
+    var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
+    var resBody = json.decode(res.body);
+    setState(() {
+      uomList = resBody['Data'];
+    });
+    print(resBody);
+    return "Success";
+  }
+
+  void addData() {
+    setState(() {
+      for (int i = firstPageList.length; i < 5; i++) {
+        firstPageList.add(FoodModel(
+            'Bubur Ayam Spesial Plus Lengkap dengan Telor Puyuh',
+            100,
+            2,
+            3.2,
+            1.2,
+            3.5,
+            2.2,
+            6.7));
+      }
+    });
+  }
+
   void initState() {
     _requiredFilter = true;
+    getList_FavoriteMakanan();
     getType();
     getCategory();
+    getUom();
     mainPageShown = true;
     porsiPageMakanan = false;
     inputPageShown = false;
@@ -213,8 +353,8 @@ class _MainPageState extends State<MainPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 173,
+                  Expanded(
+                    flex: 1,
                     child: TextField(
                       controller: portionController,
                       style: TextStyle(fontSize: 15),
@@ -240,38 +380,48 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 173,
-                    child: TextField(
-                      controller: uomController,
-                      style: TextStyle(fontSize: 15),
-                      textCapitalization: TextCapitalization.sentences,
-                      autocorrect: true,
-                      enableSuggestions: true,
-                      decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.only(left: 18, top: 12, bottom: 12),
-                        isDense: true,
-                        filled: true,
-                        fillColor: Colors.transparent,
-                        hintText: 'Uom',
-                        hintStyle: GoogleFonts.openSans(color: Colors.grey),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 0.5),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                    ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 0.5, color: Colors.black),
+                            borderRadius: BorderRadius.circular(50)),
+                        child: DropdownButton<String>(
+                          hint: Text("Pilih Uom"),
+                          isExpanded: true,
+                          value: dropdownUom,
+                          iconSize: 20,
+                          iconEnabledColor: Color(0xFF4CAF50),
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownUom = newValue!;
+                              print(newValue);
+                            });
+                          },
+                          isDense: true,
+                          underline: SizedBox.shrink(),
+                          items: uomList?.map((item) {
+                                return DropdownMenuItem(
+                                  child: Text(
+                                    item['Name'],
+                                    style: GoogleFonts.openSans(
+                                        color: Colors.grey),
+                                  ),
+                                  value: item['id'].toString(),
+                                );
+                              }).toList() ??
+                              [],
+                        )),
                   ),
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               Container(
-                  height: 40,
+                  height: MediaQuery.of(context).size.height * 0.05,
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
@@ -294,7 +444,7 @@ class _MainPageState extends State<MainPage> {
                     items: categoryList?.map((item) {
                           return DropdownMenuItem(
                             child: Text(
-                              item['name'],
+                              item['Name'],
                               style: GoogleFonts.openSans(color: Colors.grey),
                             ),
                             value: item['id'].toString(),
@@ -304,7 +454,7 @@ class _MainPageState extends State<MainPage> {
                   )),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               Container(
-                  height: 40,
+                  height: MediaQuery.of(context).size.height * 0.05,
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
@@ -327,7 +477,7 @@ class _MainPageState extends State<MainPage> {
                     items: typeList?.map((item) {
                           return DropdownMenuItem(
                             child: Text(
-                              item['text'],
+                              item['Name'],
                               style: TextStyle(
                                   fontSize: 10, fontWeight: FontWeight.bold),
                             ),
@@ -355,7 +505,7 @@ class _MainPageState extends State<MainPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 75,
+                          width: MediaQuery.of(context).size.width * 0.22,
                           child: TextField(
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w600,
@@ -444,7 +594,13 @@ class _MainPageState extends State<MainPage> {
                         textAlign: TextAlign.center,
                         style: GoogleFonts.montserrat(fontSize: 12),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        saveList_PilihanMakanan();
+                        mainPageShown = true;
+                        porsiPageMakanan = false;
+                        inputPageShown = false;
+                        listPageShown = false;
+                      },
                       style: ButtonStyle(
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -463,14 +619,14 @@ class _MainPageState extends State<MainPage> {
 
   Widget karbohidratFill() {
     return Container(
-      width: 225,
+      width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(color: Colors.grey.shade200),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 208,
+          Expanded(
+            flex: 1,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -506,14 +662,14 @@ class _MainPageState extends State<MainPage> {
 
   Widget lemakFill() {
     return Container(
-      width: 225,
+      width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(color: Colors.transparent),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 208,
+          Expanded(
+            flex: 1,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -549,14 +705,14 @@ class _MainPageState extends State<MainPage> {
 
   Widget proteinFill() {
     return Container(
-      width: 225,
+      width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(color: Colors.grey.shade200),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 208,
+          Flexible(
+            flex: 1,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -592,14 +748,14 @@ class _MainPageState extends State<MainPage> {
 
   Widget gulaFill() {
     return Container(
-      width: 225,
+      width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(color: Colors.transparent),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 208,
+          Expanded(
+            flex: 1,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -635,14 +791,14 @@ class _MainPageState extends State<MainPage> {
 
   Widget seratFill() {
     return Container(
-      width: 225,
+      width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(color: Colors.grey.shade200),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 208,
+          Expanded(
+            flex: 1,
             child: TextField(
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
@@ -706,6 +862,7 @@ class _MainPageState extends State<MainPage> {
                     // title: Text('One'),
                     onChanged: (value) => setState(() {
                       pageIndicator = value;
+                      dropdownCategory = null;
                     }),
                   ),
                   MyRadioListTile<int>(
@@ -715,6 +872,7 @@ class _MainPageState extends State<MainPage> {
                     // title: Text('Two'),
                     onChanged: (value) => setState(() {
                       pageIndicator = value;
+                      dropdownType = null;
                     }),
                   ),
                   MyRadioListTile<int>(
@@ -934,7 +1092,7 @@ class _MainPageState extends State<MainPage> {
                   items: categoryList?.map((item) {
                         return DropdownMenuItem(
                           child: Text(
-                            item['name'],
+                            item['Name'],
                             style: GoogleFonts.openSans(color: Colors.grey),
                           ),
                           value: item['id'].toString(),
@@ -951,12 +1109,12 @@ class _MainPageState extends State<MainPage> {
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.43,
-              child: RefreshIndicator(
-                  onRefresh: _refresh,
-                  child: _requiredFilter
-                      ? Center(child: Text("Masukkan kategori makanan"))
-                      : isLoading
-                          ? Center(child: CircularProgressIndicator())
+              child: _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : RefreshIndicator(
+                      onRefresh: _refreshFirstPage,
+                      child: _requiredFilter
+                          ? Center(child: Text("Masukkan kategori makanan"))
                           : ListView.separated(
                               itemBuilder: ((context, index) {
                                 return Column(
@@ -971,14 +1129,14 @@ class _MainPageState extends State<MainPage> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            items[index].foodName,
+                                            itemsCategory[index].foodName,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w700,
                                                 color: Color(0xFF5C5C60)),
                                           ),
                                         ),
                                         Text(
-                                          items[index].calories,
+                                          itemsCategory[index].calories,
                                           style: GoogleFonts.montserrat(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 12),
@@ -1008,7 +1166,8 @@ class _MainPageState extends State<MainPage> {
                                                   porsiPageMakanan = true;
                                                   listPageShown = false;
                                                   porsiControl.text =
-                                                      items[index].portion;
+                                                      itemsCategory[index]
+                                                          .portion;
                                                 });
                                               },
                                               style: ButtonStyle(
@@ -1034,7 +1193,9 @@ class _MainPageState extends State<MainPage> {
                                       height: 10,
                                     ),
                                     Text(
-                                      items[index].portion + ' Mangkok',
+                                      itemsCategory[index].portion +
+                                          " " +
+                                          itemsCategory[index].uom,
                                       style: GoogleFonts.openSans(),
                                     ),
                                     SizedBox(
@@ -1042,15 +1203,15 @@ class _MainPageState extends State<MainPage> {
                                     ),
                                     Text(
                                       'K : ' +
-                                          items[index].carbohydrate +
+                                          itemsCategory[index].carbohydrate +
                                           ' |  L : ' +
-                                          items[index].fat +
+                                          itemsCategory[index].fat +
                                           '  |   P : ' +
-                                          items[index].protein +
+                                          itemsCategory[index].protein +
                                           '   |   G : ' +
-                                          items[index].sugar +
+                                          itemsCategory[index].sugar +
                                           '   |   S :  ' +
-                                          items[index].fiber +
+                                          itemsCategory[index].fiber +
                                           '  ',
                                       style: GoogleFonts.openSans(fontSize: 13),
                                     ),
@@ -1064,7 +1225,7 @@ class _MainPageState extends State<MainPage> {
                                   (BuildContext context, int index) {
                                 return lineSeparator();
                               },
-                              itemCount: items.length)),
+                              itemCount: itemsCategory.length)),
             ),
             Container(
               height: 45,
@@ -1121,7 +1282,7 @@ class _MainPageState extends State<MainPage> {
                   items: typeList?.map((item) {
                         return DropdownMenuItem(
                           child: Text(
-                            item['text'],
+                            item['Name'],
                             style: TextStyle(
                                 fontSize: 10, fontWeight: FontWeight.bold),
                           ),
@@ -1138,10 +1299,10 @@ class _MainPageState extends State<MainPage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Expanded(
-              child: isLoading
+              child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : RefreshIndicator(
-                      onRefresh: _refresh,
+                      onRefresh: _refreshSecondPage,
                       child: ListView.separated(
                           itemBuilder: ((context, index) {
                             return foodItem1(
@@ -1200,21 +1361,115 @@ class _MainPageState extends State<MainPage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Expanded(
-              child: isLoading
+              child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : RefreshIndicator(
-                      onRefresh: _refresh,
+                      onRefresh: _refreshThirdPage,
                       child: ListView.separated(
                           itemBuilder: ((context, index) {
-                            return foodItem1(
-                              firstPageList[index],
-                              index,
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        itemsFavorite[index].foodName,
+                                        style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w700,
+                                            color: Color(0xFF5C5C60)),
+                                      ),
+                                    ),
+                                    Text(
+                                      itemsFavorite[index].calories,
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                      width: 2,
+                                    ),
+                                    Text(
+                                      'Kal',
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          color: Color(0xFF5C5C60)),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Container(
+                                      width: 28,
+                                      height: 18,
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              foodIndex = index;
+                                              mainPageShown = false;
+                                              inputPageShown = false;
+                                              porsiPageMakanan = true;
+                                              listPageShown = false;
+                                              porsiControl.text =
+                                                  itemsFavorite[index].portion;
+                                            });
+                                          },
+                                          style: ButtonStyle(
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16))),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Color(0xFF99CB57))),
+                                          child: Text(
+                                            '+',
+                                            textAlign: TextAlign.center,
+                                          )),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  itemsFavorite[index].portion + ' Mangkok',
+                                  style: GoogleFonts.openSans(),
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                Text(
+                                  'K : ' +
+                                      itemsFavorite[index].carbohydrate +
+                                      ' |  L : ' +
+                                      itemsFavorite[index].fat +
+                                      '  |   P : ' +
+                                      itemsFavorite[index].protein +
+                                      '   |   G : ' +
+                                      itemsFavorite[index].sugar +
+                                      '   |   S :  ' +
+                                      itemsFavorite[index].fiber +
+                                      '  ',
+                                  style: GoogleFonts.openSans(fontSize: 13),
+                                ),
+                                SizedBox(
+                                  height: 11,
+                                )
+                              ],
                             );
                           }),
                           separatorBuilder: (BuildContext context, int index) {
                             return lineSeparator();
                           },
-                          itemCount: firstPageList.length),
+                          itemCount: itemsFavorite.length),
                     ),
             ),
           ],
