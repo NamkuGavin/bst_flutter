@@ -35,10 +35,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_fonts: ^2.2.0
-  flutter_typeahead: ^3.0.0-nullsafety.0
   http: ^0.13.4
   fluttertoast: ^8.0.9
-
+  intl: ^0.17.0
 
 
 

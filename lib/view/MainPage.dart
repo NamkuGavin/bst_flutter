@@ -8,10 +8,10 @@ import 'package:bst/model/TypeModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import '../reuse/MyRadioListTile.dart';
 
 class MainPage extends StatefulWidget {
@@ -180,6 +180,116 @@ class _MainPageState extends State<MainPage> {
       "Protein": proteinController.text,
       "Sugar": sugarController.text,
       "Fiber": seratController.text,
+    };
+    var dataUtf = utf8.encode(json.encode(data));
+    var dataBase64 = base64.encode(dataUtf);
+    final res = await http.post(
+      Uri.parse(getUrl),
+      body: {'data': dataBase64},
+    );
+    if (res.statusCode == 200) {
+      setState(() {
+        _isLoading = true;
+      });
+      jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+      Fluttertoast.showToast(
+        msg: body['message'],
+      );
+    }
+  }
+
+  save_MakananCategory(DatumCategory _category) async {
+    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    print(getUrl);
+    Map<String, dynamic> data = {
+      "apikey": "bstapp2022",
+      "action": "add_food",
+      "UserId": "1",
+      "FoodID": _category.id,
+      "RecordDate": DateFormat('yyyy-mm-dd').format(DateTime.now()).toString(),
+      "Portion": porsiControl.text,
+    };
+    print("FoodID: " + _category.id);
+    print(DateFormat('yyyy-MM-dd').format(DateTime.now()).toString());
+    var dataUtf = utf8.encode(json.encode(data));
+    var dataBase64 = base64.encode(dataUtf);
+    final res = await http.post(
+      Uri.parse(getUrl),
+      body: {'data': dataBase64},
+    );
+    if (res.statusCode == 200) {
+      setState(() {
+        _isLoading = true;
+      });
+      jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+      Fluttertoast.showToast(
+        msg: body['message'],
+      );
+    }
+  }
+
+  save_MakananType(DatumType _type) async {
+    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    print(getUrl);
+    Map<String, dynamic> data = {
+      "apikey": "bstapp2022",
+      "action": "add_food",
+      "UserId": "1",
+      "FoodID": _type.id,
+      "RecordDate": DateFormat('yyyy-mm-dd').format(DateTime.now()).toString(),
+      "Portion": porsiControl.text,
+    };
+    var dataUtf = utf8.encode(json.encode(data));
+    var dataBase64 = base64.encode(dataUtf);
+    final res = await http.post(
+      Uri.parse(getUrl),
+      body: {'data': dataBase64},
+    );
+    if (res.statusCode == 200) {
+      setState(() {
+        _isLoading = true;
+      });
+      jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      setState(() {
+        _isLoading = false;
+      });
+      Fluttertoast.showToast(
+        msg: body['message'],
+      );
+    }
+  }
+
+  save_MakananFavorite(DatumFavorite _favorite) async {
+    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    print(getUrl);
+    Map<String, dynamic> data = {
+      "apikey": "bstapp2022",
+      "action": "add_food",
+      "UserId": "1",
+      "FoodID": _favorite.id,
+      "RecordDate": DateFormat('yyyy-mm-dd').format(DateTime.now()).toString(),
+      "Portion": porsiControl.text,
     };
     var dataUtf = utf8.encode(json.encode(data));
     var dataBase64 = base64.encode(dataUtf);
@@ -1690,6 +1800,7 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      save_MakananCategory(_model1);
                       dropdownCategory = null;
                       dropdownType = null;
                       dropdownUom = null;
@@ -1888,6 +1999,7 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      save_MakananType(_model2);
                       dropdownCategory = null;
                       dropdownType = null;
                       dropdownUom = null;
@@ -2086,6 +2198,7 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      save_MakananFavorite(_model3);
                       dropdownCategory = null;
                       dropdownType = null;
                       dropdownUom = null;
