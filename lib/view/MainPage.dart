@@ -6,6 +6,7 @@ import 'package:bst/model/FavoriteModel.dart';
 import 'package:bst/model/TypeModel.dart';
 
 import 'package:bst/view/infomakanan/PorsiMakanan.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -1086,6 +1087,7 @@ class _MainPageState extends State<MainPage> {
                                                   porsiPageMakananFavorite =
                                                       false;
                                                   listPageShown = false;
+                                                  dropdownType = null;
                                                   porsiControl.text =
                                                       itemsCategory[index]
                                                           .portion;
@@ -1290,6 +1292,7 @@ class _MainPageState extends State<MainPage> {
                                                   porsiPageMakananFavorite =
                                                       false;
                                                   listPageShown = false;
+                                                  dropdownType = null;
                                                   porsiControl.text =
                                                       itemsType[index].portion;
                                                 });
@@ -1452,6 +1455,7 @@ class _MainPageState extends State<MainPage> {
                                               porsiPageMakananType = false;
                                               porsiPageMakananFavorite = true;
                                               listPageShown = false;
+                                              dropdownType = null;
                                               porsiControl.text =
                                                   itemsFavorite[index].portion;
                                             });
@@ -1550,38 +1554,58 @@ class _MainPageState extends State<MainPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Tambah makanan",
+                    "Tambah ke Jurnal",
                     style: GoogleFonts.montserrat(),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  TextField(
-                    controller: porsiControl,
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                    textCapitalization: TextCapitalization.sentences,
-                    autocorrect: true,
-                    enableSuggestions: true,
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.only(left: 18, top: 10, bottom: 12),
-                      isDense: true,
-                      filled: true,
-                      fillColor: Colors.transparent,
-                      hintText: 'Edit Porsi',
-                      hintStyle: GoogleFonts.openSans(color: Colors.grey),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 0.5),
-                        borderRadius: BorderRadius.circular(10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: TextField(
+                          controller: porsiControl,
+                          style: TextStyle(fontSize: 15),
+                          textCapitalization: TextCapitalization.sentences,
+                          autocorrect: true,
+                          enableSuggestions: true,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 18, top: 12, bottom: 12),
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            hintText: 'Ubah Porsi',
+                            hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 0.5),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                          ),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 1),
-                        borderRadius: BorderRadius.circular(10),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 7),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 0.5, color: Colors.black),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Text(
+                              _model1.uom,
+                              style: GoogleFonts.openSans(color: Colors.black),
+                            )),
                       ),
-                    ),
+                    ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Container(
@@ -1593,29 +1617,37 @@ class _MainPageState extends State<MainPage> {
                           border: Border.all(width: 0.5, color: Colors.black),
                           borderRadius: BorderRadius.circular(10)),
                       child: DropdownButton<String>(
-                        iconSize: 20,
+                        hint: Text(
+                          "Pilih Waktu Makanan",
+                          style: GoogleFonts.openSans(color: Colors.grey),
+                        ),
                         isExpanded: true,
-                        hint: Text("Ubah waktu"),
-                        value: dropdownUbahWaktu,
-                        icon: Icon(Icons.keyboard_arrow_down,
-                            color: Color(0xFF99CB57)),
-                        underline: SizedBox.shrink(),
+                        value: dropdownType,
+                        iconSize: 20,
+                        iconEnabledColor: Color(0xFF4CAF50),
+                        icon: Icon(Icons.keyboard_arrow_down),
                         onChanged: (String? newValue) {
                           setState(() {
-                            dropdownUbahWaktu = newValue!;
+                            dropdownType = newValue!;
+                            _requiredFilter = false;
+                            if (dropdownType != null) {
+                              getList_TypeMakanan();
+                            } else {}
                           });
                         },
-                        items: <String>[
-                          'Sarapan',
-                          'Makan Siang',
-                          'Makan Malam',
-                          'Snack'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                        isDense: true,
+                        underline: SizedBox.shrink(),
+                        items: typeList?.map((item) {
+                              return DropdownMenuItem(
+                                child: Text(
+                                  item['Name'],
+                                  style:
+                                      GoogleFonts.openSans(color: Colors.black),
+                                ),
+                                value: item['id'].toString(),
+                              );
+                            }).toList() ??
+                            [],
                       )),
                 ],
               ),
@@ -1642,7 +1674,7 @@ class _MainPageState extends State<MainPage> {
                 children: [
                   Text(
                     "Informasi Nutrisi",
-                    style: GoogleFonts.montserrat(),
+                    style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
@@ -1660,7 +1692,7 @@ class _MainPageState extends State<MainPage> {
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
                       Text(
-                        "model.getkal.toString()" + " Kalori",
+                        _model1.calories + " Kalori",
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF4CAF50)),
@@ -1670,13 +1702,16 @@ class _MainPageState extends State<MainPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  tableNutrisi("Karbo", 0),
-                  tableNutrisi("Lemak", 0),
-                  tableNutrisi("Protein", 0),
-                  tableNutrisi("Gula", 0),
-                  tableNutrisi("Serat", 0),
+                  tableNutrisi("Karbo", _model1.carbohydrate),
+                  tableNutrisi("Lemak", _model1.fat),
+                  tableNutrisi("Protein", _model1.protein),
+                  tableNutrisi("Gula", _model1.sugar),
+                  tableNutrisi("Serat", _model1.fiber),
                 ],
               ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
               margin: EdgeInsets.only(left: 275),
@@ -1742,38 +1777,58 @@ class _MainPageState extends State<MainPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Tambah makanan",
+                    "Tambah ke Jurnal",
                     style: GoogleFonts.montserrat(),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  TextField(
-                    controller: porsiControl,
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                    textCapitalization: TextCapitalization.sentences,
-                    autocorrect: true,
-                    enableSuggestions: true,
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.only(left: 18, top: 10, bottom: 12),
-                      isDense: true,
-                      filled: true,
-                      fillColor: Colors.transparent,
-                      hintText: 'Edit Porsi',
-                      hintStyle: GoogleFonts.openSans(color: Colors.grey),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 0.5),
-                        borderRadius: BorderRadius.circular(10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: TextField(
+                          controller: porsiControl,
+                          style: TextStyle(fontSize: 15),
+                          textCapitalization: TextCapitalization.sentences,
+                          autocorrect: true,
+                          enableSuggestions: true,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 18, top: 12, bottom: 12),
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            hintText: 'Ubah Porsi',
+                            hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 0.5),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                          ),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 1),
-                        borderRadius: BorderRadius.circular(10),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 7),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 0.5, color: Colors.black),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Text(
+                              _model2.uom,
+                              style: GoogleFonts.openSans(color: Colors.black),
+                            )),
                       ),
-                    ),
+                    ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Container(
@@ -1785,29 +1840,37 @@ class _MainPageState extends State<MainPage> {
                           border: Border.all(width: 0.5, color: Colors.black),
                           borderRadius: BorderRadius.circular(10)),
                       child: DropdownButton<String>(
-                        iconSize: 20,
+                        hint: Text(
+                          "Pilih Waktu Makanan",
+                          style: GoogleFonts.openSans(color: Colors.grey),
+                        ),
                         isExpanded: true,
-                        hint: Text("Ubah waktu"),
-                        value: dropdownUbahWaktu,
-                        icon: Icon(Icons.keyboard_arrow_down,
-                            color: Color(0xFF99CB57)),
-                        underline: SizedBox.shrink(),
+                        value: dropdownType,
+                        iconSize: 20,
+                        iconEnabledColor: Color(0xFF4CAF50),
+                        icon: Icon(Icons.keyboard_arrow_down),
                         onChanged: (String? newValue) {
                           setState(() {
-                            dropdownUbahWaktu = newValue!;
+                            dropdownType = newValue!;
+                            _requiredFilter = false;
+                            if (dropdownType != null) {
+                              getList_TypeMakanan();
+                            } else {}
                           });
                         },
-                        items: <String>[
-                          'Sarapan',
-                          'Makan Siang',
-                          'Makan Malam',
-                          'Snack'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                        isDense: true,
+                        underline: SizedBox.shrink(),
+                        items: typeList?.map((item) {
+                              return DropdownMenuItem(
+                                child: Text(
+                                  item['Name'],
+                                  style:
+                                      GoogleFonts.openSans(color: Colors.black),
+                                ),
+                                value: item['id'].toString(),
+                              );
+                            }).toList() ??
+                            [],
                       )),
                 ],
               ),
@@ -1834,7 +1897,7 @@ class _MainPageState extends State<MainPage> {
                 children: [
                   Text(
                     "Informasi Nutrisi",
-                    style: GoogleFonts.montserrat(),
+                    style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
@@ -1852,7 +1915,7 @@ class _MainPageState extends State<MainPage> {
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
                       Text(
-                        "model.getkal.toString()" + " Kalori",
+                        _model2.calories + " Kalori",
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF4CAF50)),
@@ -1862,13 +1925,16 @@ class _MainPageState extends State<MainPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  tableNutrisi("Karbo", 0),
-                  tableNutrisi("Lemak", 0),
-                  tableNutrisi("Protein", 0),
-                  tableNutrisi("Gula", 0),
-                  tableNutrisi("Serat", 0),
+                  tableNutrisi("Karbo", _model2.carbohydrate),
+                  tableNutrisi("Lemak", _model2.fat),
+                  tableNutrisi("Protein", _model2.protein),
+                  tableNutrisi("Gula", _model2.sugar),
+                  tableNutrisi("Serat", _model2.fiber),
                 ],
               ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
               margin: EdgeInsets.only(left: 275),
@@ -1934,38 +2000,58 @@ class _MainPageState extends State<MainPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Tambah makanan",
+                    "Tambah ke Jurnal",
                     style: GoogleFonts.montserrat(),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  TextField(
-                    controller: porsiControl,
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                    textCapitalization: TextCapitalization.sentences,
-                    autocorrect: true,
-                    enableSuggestions: true,
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.only(left: 18, top: 10, bottom: 12),
-                      isDense: true,
-                      filled: true,
-                      fillColor: Colors.transparent,
-                      hintText: 'Edit Porsi',
-                      hintStyle: GoogleFonts.openSans(color: Colors.grey),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 0.5),
-                        borderRadius: BorderRadius.circular(10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: TextField(
+                          controller: porsiControl,
+                          style: TextStyle(fontSize: 15),
+                          textCapitalization: TextCapitalization.sentences,
+                          autocorrect: true,
+                          enableSuggestions: true,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 18, top: 12, bottom: 12),
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            hintText: 'Ubah Porsi',
+                            hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 0.5),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                          ),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 1),
-                        borderRadius: BorderRadius.circular(10),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 7),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 0.5, color: Colors.black),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Text(
+                              _model3.uom,
+                              style: GoogleFonts.openSans(color: Colors.black),
+                            )),
                       ),
-                    ),
+                    ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Container(
@@ -1977,29 +2063,37 @@ class _MainPageState extends State<MainPage> {
                           border: Border.all(width: 0.5, color: Colors.black),
                           borderRadius: BorderRadius.circular(10)),
                       child: DropdownButton<String>(
-                        iconSize: 20,
+                        hint: Text(
+                          "Pilih Waktu Makanan",
+                          style: GoogleFonts.openSans(color: Colors.grey),
+                        ),
                         isExpanded: true,
-                        hint: Text("Ubah waktu"),
-                        value: dropdownUbahWaktu,
-                        icon: Icon(Icons.keyboard_arrow_down,
-                            color: Color(0xFF99CB57)),
-                        underline: SizedBox.shrink(),
+                        value: dropdownType,
+                        iconSize: 20,
+                        iconEnabledColor: Color(0xFF4CAF50),
+                        icon: Icon(Icons.keyboard_arrow_down),
                         onChanged: (String? newValue) {
                           setState(() {
-                            dropdownUbahWaktu = newValue!;
+                            dropdownType = newValue!;
+                            _requiredFilter = false;
+                            if (dropdownType != null) {
+                              getList_TypeMakanan();
+                            } else {}
                           });
                         },
-                        items: <String>[
-                          'Sarapan',
-                          'Makan Siang',
-                          'Makan Malam',
-                          'Snack'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                        isDense: true,
+                        underline: SizedBox.shrink(),
+                        items: typeList?.map((item) {
+                              return DropdownMenuItem(
+                                child: Text(
+                                  item['Name'],
+                                  style:
+                                      GoogleFonts.openSans(color: Colors.black),
+                                ),
+                                value: item['id'].toString(),
+                              );
+                            }).toList() ??
+                            [],
                       )),
                 ],
               ),
@@ -2026,7 +2120,7 @@ class _MainPageState extends State<MainPage> {
                 children: [
                   Text(
                     "Informasi Nutrisi",
-                    style: GoogleFonts.montserrat(),
+                    style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
@@ -2044,7 +2138,7 @@ class _MainPageState extends State<MainPage> {
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
                       Text(
-                        "model.getkal.toString()" + " Kalori",
+                        _model3.calories + " Kalori",
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF4CAF50)),
@@ -2054,13 +2148,16 @@ class _MainPageState extends State<MainPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  tableNutrisi("Karbo", 0),
-                  tableNutrisi("Lemak", 0),
-                  tableNutrisi("Protein", 0),
-                  tableNutrisi("Gula", 0),
-                  tableNutrisi("Serat", 0),
+                  tableNutrisi("Karbo", _model3.carbohydrate),
+                  tableNutrisi("Lemak", _model3.fat),
+                  tableNutrisi("Protein", _model3.protein),
+                  tableNutrisi("Gula", _model3.sugar),
+                  tableNutrisi("Serat", _model3.fiber),
                 ],
               ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
               margin: EdgeInsets.only(left: 275),
@@ -2092,7 +2189,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget tableNutrisi(String name, double gr) {
+  Widget tableNutrisi(String name, String gr) {
     return Column(
       children: [
         Row(
@@ -2107,7 +2204,7 @@ class _MainPageState extends State<MainPage> {
               width: MediaQuery.of(context).size.width * 0.01,
             ),
             Text(
-              gr.toString() + " gr",
+              gr + " gr",
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600, color: Color(0xFF4CAF50)),
             ),
