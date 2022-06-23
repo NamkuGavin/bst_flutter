@@ -595,6 +595,10 @@ class _MainPageState extends State<MainPage> {
                       ),
                       onPressed: () {
                         saveList_PilihanMakanan();
+                        dropdownCategory = null;
+                        dropdownType = null;
+                        dropdownUom = null;
+                        _requiredFilter = true;
                         mainPageShown = true;
                         porsiPageMakananCategory = false;
                         porsiPageMakananType = false;
@@ -1686,6 +1690,10 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      dropdownCategory = null;
+                      dropdownType = null;
+                      dropdownUom = null;
+                      _requiredFilter = true;
                       mainPageShown = true;
                       porsiPageMakananCategory = false;
                       porsiPageMakananType = false;
@@ -1880,6 +1888,10 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      dropdownCategory = null;
+                      dropdownType = null;
+                      dropdownUom = null;
+                      _requiredFilter = true;
                       mainPageShown = true;
                       porsiPageMakananCategory = false;
                       porsiPageMakananType = false;
@@ -2074,6 +2086,10 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      dropdownCategory = null;
+                      dropdownType = null;
+                      dropdownUom = null;
+                      _requiredFilter = true;
                       mainPageShown = true;
                       porsiPageMakananCategory = false;
                       porsiPageMakananType = false;
@@ -2132,6 +2148,10 @@ class _MainPageState extends State<MainPage> {
       child: ElevatedButton(
         onPressed: () {
           setState(() {
+            dropdownCategory = null;
+            dropdownType = null;
+            dropdownUom = null;
+            _requiredFilter = true;
             inputPageShown = false;
             mainPageShown = false;
             listPageShown = true;
