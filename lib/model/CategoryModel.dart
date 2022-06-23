@@ -5,7 +5,8 @@
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-CategoryModel foodModelFromJson(String str) => CategoryModel.fromJson(json.decode(str));
+CategoryModel foodModelFromJson(String str) =>
+    CategoryModel.fromJson(json.decode(str));
 
 String foodModelToJson(CategoryModel data) => json.encode(data.toJson());
 
@@ -21,16 +22,17 @@ class CategoryModel {
   List<DatumCategory> data;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
-    response: json["response"],
-    message: json["message"],
-    data: List<DatumCategory>.from(json["Data"].map((x) => DatumCategory.fromJson(x))),
-  );
+        response: json["response"],
+        message: json["message"],
+        data: List<DatumCategory>.from(
+            json["Data"].map((x) => DatumCategory.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "response": response,
-    "message": message,
-    "Data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+        "response": response,
+        "message": message,
+        "Data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
 class DatumCategory {
@@ -59,28 +61,28 @@ class DatumCategory {
   String fiber;
 
   factory DatumCategory.fromJson(Map<String, dynamic> json) => DatumCategory(
-    id: json["id"],
-    foodName: json["FoodName"],
-    portion: json["Portion"],
-    uom: json["Uom"],
-    calories: json["Calories"],
-    carbohydrate: json["Carbohydrate"],
-    fat: json["Fat"],
-    protein: json["Protein"],
-    sugar: json["Sugar"],
-    fiber: json["Fiber"],
-  );
+        id: json["id"],
+        foodName: json["FoodName"],
+        portion: json["Portion"],
+        uom: json["Uom"],
+        calories: json["Calories"],
+        carbohydrate: json["Carbohydrate"],
+        fat: json["Fat"],
+        protein: json["Protein"],
+        sugar: json["Sugar"],
+        fiber: json["Fiber"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "FoodName": foodName,
-    "Portion": portion,
-    "Uom": uom,
-    "Calories": calories,
-    "Carbohydrate": carbohydrate,
-    "Fat": fat,
-    "Protein": protein,
-    "Sugar": sugar,
-    "Fiber": fiber,
-  };
+        "id": id,
+        "FoodName": foodName,
+        "Portion": portion,
+        "Uom": uom,
+        "Calories": calories,
+        "Carbohydrate": carbohydrate,
+        "Fat": fat,
+        "Protein": protein,
+        "Sugar": sugar,
+        "Fiber": fiber,
+      };
 }
