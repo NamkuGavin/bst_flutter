@@ -24,7 +24,8 @@ class FavoriteModel {
   factory FavoriteModel.fromJson(Map<String, dynamic> json) => FavoriteModel(
         response: json["response"],
         message: json["message"],
-        data: List<DatumFavorite>.from(json["Data"].map((x) => DatumFavorite.fromJson(x))),
+        data: List<DatumFavorite>.from(
+            json["Data"].map((x) => DatumFavorite.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +41,7 @@ class DatumFavorite {
     required this.foodName,
     required this.portion,
     required this.uom,
+    required this.foodType,
     required this.calories,
     required this.carbohydrate,
     required this.fat,
@@ -52,6 +54,7 @@ class DatumFavorite {
   String foodName;
   String portion;
   String uom;
+  String foodType;
   String calories;
   String carbohydrate;
   String fat;
@@ -64,6 +67,7 @@ class DatumFavorite {
         foodName: json["FoodName"],
         portion: json["Portion"],
         uom: json["Uom"],
+        foodType: json["FoodType"],
         calories: json["Calories"],
         carbohydrate: json["Carbohydrate"],
         fat: json["Fat"],
@@ -77,6 +81,7 @@ class DatumFavorite {
         "FoodName": foodName,
         "Portion": portion,
         "Uom": uom,
+        "FoodType": foodType,
         "Calories": calories,
         "Carbohydrate": carbohydrate,
         "Fat": fat,

@@ -5,7 +5,6 @@ import 'package:bst/model/CategoryModel.dart';
 import 'package:bst/model/FavoriteModel.dart';
 import 'package:bst/model/TypeModel.dart';
 
-import 'package:bst/view/infomakanan/PorsiMakanan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,8 +12,6 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
-import '../model/FoodModel.dart';
 import '../reuse/MyRadioListTile.dart';
 
 class MainPage extends StatefulWidget {
@@ -1609,45 +1606,16 @@ class _MainPageState extends State<MainPage> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
+                      height: MediaQuery.of(context).size.height * 0.05,
                       width: double.infinity,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                       decoration: BoxDecoration(
                           border: Border.all(width: 0.5, color: Colors.black),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: DropdownButton<String>(
-                        hint: Text(
-                          "Pilih Waktu Makanan",
-                          style: GoogleFonts.openSans(color: Colors.grey),
-                        ),
-                        isExpanded: true,
-                        value: dropdownType,
-                        iconSize: 20,
-                        iconEnabledColor: Color(0xFF4CAF50),
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownType = newValue!;
-                            _requiredFilter = false;
-                            if (dropdownType != null) {
-                              getList_TypeMakanan();
-                            } else {}
-                          });
-                        },
-                        isDense: true,
-                        underline: SizedBox.shrink(),
-                        items: typeList?.map((item) {
-                              return DropdownMenuItem(
-                                child: Text(
-                                  item['Name'],
-                                  style:
-                                      GoogleFonts.openSans(color: Colors.black),
-                                ),
-                                value: item['id'].toString(),
-                              );
-                            }).toList() ??
-                            [],
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        _model1.foodType,
+                        style: GoogleFonts.openSans(color: Colors.black),
                       )),
                 ],
               ),
@@ -1832,45 +1800,16 @@ class _MainPageState extends State<MainPage> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
+                      height: MediaQuery.of(context).size.height * 0.05,
                       width: double.infinity,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                       decoration: BoxDecoration(
                           border: Border.all(width: 0.5, color: Colors.black),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: DropdownButton<String>(
-                        hint: Text(
-                          "Pilih Waktu Makanan",
-                          style: GoogleFonts.openSans(color: Colors.grey),
-                        ),
-                        isExpanded: true,
-                        value: dropdownType,
-                        iconSize: 20,
-                        iconEnabledColor: Color(0xFF4CAF50),
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownType = newValue!;
-                            _requiredFilter = false;
-                            if (dropdownType != null) {
-                              getList_TypeMakanan();
-                            } else {}
-                          });
-                        },
-                        isDense: true,
-                        underline: SizedBox.shrink(),
-                        items: typeList?.map((item) {
-                              return DropdownMenuItem(
-                                child: Text(
-                                  item['Name'],
-                                  style:
-                                      GoogleFonts.openSans(color: Colors.black),
-                                ),
-                                value: item['id'].toString(),
-                              );
-                            }).toList() ??
-                            [],
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        _model2.foodType,
+                        style: GoogleFonts.openSans(color: Colors.black),
                       )),
                 ],
               ),
@@ -2055,45 +1994,16 @@ class _MainPageState extends State<MainPage> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
+                      height: MediaQuery.of(context).size.height * 0.05,
                       width: double.infinity,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                       decoration: BoxDecoration(
                           border: Border.all(width: 0.5, color: Colors.black),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: DropdownButton<String>(
-                        hint: Text(
-                          "Pilih Waktu Makanan",
-                          style: GoogleFonts.openSans(color: Colors.grey),
-                        ),
-                        isExpanded: true,
-                        value: dropdownType,
-                        iconSize: 20,
-                        iconEnabledColor: Color(0xFF4CAF50),
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownType = newValue!;
-                            _requiredFilter = false;
-                            if (dropdownType != null) {
-                              getList_TypeMakanan();
-                            } else {}
-                          });
-                        },
-                        isDense: true,
-                        underline: SizedBox.shrink(),
-                        items: typeList?.map((item) {
-                              return DropdownMenuItem(
-                                child: Text(
-                                  item['Name'],
-                                  style:
-                                      GoogleFonts.openSans(color: Colors.black),
-                                ),
-                                value: item['id'].toString(),
-                              );
-                            }).toList() ??
-                            [],
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        _model3.foodType,
+                        style: GoogleFonts.openSans(color: Colors.black),
                       )),
                 ],
               ),

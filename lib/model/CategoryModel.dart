@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final foodModel = foodModelFromJson(jsonString);
+//     final categoryModel = categoryModelFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-CategoryModel foodModelFromJson(String str) =>
+CategoryModel categoryModelFromJson(String str) =>
     CategoryModel.fromJson(json.decode(str));
 
-String foodModelToJson(CategoryModel data) => json.encode(data.toJson());
+String categoryModelToJson(CategoryModel data) => json.encode(data.toJson());
 
 class CategoryModel {
   CategoryModel({
@@ -41,6 +41,7 @@ class DatumCategory {
     required this.foodName,
     required this.portion,
     required this.uom,
+    required this.foodType,
     required this.calories,
     required this.carbohydrate,
     required this.fat,
@@ -53,6 +54,7 @@ class DatumCategory {
   String foodName;
   String portion;
   String uom;
+  String foodType;
   String calories;
   String carbohydrate;
   String fat;
@@ -65,6 +67,7 @@ class DatumCategory {
         foodName: json["FoodName"],
         portion: json["Portion"],
         uom: json["Uom"],
+        foodType: json["FoodType"],
         calories: json["Calories"],
         carbohydrate: json["Carbohydrate"],
         fat: json["Fat"],
@@ -78,6 +81,7 @@ class DatumCategory {
         "FoodName": foodName,
         "Portion": portion,
         "Uom": uom,
+        "FoodType": foodType,
         "Calories": calories,
         "Carbohydrate": carbohydrate,
         "Fat": fat,
