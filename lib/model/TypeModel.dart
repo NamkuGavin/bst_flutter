@@ -1,14 +1,13 @@
 // To parse this JSON data, do
 //
-//     final favoriteModel = favoriteModelFromJson(jsonString);
+//     final typeModel = typeModelFromJson(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-TypeModel favoriteModelFromJson(String str) =>
-    TypeModel.fromJson(json.decode(str));
+TypeModel typeModelFromJson(String str) => TypeModel.fromJson(json.decode(str));
 
-String favoriteModelToJson(TypeModel data) => json.encode(data.toJson());
+String typeModelToJson(TypeModel data) => json.encode(data.toJson());
 
 class TypeModel {
   TypeModel({
@@ -24,7 +23,8 @@ class TypeModel {
   factory TypeModel.fromJson(Map<String, dynamic> json) => TypeModel(
         response: json["response"],
         message: json["message"],
-        data: List<DatumType>.from(json["Data"].map((x) => DatumType.fromJson(x))),
+        data: List<DatumType>.from(
+            json["Data"].map((x) => DatumType.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +40,7 @@ class DatumType {
     required this.foodName,
     required this.portion,
     required this.uom,
+    required this.foodType,
     required this.calories,
     required this.carbohydrate,
     required this.fat,
@@ -52,6 +53,7 @@ class DatumType {
   String foodName;
   String portion;
   String uom;
+  String foodType;
   String calories;
   String carbohydrate;
   String fat;
@@ -64,6 +66,7 @@ class DatumType {
         foodName: json["FoodName"],
         portion: json["Portion"],
         uom: json["Uom"],
+        foodType: json["FoodType"],
         calories: json["Calories"],
         carbohydrate: json["Carbohydrate"],
         fat: json["Fat"],
@@ -77,6 +80,7 @@ class DatumType {
         "FoodName": foodName,
         "Portion": portion,
         "Uom": uom,
+        "FoodType": foodType,
         "Calories": calories,
         "Carbohydrate": carbohydrate,
         "Fat": fat,
