@@ -1,8 +1,11 @@
 import 'package:bst/model/NotifModel.dart';
+import 'package:bst/notification_detail.dart';
+import 'package:bst/notification_list.dart';
 import 'package:bst/reuse/NotifItems.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class AllNotifications extends StatefulWidget {
   const AllNotifications({Key? key}) : super(key: key);
@@ -12,45 +15,6 @@ class AllNotifications extends StatefulWidget {
 }
 
 class _AllNotificationsState extends State<AllNotifications> {
-  List<NotifModel> items = [
-    NotifModel(
-        'Lindsey Vaccaro',
-        '05:45',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        true,
-        1),
-    NotifModel(
-        'Lindsey Vaccaro',
-        '05:45',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        false,
-        1),
-    NotifModel(
-        'Lindsey Vaccaro',
-        '05:45',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        true,
-        0),
-    NotifModel(
-        'Lindsey Vaccaro',
-        '05:45',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        true,
-        0),
-    NotifModel(
-        'Lindsey Vaccaro',
-        '05:45',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        true,
-        1),
-    NotifModel(
-        'Lindsey Vaccaro',
-        '05:45',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus sed sodales.',
-        true,
-        0)
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,7 +29,9 @@ class _AllNotificationsState extends State<AllNotifications> {
                 Text(
                   'Hari ini Kamu belum memasukkan informasi ukuran dan berat badan. ',
                   style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w600, fontSize: 12,),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
                 ),
                 SizedBox(
                   height: 12,
@@ -90,13 +56,7 @@ class _AllNotificationsState extends State<AllNotifications> {
           SizedBox(
             height: 16,
           ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return NotifItems(model: items[index]);
-                }),
-          )
+          MessageList(),
         ],
       ),
     );

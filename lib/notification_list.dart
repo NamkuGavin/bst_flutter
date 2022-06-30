@@ -1,0 +1,53 @@
+import 'package:bst/notification_detail.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+
+class MessageList extends StatefulWidget {
+  const MessageList({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MessageList();
+}
+
+class _MessageList extends State<MessageList> {
+  List<RemoteMessage> _messages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      setState(() {
+        _messages = [..._messages, message];
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_messages.isEmpty) {
+      return const Text('No messages received');
+    }
+
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: _messages.length,
+        itemBuilder: (context, index) {
+          RemoteMessage message = _messages[index];
+
+          return ListTile(
+            title: Text(
+              message.notification?.title ?? 'N/D',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle:
+                Text(message.sentTime?.toString() ?? DateTime.now().toString()),
+            trailing: const Icon(
+              Icons.notifications_active,
+              color: Colors.red,
+            ),
+            onTap: () => Navigator.pushNamed(context, '/message',
+                arguments: MessageArguments(message, false)),
+          );
+        });
+  }
+}

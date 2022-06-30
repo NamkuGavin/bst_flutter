@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "122036145228",
+    "project_id": "bst-notification",
+    "storage_bucket": "bst-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122036145228:android:1bd6e30d10f891639778e9",
+        "android_client_info": {
+          "package_name": "com.example.bst"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122036145228-j3690rbnp4e1v1k97vmg342m7p7oke84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr49htP1iG3QG1RqFdjeXI7rs0NuhCBO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122036145228-j3690rbnp4e1v1k97vmg342m7p7oke84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
