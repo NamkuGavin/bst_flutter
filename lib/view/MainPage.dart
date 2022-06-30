@@ -736,7 +736,8 @@ class _MainPageState extends State<MainPage> {
     return Container(
       width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(color: Colors.grey.shade200),
+      decoration: BoxDecoration(
+          color: Colors.grey.shade200, borderRadius: BorderRadius.circular(25)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -747,7 +748,7 @@ class _MainPageState extends State<MainPage> {
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF4CAF50),
                   fontSize: 16),
-              textAlign: TextAlign.end,
+              textAlign: TextAlign.start,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -756,17 +757,18 @@ class _MainPageState extends State<MainPage> {
               decoration: new InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
-                hintStyle: TextStyle(fontSize: 14),
+                hintStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 14),
                 suffixStyle: GoogleFonts.montserrat(
                     color: Color(0xFFA8A8A8), fontSize: 10),
                 suffixText: 'gr',
-                prefixText: "Karbohidrat",
+                hintText: 'Karbohidrat',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
               ),
             ),
           ),
@@ -779,7 +781,8 @@ class _MainPageState extends State<MainPage> {
     return Container(
       width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(color: Colors.transparent),
+      decoration: BoxDecoration(
+          color: Colors.transparent, borderRadius: BorderRadius.circular(25)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -790,7 +793,7 @@ class _MainPageState extends State<MainPage> {
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF4CAF50),
                   fontSize: 16),
-              textAlign: TextAlign.end,
+              textAlign: TextAlign.start,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -799,17 +802,18 @@ class _MainPageState extends State<MainPage> {
               decoration: new InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
-                hintStyle: TextStyle(fontSize: 14),
+                hintStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 14),
                 suffixStyle: GoogleFonts.montserrat(
                     color: Color(0xFFA8A8A8), fontSize: 10),
                 suffixText: 'gr',
-                prefixText: "Lemak",
+                hintText: 'Lemak',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
               ),
             ),
           ),
@@ -822,7 +826,8 @@ class _MainPageState extends State<MainPage> {
     return Container(
       width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(color: Colors.grey.shade200),
+      decoration: BoxDecoration(
+          color: Colors.grey.shade200, borderRadius: BorderRadius.circular(25)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -833,7 +838,7 @@ class _MainPageState extends State<MainPage> {
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF4CAF50),
                   fontSize: 16),
-              textAlign: TextAlign.end,
+              textAlign: TextAlign.start,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -842,17 +847,18 @@ class _MainPageState extends State<MainPage> {
               decoration: new InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
-                hintStyle: TextStyle(fontSize: 14),
+                hintStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 14),
                 suffixStyle: GoogleFonts.montserrat(
                     color: Color(0xFFA8A8A8), fontSize: 10),
                 suffixText: 'gr',
-                prefixText: "Protein",
+                hintText: 'Protein',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
               ),
             ),
           ),
@@ -865,7 +871,8 @@ class _MainPageState extends State<MainPage> {
     return Container(
       width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(color: Colors.transparent),
+      decoration: BoxDecoration(
+          color: Colors.transparent, borderRadius: BorderRadius.circular(25)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -876,7 +883,7 @@ class _MainPageState extends State<MainPage> {
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF4CAF50),
                   fontSize: 16),
-              textAlign: TextAlign.end,
+              textAlign: TextAlign.start,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -885,17 +892,18 @@ class _MainPageState extends State<MainPage> {
               decoration: new InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
-                hintStyle: TextStyle(fontSize: 14),
+                hintStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 14),
                 suffixStyle: GoogleFonts.montserrat(
                     color: Color(0xFFA8A8A8), fontSize: 10),
                 suffixText: 'gr',
-                prefixText: "Gula",
+                hintText: 'Gula',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
               ),
             ),
           ),
@@ -908,7 +916,8 @@ class _MainPageState extends State<MainPage> {
     return Container(
       width: MediaQuery.of(context).size.width * 0.55,
       padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(color: Colors.grey.shade200),
+      decoration: BoxDecoration(
+          color: Colors.grey.shade200, borderRadius: BorderRadius.circular(25)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -919,7 +928,7 @@ class _MainPageState extends State<MainPage> {
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF4CAF50),
                   fontSize: 16),
-              textAlign: TextAlign.end,
+              textAlign: TextAlign.start,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -928,17 +937,18 @@ class _MainPageState extends State<MainPage> {
               decoration: new InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 labelStyle: TextStyle(fontSize: 14),
-                hintStyle: TextStyle(fontSize: 14),
+                hintStyle: GoogleFonts.montserrat(
+                    color: Color(0xFFA8A8A8), fontSize: 14),
                 suffixStyle: GoogleFonts.montserrat(
                     color: Color(0xFFA8A8A8), fontSize: 10),
                 suffixText: 'gr',
-                prefixText: "Serat",
+                hintText: 'Serat',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 0),
-                ),
+                    borderSide: BorderSide(width: 0),
+                    borderRadius: BorderRadius.circular(25)),
               ),
             ),
           ),
