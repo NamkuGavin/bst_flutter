@@ -24,6 +24,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int? idxUom;
   String? dropdownCategory;
+  int currentPage = 0;
   List? categoryList;
   String? dropdownType;
   List? typeList;
@@ -398,6 +399,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   void initState() {
+    currentPage = 0;
     _requiredFilter = true;
     getList_FavoriteMakanan();
     getType();
@@ -705,16 +707,17 @@ class _MainPageState extends State<MainPage> {
                       ),
                       onPressed: () {
                         saveList_PilihanMakanan();
+                        currentPage = 2;
                         dropdownCategory = null;
                         dropdownType = null;
                         dropdownUom = null;
                         _requiredFilter = true;
-                        mainPageShown = true;
+                        mainPageShown = false;
                         porsiPageMakananCategory = false;
                         porsiPageMakananType = false;
                         porsiPageMakananFavorite = false;
                         inputPageShown = false;
-                        listPageShown = false;
+                        listPageShown = true;
                       },
                       style: ButtonStyle(
                           shape:
@@ -1199,6 +1202,7 @@ class _MainPageState extends State<MainPage> {
                                           child: ElevatedButton(
                                               onPressed: () {
                                                 setState(() {
+                                                  currentPage = 3;
                                                   foodIndex = index;
                                                   mainPageShown = false;
                                                   inputPageShown = false;
@@ -1278,6 +1282,8 @@ class _MainPageState extends State<MainPage> {
                 child: Text('TAMBAH MENU MAKANAN'),
                 onPressed: () {
                   setState(() {
+                    currentPage = 2;
+                    print('Halaman ke: ' + currentPage.toString());
                     mainPageShown = false;
                     porsiPageMakananCategory = false;
                     porsiPageMakananType = false;
@@ -1404,6 +1410,7 @@ class _MainPageState extends State<MainPage> {
                                           child: ElevatedButton(
                                               onPressed: () {
                                                 setState(() {
+                                                  currentPage = 3;
                                                   foodIndex = index;
                                                   mainPageShown = false;
                                                   inputPageShown = false;
@@ -1569,6 +1576,7 @@ class _MainPageState extends State<MainPage> {
                                       child: ElevatedButton(
                                           onPressed: () {
                                             setState(() {
+                                              currentPage = 3;
                                               foodIndex = index;
                                               mainPageShown = false;
                                               inputPageShown = false;
@@ -2271,6 +2279,8 @@ class _MainPageState extends State<MainPage> {
       child: ElevatedButton(
         onPressed: () {
           setState(() {
+            currentPage = 1;
+            print('Halaman ke: ' + currentPage.toString());
             dropdownCategory = null;
             dropdownType = null;
             dropdownUom = null;
@@ -2285,28 +2295,68 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  Future<bool> _willPop() async {
+    switch (currentPage) {
+      case 0:
+        return true;
+      case 1:
+        setState(() {
+          currentPage = 0;
+          inputPageShown = false;
+          mainPageShown = true;
+          listPageShown = false;
+        });
+        return false;
+      case 2:
+        setState(() {
+          currentPage = 1;
+          inputPageShown = false;
+          mainPageShown = false;
+          listPageShown = true;
+        });
+        return false;
+      case 3:
+        setState(() {
+          currentPage = 1;
+          mainPageShown = false;
+          inputPageShown = false;
+          porsiPageMakananCategory =
+          false;
+          porsiPageMakananType = false;
+          porsiPageMakananFavorite =
+          false;
+          listPageShown = true;
+        });
+        return false;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 1,
-          backgroundColor: Colors.white,
-          title: HeaderNavigation(
-            title: '',
+    return WillPopScope(
+      onWillPop: _willPop,
+      child: Scaffold(
+          appBar: AppBar(
+            elevation: 1,
+            backgroundColor: Colors.white,
+            title: HeaderNavigation(
+              title: '',
+            ),
           ),
-        ),
-        body: mainPageShown
-            ? mainPage()
-            : listPageShown
-                ? foodListPage()
-                : porsiPageMakananCategory
-                    ? porsiMakananCategory(itemsCategory[foodIndex])
-                    : porsiPageMakananType
-                        ? porsiMakananType(itemsType[foodIndex])
-                        : porsiPageMakananFavorite
-                            ? porsiMakananFavorite(itemsFavorite[foodIndex])
-                            : inputPageShown
-                                ? inputFoodPage()
-                                : Container());
+          body: mainPageShown
+              ? mainPage()
+              : listPageShown
+                  ? foodListPage()
+                  : porsiPageMakananCategory
+                      ? porsiMakananCategory(itemsCategory[foodIndex])
+                      : porsiPageMakananType
+                          ? porsiMakananType(itemsType[foodIndex])
+                          : porsiPageMakananFavorite
+                              ? porsiMakananFavorite(itemsFavorite[foodIndex])
+                              : inputPageShown
+                                  ? inputFoodPage()
+                                  : Container()),
+    );
   }
 }
