@@ -2320,11 +2320,9 @@ class _MainPageState extends State<MainPage> {
           currentPage = 1;
           mainPageShown = false;
           inputPageShown = false;
-          porsiPageMakananCategory =
-          false;
+          porsiPageMakananCategory = false;
           porsiPageMakananType = false;
-          porsiPageMakananFavorite =
-          false;
+          porsiPageMakananFavorite = false;
           listPageShown = true;
         });
         return false;
