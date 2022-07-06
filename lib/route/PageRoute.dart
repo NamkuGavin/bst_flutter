@@ -1,4 +1,5 @@
 import 'package:bst/notification_detail.dart';
+import 'package:bst/route/tab_navigator.dart';
 import 'package:bst/view/MainPage.dart';
 import 'package:bst/view/chat/chat_daftar.dart';
 
@@ -73,118 +74,253 @@ class _PageRouteViewState extends State<PageRouteView> {
     });
   }
 
+  String _currentPage = "Page1";
+  List<String> pageKeys = ["Page1", "Page2", "Page3", "Page4", "Page5"];
+  Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
+    "Page1": GlobalKey<NavigatorState>(),
+    "Page2": GlobalKey<NavigatorState>(),
+    "Page3": GlobalKey<NavigatorState>(),
+    "Page4": GlobalKey<NavigatorState>(),
+    "Page5": GlobalKey<NavigatorState>(),
+  };
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  List<Widget> _widgetOptions = <Widget>[
-    MainPage(),
-    Text(
-      'Index 2: Measurement',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Sport',
-      style: optionStyle,
-    ),
-    NotifPage(),
-    ChatDaftar(),
-  ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _selectTab(String tabItem, int index) {
+    if (tabItem == _currentPage) {
+      _navigatorKeys[tabItem]?.currentState?.popUntil((route) => route.isFirst);
+    } else {
+      setState(() {
+        _currentPage = pageKeys[index];
+        _selectedIndex = index;
+      });
+    }
   }
+  // int _selectedIndex = 0;
+  // static const TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // List<Widget> _widgetOptions = <Widget>[
+  //   MainPage(),
+  //   Text(
+  //     'Index 2: Measurement',
+  //     style: optionStyle,
+  //   ),
+  //   Text(
+  //     'Index 3: Sport',
+  //     style: optionStyle,
+  //   ),
+  //   NotifPage(),
+  //   ChatDaftar(),
+  // ];
+  //
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_currentPage]!.currentState!.maybePop();
+        if (isFirstRouteInCurrentTab) {
+          if (_currentPage != "Page1") {
+            _selectTab("Page1", 1);
+
+            return false;
+          }
+        }
+        // let system handle back button if we're on the first route
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+        body: Stack(children: <Widget>[
+          _buildOffstageNavigator("Page1"),
+          _buildOffstageNavigator("Page2"),
+          _buildOffstageNavigator("Page3"),
+          _buildOffstageNavigator("Page4"),
+          _buildOffstageNavigator("Page5"),
+        ]),
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Colors.blueAccent,
+          onTap: (int index) {
+            _selectTab(pageKeys[index], index);
+          },
+          currentIndex: _selectedIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/mainicon.png',
+                    height: 30,
+                  ),
+                  Text("Dashboard",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/meteran.png',
+                    height: 30,
+                  ),
+                  Text("Measurement",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/barbel.png',
+                    height: 30,
+                  ),
+                  Text("Workout",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/article.png',
+                    height: 30,
+                  ),
+                  Text("Social Page",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/chat.png',
+                    height: 30,
+                  ),
+                  Text("Chat",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
+            ),
+          ],
+          type: BottomNavigationBarType.fixed,
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/mainicon.png',
-                  width: 27,
-                  height: 38,
-                ),
-                Text("Dashboard",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/meteran.png',
-                  width: 24,
-                  height: 24,
-                ),
-                Text("Measurement",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/barbel.png',
-                  width: 24,
-                  height: 24,
-                ),
-                Text("Workout",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/article.png',
-                  width: 24,
-                  height: 24,
-                ),
-                Text("Social Page",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/chat.png',
-                  width: 24,
-                  height: 24,
-                ),
-                Text("Chat",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
-            ),
-            label: '',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        // selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+    );
+    // return Scaffold(
+    //   body: Center(
+    //     child: _widgetOptions.elementAt(_selectedIndex),
+    //   ),
+    //   bottomNavigationBar: BottomNavigationBar(
+    //     showSelectedLabels: false,
+    //     showUnselectedLabels: false,
+    //     items: <BottomNavigationBarItem>[
+    //       BottomNavigationBarItem(
+    //         icon: Column(
+    //           children: [
+    //             Image.asset(
+    //               'assets/images/mainicon.png',
+    //               width: 27,
+    //               height: 38,
+    //             ),
+    //             Text("Dashboard",
+    //                 style:
+    //                     TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+    //           ],
+    //         ),
+    //         label: '',
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Column(
+    //           children: [
+    //             Image.asset(
+    //               'assets/images/meteran.png',
+    //               width: 24,
+    //               height: 24,
+    //             ),
+    //             Text("Measurement",
+    //                 style:
+    //                     TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+    //           ],
+    //         ),
+    //         label: '',
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Column(
+    //           children: [
+    //             Image.asset(
+    //               'assets/images/barbel.png',
+    //               width: 24,
+    //               height: 24,
+    //             ),
+    //             Text("Workout",
+    //                 style:
+    //                     TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+    //           ],
+    //         ),
+    //         label: '',
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Column(
+    //           children: [
+    //             Image.asset(
+    //               'assets/images/article.png',
+    //               width: 24,
+    //               height: 24,
+    //             ),
+    //             Text("Social Page",
+    //                 style:
+    //                     TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+    //           ],
+    //         ),
+    //         label: '',
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Column(
+    //           children: [
+    //             Image.asset(
+    //               'assets/images/chat.png',
+    //               width: 24,
+    //               height: 24,
+    //             ),
+    //             Text("Chat",
+    //                 style:
+    //                     TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+    //           ],
+    //         ),
+    //         label: '',
+    //       ),
+    //     ],
+    //     currentIndex: _selectedIndex,
+    //     // selectedItemColor: Colors.amber[800],
+    //     onTap: _onItemTapped,
+    //   ),
+    // );
+  }
+
+  Widget _buildOffstageNavigator(String tabItem) {
+    return Offstage(
+      offstage: _currentPage != tabItem,
+      child: TabNavigator(
+        navigatorKey: _navigatorKeys[tabItem]!,
+        tabItem: tabItem,
       ),
     );
   }
