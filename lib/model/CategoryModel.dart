@@ -66,7 +66,7 @@ class DatumCategory {
         id: json["id"],
         foodName: json["FoodName"],
         portion: json["Portion"],
-        uom: json["Uom"] == null ? "-" : json["Uom"],
+        uom: json["Uom"],
         foodType: json["FoodType"],
         calories: json["Calories"],
         carbohydrate: json["Carbohydrate"],
