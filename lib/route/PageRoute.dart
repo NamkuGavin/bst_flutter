@@ -1,13 +1,19 @@
+import 'dart:convert';
+
+import 'package:bst/main.dart';
 import 'package:bst/notification_detail.dart';
+import 'package:bst/page/chat/chat_daftar.dart';
+import 'package:bst/page/social/social.dart';
+import 'package:bst/page/workout/workout.dart';
 import 'package:bst/route/tab_navigator.dart';
 import 'package:bst/view/MainPage.dart';
-import 'package:bst/view/chat/chat_daftar.dart';
 
 import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/material.dart';
 
 late AndroidNotificationChannel channel;
 
@@ -100,15 +106,9 @@ class _PageRouteViewState extends State<PageRouteView> {
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   // List<Widget> _widgetOptions = <Widget>[
   //   MainPage(),
-  //   Text(
-  //     'Index 2: Measurement',
-  //     style: optionStyle,
-  //   ),
-  //   Text(
-  //     'Index 3: Sport',
-  //     style: optionStyle,
-  //   ),
   //   NotifPage(),
+  //   workout(),
+  //   social(),
   //   ChatDaftar(),
   // ];
   //
@@ -120,6 +120,7 @@ class _PageRouteViewState extends State<PageRouteView> {
 
   @override
   Widget build(BuildContext context) {
+    postfrDB();
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
