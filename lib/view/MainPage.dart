@@ -4,6 +4,7 @@ import 'package:bst/header/HeaderNavigation.dart';
 import 'package:bst/model/CategoryModel.dart';
 import 'package:bst/model/FavoriteModel.dart';
 import 'package:bst/model/TypeModel.dart';
+import 'package:bst/page/list_makanan.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _MainPageState extends State<MainPage> {
   int pageIndicator = 0;
   int foodIndex = 0;
 
-  getList_PilihanMakanan() async {
+  /*getList_PilihanMakanan() async {
     final getUrl = "https://www.zeroone.co.id/bst/food.php";
     print(getUrl);
     Map<String, dynamic> data = {
@@ -2273,21 +2274,14 @@ class _MainPageState extends State<MainPage> {
       ],
     );
   }
-
+*/
   Widget mainPage() {
     return Center(
       child: ElevatedButton(
         onPressed: () {
           setState(() {
-            currentPage = 1;
-            print('Halaman ke: ' + currentPage.toString());
-            dropdownCategory = null;
-            dropdownType = null;
-            dropdownUom = null;
-            _requiredFilter = true;
-            inputPageShown = false;
-            mainPageShown = false;
-            listPageShown = true;
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ListMakanan()));
           });
         },
         child: Text('Pindah'),
@@ -2295,7 +2289,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Future<bool> _willPop() async {
+  /*Future<bool> _willPop() async {
     switch (currentPage) {
       case 0:
         return true;
@@ -2328,33 +2322,18 @@ class _MainPageState extends State<MainPage> {
         return false;
     }
     return false;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _willPop,
-      child: Scaffold(
-          appBar: AppBar(
-            elevation: 1,
-            backgroundColor: Colors.white,
-            title: HeaderNavigation(
-              title: '',
-            ),
+    return Scaffold(
+        appBar: AppBar(
+          elevation: 1,
+          backgroundColor: Colors.white,
+          title: HeaderNavigation(
+            title: '',
           ),
-          body: mainPageShown
-              ? mainPage()
-              : listPageShown
-                  ? foodListPage()
-                  : porsiPageMakananCategory
-                      ? porsiMakananCategory(itemsCategory[foodIndex])
-                      : porsiPageMakananType
-                          ? porsiMakananType(itemsType[foodIndex])
-                          : porsiPageMakananFavorite
-                              ? porsiMakananFavorite(itemsFavorite[foodIndex])
-                              : inputPageShown
-                                  ? inputFoodPage()
-                                  : Container()),
-    );
+        ),
+        body: mainPage());
   }
 }
