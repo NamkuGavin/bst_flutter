@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bst/firebase_config.dart';
 import 'package:bst/notification_detail.dart';
 import 'package:bst/view/notifikasi/NotifPage.dart';
@@ -6,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseConfig.platformOptions);
@@ -24,9 +27,37 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+String encoded1 = "";
+List postListdb = [];
+Future<Null> fetchPost(int id) async {
+  Map<String, dynamic> socbody = {
+    "apikey": "bstapp2022",
+    "action": "check_post",
+    "UserId": id,
+  };
+  encoded1 = base64.encode(utf8.encode(json.encode(socbody)));
+  final dbsoc = await http.post(
+      Uri.parse('https://www.zeroone.co.id/bst/social.php'),
+      body: {"data": encoded1});
+  if (dbsoc.statusCode == 200) {
+    Map<String, dynamic> dbsocresponse = json.decode(dbsoc.body);
+    // print(dbsocresponse);
+    postListdb = dbsocresponse['Data'];
+
+    // workout = jsonDecode(dbwo.body) as List;
+    print(postListdb);
+  } else {
+    throw Exception('Failed to load social post');
+  }
+}
+
+Future<void> postfrDB() async {
+  await fetchPost(1);
+}
+
+
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

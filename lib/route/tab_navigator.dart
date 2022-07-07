@@ -1,5 +1,9 @@
+import 'package:bst/main.dart';
+import 'package:bst/page/CommentPage.dart';
+import 'package:bst/page/chat/chat_daftar.dart';
+import 'package:bst/page/social/social.dart';
+import 'package:bst/page/workout/workout.dart';
 import 'package:bst/view/MainPage.dart';
-import 'package:bst/view/chat/chat_daftar.dart';
 import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:flutter/material.dart';
 
@@ -21,17 +25,11 @@ class _TabNavigatorState extends State<TabNavigator> {
     if (widget.tabItem == "Page1")
       _child = MainPage();
     else if (widget.tabItem == "Page2")
-      _child = Text(
-        'Index 2: Measurement',
-        style: TabNavigator.optionStyle,
-      );
-    else if (widget.tabItem == "Page3")
-      _child = Text(
-        'Index 3: Sport',
-        style: TabNavigator.optionStyle,
-      );
-    else if (widget.tabItem == "Page4")
       _child = NotifPage();
+    else if (widget.tabItem == "Page3")
+      _child = workout();
+    else if (widget.tabItem == "Page4")
+      _child = SocialPage();
     else if (widget.tabItem == "Page5") _child = ChatDaftar();
 
     return Navigator(

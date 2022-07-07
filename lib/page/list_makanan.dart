@@ -14,11 +14,9 @@ import '../model/FavoriteModel.dart';
 import '../model/TypeModel.dart';
 import '../reuse/MyRadioListTile.dart';
 
-
-
 class ListMakanan extends StatefulWidget {
-   ListMakanan({Key? key, this.pageIndicator = 0}) : super(key: key);
-   int pageIndicator = 0;
+  ListMakanan({Key? key, this.pageIndicator = 0}) : super(key: key);
+  int pageIndicator = 0;
   @override
   State<ListMakanan> createState() => _ListMakananState();
 }
@@ -39,8 +37,6 @@ class _ListMakananState extends State<ListMakanan> {
   List<DatumFavorite> itemsFavorite = [];
   List? uomList;
   int foodIndex = 0;
-
-
 
   Future<String> getCategory() async {
     Map<String, dynamic> body = {
@@ -92,7 +88,6 @@ class _ListMakananState extends State<ListMakanan> {
     print(resBody);
     return "Success";
   }
-
 
   getList_PilihanMakanan() async {
     final getUrl = "https://www.zeroone.co.id/bst/food.php";
@@ -228,7 +223,6 @@ class _ListMakananState extends State<ListMakanan> {
     });
   }
 
-
   Widget lineSeparator() {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -317,14 +311,14 @@ class _ListMakananState extends State<ListMakanan> {
                   isDense: true,
                   underline: SizedBox.shrink(),
                   items: categoryList?.map((item) {
-                    return DropdownMenuItem(
-                      child: Text(
-                        item['Name'],
-                        style: GoogleFonts.openSans(color: Colors.black),
-                      ),
-                      value: item['id'].toString(),
-                    );
-                  }).toList() ??
+                        return DropdownMenuItem(
+                          child: Text(
+                            item['Name'],
+                            style: GoogleFonts.openSans(color: Colors.black),
+                          ),
+                          value: item['id'].toString(),
+                        );
+                      }).toList() ??
                       [],
                 )),
             SizedBox(
@@ -339,114 +333,121 @@ class _ListMakananState extends State<ListMakanan> {
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : RefreshIndicator(
-                  onRefresh: _refreshFirstPage,
-                  child: _requiredFilter
-                      ? Center(child: Text("Masukkan kategori makanan"))
-                      : ListView.separated(
-                      itemBuilder: ((context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    itemsCategory[index].foodName,
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF5C5C60)),
-                                  ),
-                                ),
-                                Text(
-                                  itemsCategory[index].calories,
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(
-                                  width: 2,
-                                ),
-                                Text(
-                                  'Kal',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      color: Color(0xFF5C5C60)),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Container(
-                                  width: 28,
-                                  height: 18,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          foodIndex = index;
-                                        });
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => PorsiCategory(datumCategory: itemsCategory[foodIndex])));
-                                      },
-                                      style: ButtonStyle(
-                                          shape: MaterialStateProperty
-                                              .all<RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius
-                                                      .circular(
-                                                      16))),
-                                          backgroundColor:
-                                          MaterialStateProperty.all<
-                                              Color>(
-                                              Color(0xFF99CB57))),
-                                      child: Text(
-                                        '+',
-                                        textAlign: TextAlign.center,
-                                      )),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              itemsCategory[index].portion +
-                                  " " +
-                                  itemsCategory[index].uom,
-                              style: GoogleFonts.openSans(),
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Text(
-                              'K : ' +
-                                  itemsCategory[index].carbohydrate +
-                                  ' |  L : ' +
-                                  itemsCategory[index].fat +
-                                  '  |   P : ' +
-                                  itemsCategory[index].protein +
-                                  '   |   G : ' +
-                                  itemsCategory[index].sugar +
-                                  '   |   S :  ' +
-                                  itemsCategory[index].fiber +
-                                  '  ',
-                              style: GoogleFonts.openSans(fontSize: 13),
-                            ),
-                            SizedBox(
-                              height: 11,
-                            )
-                          ],
-                        );
-                      }),
-                      separatorBuilder:
-                          (BuildContext context, int index) {
-                        return lineSeparator();
-                      },
-                      itemCount: itemsCategory.length)),
+                      onRefresh: _refreshFirstPage,
+                      child: _requiredFilter
+                          ? Center(child: Text("Masukkan kategori makanan"))
+                          : ListView.separated(
+                              itemBuilder: ((context, index) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            itemsCategory[index].foodName,
+                                            style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w700,
+                                                color: Color(0xFF5C5C60)),
+                                          ),
+                                        ),
+                                        Text(
+                                          itemsCategory[index].calories,
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Text(
+                                          'Kal',
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                              color: Color(0xFF5C5C60)),
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Container(
+                                          width: 28,
+                                          height: 18,
+                                          child: ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  foodIndex = index;
+                                                });
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PorsiCategory(
+                                                                datumCategory:
+                                                                    itemsCategory[
+                                                                        foodIndex])));
+                                              },
+                                              style: ButtonStyle(
+                                                  shape: MaterialStateProperty
+                                                      .all<RoundedRectangleBorder>(
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          16))),
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                              Color>(
+                                                          Color(0xFF99CB57))),
+                                              child: Text(
+                                                '+',
+                                                textAlign: TextAlign.center,
+                                              )),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      itemsCategory[index].portion +
+                                          " " +
+                                          itemsCategory[index].uom,
+                                      style: GoogleFonts.openSans(),
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text(
+                                      'K : ' +
+                                          itemsCategory[index].carbohydrate +
+                                          ' |  L : ' +
+                                          itemsCategory[index].fat +
+                                          '  |   P : ' +
+                                          itemsCategory[index].protein +
+                                          '   |   G : ' +
+                                          itemsCategory[index].sugar +
+                                          '   |   S :  ' +
+                                          itemsCategory[index].fiber +
+                                          '  ',
+                                      style: GoogleFonts.openSans(fontSize: 13),
+                                    ),
+                                    SizedBox(
+                                      height: 11,
+                                    )
+                                  ],
+                                );
+                              }),
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return lineSeparator();
+                              },
+                              itemCount: itemsCategory.length)),
             ),
             Container(
               height: 45,
@@ -454,14 +455,15 @@ class _ListMakananState extends State<ListMakanan> {
               child: ElevatedButton(
                 child: Text('TAMBAH MENU MAKANAN'),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => InputMakanan()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => InputMakanan()));
                 },
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24))),
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                        MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
               ),
             ),
           ],
@@ -505,14 +507,14 @@ class _ListMakananState extends State<ListMakanan> {
                   isDense: true,
                   underline: SizedBox.shrink(),
                   items: typeList?.map((item) {
-                    return DropdownMenuItem(
-                      child: Text(
-                        item['Name'],
-                        style: GoogleFonts.openSans(color: Colors.black),
-                      ),
-                      value: item['id'].toString(),
-                    );
-                  }).toList() ??
+                        return DropdownMenuItem(
+                          child: Text(
+                            item['Name'],
+                            style: GoogleFonts.openSans(color: Colors.black),
+                          ),
+                          value: item['id'].toString(),
+                        );
+                      }).toList() ??
                       [],
                 )),
             SizedBox(
@@ -526,113 +528,120 @@ class _ListMakananState extends State<ListMakanan> {
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : RefreshIndicator(
-                onRefresh: _refreshSecondPage,
-                child: _requiredFilter
-                    ? Center(child: Text("Masukkan type makanan"))
-                    : ListView.separated(
-                    itemBuilder: ((context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  itemsType[index].foodName,
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF5C5C60)),
-                                ),
-                              ),
-                              Text(
-                                itemsType[index].calories,
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12),
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Text(
-                                'Kal',
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    color: Color(0xFF5C5C60)),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                width: 28,
-                                height: 18,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      foodIndex = index;
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PorsiType(datumType: itemsType[foodIndex])));
-                                    },
-                                    style: ButtonStyle(
-                                        shape: MaterialStateProperty
-                                            .all<RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(
-                                                    16))),
-                                        backgroundColor:
-                                        MaterialStateProperty.all<
-                                            Color>(
-                                            Color(0xFF99CB57))),
-                                    child: Text(
-                                      '+',
-                                      textAlign: TextAlign.center,
-                                    )),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            itemsType[index].portion +
-                                " " +
-                                itemsType[index].uom,
-                            style: GoogleFonts.openSans(),
-                          ),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            'K : ' +
-                                itemsType[index].carbohydrate +
-                                ' |  L : ' +
-                                itemsType[index].fat +
-                                '  |   P : ' +
-                                itemsType[index].protein +
-                                '   |   G : ' +
-                                itemsType[index].sugar +
-                                '   |   S :  ' +
-                                itemsType[index].fiber +
-                                '  ',
-                            style: GoogleFonts.openSans(fontSize: 13),
-                          ),
-                          SizedBox(
-                            height: 11,
-                          )
-                        ],
-                      );
-                    }),
-                    separatorBuilder:
-                        (BuildContext context, int index) {
-                      return lineSeparator();
-                    },
-                    itemCount: itemsType.length),
-              ),
+                      onRefresh: _refreshSecondPage,
+                      child: _requiredFilter
+                          ? Center(child: Text("Masukkan type makanan"))
+                          : ListView.separated(
+                              itemBuilder: ((context, index) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            itemsType[index].foodName,
+                                            style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w700,
+                                                color: Color(0xFF5C5C60)),
+                                          ),
+                                        ),
+                                        Text(
+                                          itemsType[index].calories,
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Text(
+                                          'Kal',
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                              color: Color(0xFF5C5C60)),
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Container(
+                                          width: 28,
+                                          height: 18,
+                                          child: ElevatedButton(
+                                              onPressed: () {
+                                                foodIndex = index;
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PorsiType(
+                                                                datumType:
+                                                                    itemsType[
+                                                                        foodIndex])));
+                                              },
+                                              style: ButtonStyle(
+                                                  shape: MaterialStateProperty
+                                                      .all<RoundedRectangleBorder>(
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          16))),
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                              Color>(
+                                                          Color(0xFF99CB57))),
+                                              child: Text(
+                                                '+',
+                                                textAlign: TextAlign.center,
+                                              )),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      itemsType[index].portion +
+                                          " " +
+                                          itemsType[index].uom,
+                                      style: GoogleFonts.openSans(),
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text(
+                                      'K : ' +
+                                          itemsType[index].carbohydrate +
+                                          ' |  L : ' +
+                                          itemsType[index].fat +
+                                          '  |   P : ' +
+                                          itemsType[index].protein +
+                                          '   |   G : ' +
+                                          itemsType[index].sugar +
+                                          '   |   S :  ' +
+                                          itemsType[index].fiber +
+                                          '  ',
+                                      style: GoogleFonts.openSans(fontSize: 13),
+                                    ),
+                                    SizedBox(
+                                      height: 11,
+                                    )
+                                  ],
+                                );
+                              }),
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return lineSeparator();
+                              },
+                              itemCount: itemsType.length),
+                    ),
             ),
           ],
         ),
@@ -682,106 +691,105 @@ class _ListMakananState extends State<ListMakanan> {
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : RefreshIndicator(
-                onRefresh: _refreshThirdPage,
-                child: ListView.separated(
-                    itemBuilder: ((context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  itemsFavorite[index].foodName,
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF5C5C60)),
+                      onRefresh: _refreshThirdPage,
+                      child: ListView.separated(
+                          itemBuilder: ((context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                              Text(
-                                itemsFavorite[index].calories,
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12),
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Text(
-                                'Kal',
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    color: Color(0xFF5C5C60)),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                width: 28,
-                                height: 18,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                      });
-                                    },
-                                    style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(
-                                                    16))),
-                                        backgroundColor:
-                                        MaterialStateProperty.all<
-                                            Color>(
-                                            Color(0xFF99CB57))),
-                                    child: Text(
-                                      '+',
-                                      textAlign: TextAlign.center,
-                                    )),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            itemsFavorite[index].portion + ' Mangkok',
-                            style: GoogleFonts.openSans(),
-                          ),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            'K : ' +
-                                itemsFavorite[index].carbohydrate +
-                                ' |  L : ' +
-                                itemsFavorite[index].fat +
-                                '  |   P : ' +
-                                itemsFavorite[index].protein +
-                                '   |   G : ' +
-                                itemsFavorite[index].sugar +
-                                '   |   S :  ' +
-                                itemsFavorite[index].fiber +
-                                '  ',
-                            style: GoogleFonts.openSans(fontSize: 13),
-                          ),
-                          SizedBox(
-                            height: 11,
-                          )
-                        ],
-                      );
-                    }),
-                    separatorBuilder: (BuildContext context, int index) {
-                      return lineSeparator();
-                    },
-                    itemCount: itemsFavorite.length),
-              ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        itemsFavorite[index].foodName,
+                                        style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w700,
+                                            color: Color(0xFF5C5C60)),
+                                      ),
+                                    ),
+                                    Text(
+                                      itemsFavorite[index].calories,
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                      width: 2,
+                                    ),
+                                    Text(
+                                      'Kal',
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          color: Color(0xFF5C5C60)),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Container(
+                                      width: 28,
+                                      height: 18,
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {});
+                                          },
+                                          style: ButtonStyle(
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16))),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Color(0xFF99CB57))),
+                                          child: Text(
+                                            '+',
+                                            textAlign: TextAlign.center,
+                                          )),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  itemsFavorite[index].portion + ' Mangkok',
+                                  style: GoogleFonts.openSans(),
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                Text(
+                                  'K : ' +
+                                      itemsFavorite[index].carbohydrate +
+                                      ' |  L : ' +
+                                      itemsFavorite[index].fat +
+                                      '  |   P : ' +
+                                      itemsFavorite[index].protein +
+                                      '   |   G : ' +
+                                      itemsFavorite[index].sugar +
+                                      '   |   S :  ' +
+                                      itemsFavorite[index].fiber +
+                                      '  ',
+                                  style: GoogleFonts.openSans(fontSize: 13),
+                                ),
+                                SizedBox(
+                                  height: 11,
+                                )
+                              ],
+                            );
+                          }),
+                          separatorBuilder: (BuildContext context, int index) {
+                            return lineSeparator();
+                          },
+                          itemCount: itemsFavorite.length),
+                    ),
             ),
           ],
         ),
@@ -798,6 +806,7 @@ class _ListMakananState extends State<ListMakanan> {
     getCategory();
     _requiredFilter = true;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -868,21 +877,21 @@ class _ListMakananState extends State<ListMakanan> {
               widget.pageIndicator == 1
                   ? firstPage()
                   : widget.pageIndicator == 2
-                  ? secondPage()
-                  : widget.pageIndicator == 3
-                  ? thirdPage()
-                  : Center(
-                child: Container(
-                  margin: EdgeInsets.only(top: 180),
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height:
-                  MediaQuery.of(context).size.height * 0.1,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/mainlogo.png'))),
-                ),
-              ),
+                      ? secondPage()
+                      : widget.pageIndicator == 3
+                          ? thirdPage()
+                          : Center(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 180),
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/mainlogo.png'))),
+                              ),
+                            ),
             ],
           ),
         ),
