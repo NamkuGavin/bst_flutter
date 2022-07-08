@@ -1,5 +1,5 @@
 import 'package:bst/main.dart';
-import 'package:bst/page/CommentPage.dart';
+import 'package:bst/page/SocialPage.dart';
 import 'package:bst/page/chat/chat_daftar.dart';
 import 'package:bst/page/social/social.dart';
 import 'package:bst/page/workout/workout.dart';
