@@ -25,11 +25,11 @@ class _TabNavigatorState extends State<TabNavigator> {
     if (widget.tabItem == "Page1")
       _child = MainPage();
     else if (widget.tabItem == "Page2")
-      _child = NotifPage();
+      _child = Center(child: Text("Measurement"));
     else if (widget.tabItem == "Page3")
       _child = workout();
     else if (widget.tabItem == "Page4")
-      _child = SocialPage();
+      _child = social();
     else if (widget.tabItem == "Page5") _child = ChatDaftar();
 
     return Navigator(
