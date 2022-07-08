@@ -1,3 +1,4 @@
+import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:flutter/material.dart';
 
 class HeaderNavigation extends StatelessWidget {
@@ -33,7 +34,7 @@ class HeaderNavigationViewState extends State<HeaderNavigationView> {
     return Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-            color: Colors.white,// changes position of shadow
+            color: Colors.white, // changes position of shadow
           ),
         ]),
         padding: EdgeInsets.only(top: 15, bottom: 10, right: 20),
@@ -55,7 +56,10 @@ class HeaderNavigationViewState extends State<HeaderNavigationView> {
                 //   },
                 // ),
                 GestureDetector(
-                  onTapDown: (TapDownDetails details) {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => NotifPage()));
+                  },
                   child: Container(
                       width: 30,
                       height: 30,
