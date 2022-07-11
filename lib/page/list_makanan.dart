@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bst/page/input_makanan.dart';
 import 'package:bst/page/porsi_category.dart';
+import 'package:bst/page/porsi_favorite.dart';
 import 'package:bst/page/porsi_type.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -735,7 +736,15 @@ class _ListMakananState extends State<ListMakanan> {
                                       height: 18,
                                       child: ElevatedButton(
                                           onPressed: () {
-                                            setState(() {});
+                                            foodIndex = index;
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PorsiFavorite(
+                                                            datumFavorite:
+                                                                itemsFavorite[
+                                                                    foodIndex])));
                                           },
                                           style: ButtonStyle(
                                               shape: MaterialStateProperty.all<
