@@ -248,26 +248,28 @@ class _PorsiCategoryState extends State<PorsiCategory> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-              Container(
-                margin: EdgeInsets.only(left: 275),
-                child: ElevatedButton(
-                    onPressed: () {
-                      save_MakananCategory(widget.datumCategory);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => MainPage()),
-                          (Route<dynamic> route) => false);
-                    },
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5))),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color(0xFF99CB57))),
-                    child: Text(
-                      'Simpan',
-                      textAlign: TextAlign.center,
-                    )),
+              Row(
+                children: [
+                  Expanded(child: SizedBox()),
+                  ElevatedButton(
+                      onPressed: () {
+                        save_MakananCategory(widget.datumCategory);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => MainPage()),
+                            (Route<dynamic> route) => false);
+                      },
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5))),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color(0xFF99CB57))),
+                      child: Text(
+                        'Simpan',
+                        textAlign: TextAlign.center,
+                      )),
+                ],
               )
             ],
           ),
