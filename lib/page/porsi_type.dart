@@ -262,7 +262,9 @@ class _PorsiTypeState extends State<PorsiType> {
                 child: ElevatedButton(
                     onPressed: () {
                       save_MakananType(widget.datumType);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => MainPage()),
+                              (Route<dynamic> route) => false);
                     },
                     style: ButtonStyle(
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

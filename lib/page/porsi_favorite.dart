@@ -11,11 +11,10 @@ import 'package:http/http.dart' as http;
 import '../header/HeaderNavigation.dart';
 import '../model/FavoriteModel.dart';
 
-
 class PorsiFavorite extends StatefulWidget {
-  const PorsiFavorite({Key? key, required this.datumFavorite}) : super(key: key);
+  const PorsiFavorite({Key? key, required this.datumFavorite})
+      : super(key: key);
   final DatumFavorite datumFavorite;
-
 
   @override
   State<PorsiFavorite> createState() => _PorsiFavoriteState();
@@ -89,12 +88,10 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           child: Column(
@@ -145,13 +142,14 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
                             autocorrect: true,
                             enableSuggestions: true,
                             decoration: InputDecoration(
-                              contentPadding:
-                              EdgeInsets.only(left: 18, top: 12, bottom: 12),
+                              contentPadding: EdgeInsets.only(
+                                  left: 18, top: 12, bottom: 12),
                               isDense: true,
                               filled: true,
                               fillColor: Colors.transparent,
                               hintText: 'Ubah Porsi',
-                              hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                              hintStyle:
+                                  GoogleFonts.openSans(color: Colors.grey),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(width: 0.5),
                                 borderRadius: BorderRadius.circular(25),
@@ -170,12 +168,13 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 7),
                               decoration: BoxDecoration(
-                                  border:
-                                  Border.all(width: 0.5, color: Colors.black),
+                                  border: Border.all(
+                                      width: 0.5, color: Colors.black),
                                   borderRadius: BorderRadius.circular(50)),
                               child: Text(
                                 widget.datumFavorite.uom,
-                                style: GoogleFonts.openSans(color: Colors.black),
+                                style:
+                                    GoogleFonts.openSans(color: Colors.black),
                               )),
                         ),
                       ],
@@ -185,7 +184,7 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
                         height: MediaQuery.of(context).size.height * 0.05,
                         width: double.infinity,
                         padding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                         decoration: BoxDecoration(
                             border: Border.all(width: 0.5, color: Colors.black),
                             borderRadius: BorderRadius.circular(50)),
@@ -218,7 +217,8 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
                   children: [
                     Text(
                       "Informasi Nutrisi",
-                      style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+                      style:
+                          GoogleFonts.montserrat(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
@@ -262,14 +262,17 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
                 child: ElevatedButton(
                     onPressed: () {
                       save_MakananFavorite(widget.datumFavorite);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => MainPage()),
+                          (Route<dynamic> route) => false);
                     },
                     style: ButtonStyle(
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5))),
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5))),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xFF99CB57))),
                     child: Text(
                       'Simpan',
                       textAlign: TextAlign.center,
@@ -279,7 +282,7 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
           ),
         ),
       ),
-      appBar:  AppBar(
+      appBar: AppBar(
         elevation: 1,
         backgroundColor: Colors.white,
         title: HeaderNavigation(

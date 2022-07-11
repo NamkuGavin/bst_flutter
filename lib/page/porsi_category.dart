@@ -10,11 +10,10 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import '../header/HeaderNavigation.dart';
 
-
 class PorsiCategory extends StatefulWidget {
-  const PorsiCategory({Key? key, required this.datumCategory}) : super(key: key);
+  const PorsiCategory({Key? key, required this.datumCategory})
+      : super(key: key);
   final DatumCategory datumCategory;
-
 
   @override
   State<PorsiCategory> createState() => _PorsiCategoryState();
@@ -22,7 +21,6 @@ class PorsiCategory extends StatefulWidget {
 
 class _PorsiCategoryState extends State<PorsiCategory> {
   TextEditingController porsiControl = TextEditingController();
-  bool _isLoading = false;
 
   Widget tableNutrisi(String name, String gr) {
     return Column(
@@ -72,18 +70,9 @@ class _PorsiCategoryState extends State<PorsiCategory> {
       body: {'data': dataBase64},
     );
     if (res.statusCode == 200) {
-      setState(() {
-        _isLoading = true;
-      });
       jsonDecode(res.body);
-      setState(() {
-        _isLoading = false;
-      });
     } else {
       Map<String, dynamic> body = jsonDecode(res.body);
-      setState(() {
-        _isLoading = false;
-      });
       Fluttertoast.showToast(
         msg: body['message'],
       );
@@ -93,7 +82,7 @@ class _PorsiCategoryState extends State<PorsiCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           child: Column(
@@ -144,13 +133,14 @@ class _PorsiCategoryState extends State<PorsiCategory> {
                             autocorrect: true,
                             enableSuggestions: true,
                             decoration: InputDecoration(
-                              contentPadding:
-                              EdgeInsets.only(left: 18, top: 12, bottom: 12),
+                              contentPadding: EdgeInsets.only(
+                                  left: 18, top: 12, bottom: 12),
                               isDense: true,
                               filled: true,
                               fillColor: Colors.transparent,
                               hintText: 'Ubah Porsi',
-                              hintStyle: GoogleFonts.openSans(color: Colors.grey),
+                              hintStyle:
+                                  GoogleFonts.openSans(color: Colors.grey),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(width: 0.5),
                                 borderRadius: BorderRadius.circular(25),
@@ -169,12 +159,13 @@ class _PorsiCategoryState extends State<PorsiCategory> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 7),
                               decoration: BoxDecoration(
-                                  border:
-                                  Border.all(width: 0.5, color: Colors.black),
+                                  border: Border.all(
+                                      width: 0.5, color: Colors.black),
                                   borderRadius: BorderRadius.circular(50)),
                               child: Text(
                                 widget.datumCategory.uom,
-                                style: GoogleFonts.openSans(color: Colors.black),
+                                style:
+                                    GoogleFonts.openSans(color: Colors.black),
                               )),
                         ),
                       ],
@@ -184,7 +175,7 @@ class _PorsiCategoryState extends State<PorsiCategory> {
                         height: MediaQuery.of(context).size.height * 0.05,
                         width: double.infinity,
                         padding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                         decoration: BoxDecoration(
                             border: Border.all(width: 0.5, color: Colors.black),
                             borderRadius: BorderRadius.circular(50)),
@@ -217,7 +208,8 @@ class _PorsiCategoryState extends State<PorsiCategory> {
                   children: [
                     Text(
                       "Informasi Nutrisi",
-                      style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+                      style:
+                          GoogleFonts.montserrat(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
@@ -260,15 +252,18 @@ class _PorsiCategoryState extends State<PorsiCategory> {
                 margin: EdgeInsets.only(left: 275),
                 child: ElevatedButton(
                     onPressed: () {
-                        save_MakananCategory(widget.datumCategory);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+                      save_MakananCategory(widget.datumCategory);
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => MainPage()),
+                          (Route<dynamic> route) => false);
                     },
                     style: ButtonStyle(
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5))),
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Color(0xFF99CB57))),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5))),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xFF99CB57))),
                     child: Text(
                       'Simpan',
                       textAlign: TextAlign.center,
@@ -278,7 +273,7 @@ class _PorsiCategoryState extends State<PorsiCategory> {
           ),
         ),
       ),
-      appBar:  AppBar(
+      appBar: AppBar(
         elevation: 1,
         backgroundColor: Colors.white,
         title: HeaderNavigation(

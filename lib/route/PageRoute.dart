@@ -98,7 +98,6 @@ class _PageRouteViewState extends State<PageRouteView> {
       setState(() {
         _currentPage = pageKeys[index];
         _selectedIndex = index;
-        print("Page ke-:" + _selectedIndex.toString());
       });
     }
   }
@@ -122,93 +121,104 @@ class _PageRouteViewState extends State<PageRouteView> {
   @override
   Widget build(BuildContext context) {
     postfrDB();
-    return Scaffold(
-      body: Stack(children: <Widget>[
-        _buildOffstageNavigator("Page1"),
-        _buildOffstageNavigator("Page2"),
-        _buildOffstageNavigator("Page3"),
-        _buildOffstageNavigator("Page4"),
-        _buildOffstageNavigator("Page5"),
-      ]),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blueAccent,
-        onTap: (int index) {
-          _selectTab(pageKeys[index], index);
-        },
-        currentIndex: _selectedIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/mainicon.png',
-                  height: 30,
-                ),
-                Text("Dashboard",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_currentPage]!.currentState!.maybePop();
+        if (isFirstRouteInCurrentTab) {
+          return true;
+        }
+        // let system handle back button if we're on the first route
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+        body: Stack(children: <Widget>[
+          _buildOffstageNavigator("Page1"),
+          _buildOffstageNavigator("Page2"),
+          _buildOffstageNavigator("Page3"),
+          _buildOffstageNavigator("Page4"),
+          _buildOffstageNavigator("Page5"),
+        ]),
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Colors.blueAccent,
+          onTap: (int index) {
+            _selectTab(pageKeys[index], index);
+          },
+          currentIndex: _selectedIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/mainicon.png',
+                    height: 30,
+                  ),
+                  Text("Dashboard",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
             ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/meteran.png',
-                  height: 30,
-                ),
-                Text("Measurement",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/meteran.png',
+                    height: 30,
+                  ),
+                  Text("Measurement",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
             ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/barbel.png',
-                  height: 30,
-                ),
-                Text("Workout",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/barbel.png',
+                    height: 30,
+                  ),
+                  Text("Workout",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
             ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/article.png',
-                  height: 30,
-                ),
-                Text("Social Page",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/article.png',
+                    height: 30,
+                  ),
+                  Text("Social Page",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
             ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Column(
-              children: [
-                Image.asset(
-                  'assets/images/chat.png',
-                  height: 30,
-                ),
-                Text("Chat",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
-              ],
+            BottomNavigationBarItem(
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/chat.png',
+                    height: 30,
+                  ),
+                  Text("Chat",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+              ),
+              label: '',
             ),
-            label: '',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
+          ],
+          type: BottomNavigationBarType.fixed,
+        ),
       ),
     );
     // return Scaffold(
