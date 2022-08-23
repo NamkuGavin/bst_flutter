@@ -1,3 +1,4 @@
+import 'package:bst/page/workout/workoutWOdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -47,153 +48,63 @@ class _VideoPlayState extends State<VideoPlay> {
       future: futureController,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: SizedBox(
-              height: controller!.value.size.height,
-              width: double.infinity,
-              child: AspectRatio(
-                  aspectRatio: controller!.value.aspectRatio,
-                  child: Stack(children: [
-                    Positioned.fill(
-                        child: Container(
-                            foregroundDecoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Colors.black.withOpacity(.7),
-                                    Colors.transparent
-                                  ],
-                                  stops: [
-                                    0,
-                                    .3
-                                  ],
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter),
-                            ),
-                            child: VideoPlayer(controller!))),
-                    Positioned.fill(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 8,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: GestureDetector(
-                                    onDoubleTap: () async {
-                                      Duration? position =
-                                          await controller!.position;
-                                      setState(() {
-                                        controller!.seekTo(Duration(
-                                            seconds: position!.inSeconds - 10));
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.fast_rewind_rounded,
-                                      color: Colors.black,
-                                      size: 40,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                    flex: 4,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        controller!.value.isPlaying
-                                            ? Icons.pause
-                                            : Icons.play_arrow,
-                                        color: Colors.black,
-                                        size: 40,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          if (controller!.value.isPlaying) {
-                                            controller!.pause();
-                                          } else {
-                                            controller!.play();
-                                          }
-                                        });
-                                      },
-                                    )),
-                                Expanded(
-                                  flex: 3,
-                                  child: GestureDetector(
-                                    onDoubleTap: () async {
-                                      Duration? position =
-                                          await controller!.position;
-                                      setState(() {
-                                        controller!.seekTo(Duration(
-                                            seconds: position!.inSeconds + 10));
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.fast_forward_rounded,
-                                      color: Colors.black,
-                                      size: 40,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                              flex: 2,
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: ValueListenableBuilder(
-                                    valueListenable: currentPosition,
-                                    builder: (context,
-                                        VideoPlayerValue? videoPlayerValue, w) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              videoPlayerValue!.position
-                                                  .toString()
-                                                  .substring(
-                                                      videoPlayerValue.position
-                                                              .toString()
-                                                              .indexOf(':') +
-                                                          1,
-                                                      videoPlayerValue.position
-                                                          .toString()
-                                                          .indexOf('.')),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 22),
-                                            ),
-                                            Spacer(),
-                                            Text(
-                                              videoPlayerValue.duration
-                                                  .toString()
-                                                  .substring(
-                                                      videoPlayerValue.duration
-                                                              .toString()
-                                                              .indexOf(':') +
-                                                          1,
-                                                      videoPlayerValue.duration
-                                                          .toString()
-                                                          .indexOf('.')),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 22),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                              ))
-                        ],
-                      ),
-                    ),
-                  ])),
+          return Container(
+            height: 250,
+            child: Center(
+              child: CircularProgressIndicator(),
             ),
           );
+        } else {
+          return AspectRatio(
+              aspectRatio: controller!.value.aspectRatio,
+              child: Stack(children: [
+                VideoPlayer(controller!),
+                ClosedCaption(text: null),
+                Align(
+                  alignment: Alignment.center,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        if (controller!.value.isPlaying) {
+                          controller!.pause();
+                        } else {
+                          controller!.play();
+                        }
+                      });
+                    },
+                    child: Icon(
+                      controller!.value.isPlaying
+                          ? Icons.pause
+                          : Icons.play_arrow,
+                    ),
+                    backgroundColor: Colors.blueGrey.withOpacity(0.0),
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Container(
+                        width: 150,
+                        child: Text(woVidList[0]['VideoTitle'],
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                              fontSize: 11,
+                            )),
+                      ),
+                    )),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: VideoProgressIndicator(
+                    controller!,
+                    allowScrubbing: true,
+                    padding: EdgeInsets.all(3),
+                    colors: VideoProgressColors(
+                        playedColor: Colors.blueGrey.withOpacity(0.0)),
+                  ),
+                ),
+              ]));
         }
       },
     );
