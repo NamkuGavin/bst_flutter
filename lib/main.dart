@@ -2,6 +2,12 @@ import 'dart:convert';
 
 import 'package:bst/firebase_config.dart';
 import 'package:bst/notification_detail.dart';
+import 'package:bst/page/forgotPassword.dart';
+import 'package:bst/page/intro.dart';
+import 'package:bst/page/login.dart';
+import 'package:bst/page/onboarding.dart';
+import 'package:bst/page/register_done.dart';
+import 'package:bst/page/register_stepper.dart';
 import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:bst/route/PageRoute.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +32,9 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MyApp());
 }
+
+int idUser = -1;
+String name = "Unknown";
 
 String encoded1 = "";
 List postListdb = [];
@@ -55,7 +64,6 @@ Future<void> postfrDB() async {
   await fetchPost(1);
 }
 
-
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   @override
@@ -66,8 +74,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      home: Intro(),
       routes: {
-        '/': (context) => PageRouteView(),
+        '/intro': (context) => Intro(),
+        '/onboarding': (context) => OnboardingPage(),
+        '/register': (context) => RegisterPage(),
+        '/registersuccess': (context) => RegisterSuccessPage(),
+        '/login': (context) => LoginPage(),
+        '/forgotpass': (context) => ForgotPassPage(),
+        '/pagerouteview': (context) => PageRouteView(),
         '/message': (context) => MessageView(),
       },
     );
