@@ -29,7 +29,7 @@ class _TabNavigatorState extends State<TabNavigator> {
     else if (widget.tabItem == "Page3")
       _child = workout();
     else if (widget.tabItem == "Page4")
-      _child = social();
+      _child = Center(child: Text("Social"));
     else if (widget.tabItem == "Page5") _child = ChatDaftar();
 
     return Navigator(

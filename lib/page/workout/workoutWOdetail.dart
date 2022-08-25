@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bst/header/HeaderNavigation.dart';
 import 'package:bst/page/workout/videoPlay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,13 @@ class _woVidDetailState extends State<woVidDetail> {
     fetchWoVid(widget.woId);
     return SafeArea(
       child: Scaffold(
+          appBar: AppBar(
+            elevation: 1,
+            backgroundColor: Colors.white,
+            title: HeaderNavigation(
+              title: '',
+            ),
+          ),
           body: SingleChildScrollView(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
