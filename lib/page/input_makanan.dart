@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bst/page/list_makanan.dart';
+import 'package:bst/server.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -43,7 +44,7 @@ class _InputMakananState extends State<InputMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = "https://www.zeroone.co.id/bst/food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -60,7 +61,7 @@ class _InputMakananState extends State<InputMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = "https://www.zeroone.co.id/bst/food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -77,7 +78,7 @@ class _InputMakananState extends State<InputMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = "https://www.zeroone.co.id/bst/food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -314,7 +315,7 @@ class _InputMakananState extends State<InputMakanan> {
   }
 
   saveList_PilihanMakanan() async {
-    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    final getUrl = ServerConfig.newUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",

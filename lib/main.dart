@@ -9,6 +9,7 @@ import 'package:bst/page/onboarding.dart';
 import 'package:bst/page/register_done.dart';
 import 'package:bst/page/register_socmed.dart';
 import 'package:bst/page/register_stepper.dart';
+import 'package:bst/server.dart';
 import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:bst/route/PageRoute.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -47,7 +48,7 @@ Future<Null> fetchPost(int id) async {
   };
   encoded1 = base64.encode(utf8.encode(json.encode(socbody)));
   final dbsoc = await http.post(
-      Uri.parse('https://www.zeroone.co.id/bst/social.php'),
+      Uri.parse(ServerConfig.newUrl + 'social.php'),
       body: {"data": encoded1});
   if (dbsoc.statusCode == 200) {
     Map<String, dynamic> dbsocresponse = json.decode(dbsoc.body);

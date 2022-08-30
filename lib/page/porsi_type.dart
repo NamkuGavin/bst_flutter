@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bst/model/CategoryModel.dart';
 import 'package:bst/model/TypeModel.dart';
 import 'package:bst/page/list_makanan.dart';
+import 'package:bst/server.dart';
 import 'package:bst/view/MainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -52,7 +53,7 @@ class _PorsiTypeState extends State<PorsiType> {
   }
 
   save_MakananType(DatumType _type) async {
-    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    final getUrl = ServerConfig.newUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",

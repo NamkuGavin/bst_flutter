@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bst/header/HeaderNavigation.dart';
 import 'package:bst/page/workout/gymWO.dart';
 import 'package:bst/page/workout/workoutWO.dart';
+import 'package:bst/server.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ Future<Null> fetchWorkout(int id) async {
     encoded1 = base64.encode(utf8.encode(json.encode(wogymbody)));
   }
   final dbwo = await http.post(
-      Uri.parse('https://www.zeroone.co.id/bst/workout.php'),
+      Uri.parse(ServerConfig.newUrl + 'workout.php'),
       body: {"data": encoded1});
   if (dbwo.statusCode == 200) {
     Map<String, dynamic> dbworesponse = json.decode(dbwo.body);

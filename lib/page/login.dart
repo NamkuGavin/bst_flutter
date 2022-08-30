@@ -1,4 +1,5 @@
 import 'package:bst/main.dart';
+import 'package:bst/server.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     };
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse('https://www.zeroone.co.id/bst/home.php'),
+        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
