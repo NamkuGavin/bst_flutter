@@ -1,4 +1,5 @@
 import 'package:bst/main.dart';
+import 'package:bst/server.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
     };
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse('https://www.zeroone.co.id/bst/home.php'),
+        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
@@ -102,7 +103,7 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
     };
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse('https://www.zeroone.co.id/bst/home.php'),
+        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
@@ -137,7 +138,7 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
     };
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse('https://www.zeroone.co.id/bst/home.php'),
+        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));

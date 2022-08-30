@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bst/model/TypeModel.dart';
 import 'package:bst/page/list_makanan.dart';
+import 'package:bst/server.dart';
 import 'package:bst/view/MainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -53,7 +54,7 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
   }
 
   save_MakananFavorite(DatumFavorite _favorite) async {
-    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    final getUrl = ServerConfig.newUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",

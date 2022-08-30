@@ -14,6 +14,7 @@ import '../model/CategoryModel.dart';
 import '../model/FavoriteModel.dart';
 import '../model/TypeModel.dart';
 import '../reuse/MyRadioListTile.dart';
+import '../server.dart';
 
 class ListMakanan extends StatefulWidget {
   ListMakanan({Key? key, this.pageIndicator = 0}) : super(key: key);
@@ -46,7 +47,7 @@ class _ListMakananState extends State<ListMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = "https://www.zeroone.co.id/bst/food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -63,7 +64,7 @@ class _ListMakananState extends State<ListMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = "https://www.zeroone.co.id/bst/food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -80,7 +81,7 @@ class _ListMakananState extends State<ListMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = "https://www.zeroone.co.id/bst/food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -91,7 +92,7 @@ class _ListMakananState extends State<ListMakanan> {
   }
 
   getList_PilihanMakanan() async {
-    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    final getUrl = ServerConfig.newUrl +  "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",
@@ -126,7 +127,7 @@ class _ListMakananState extends State<ListMakanan> {
   }
 
   getList_TypeMakanan() async {
-    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    final getUrl = ServerConfig.newUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",
@@ -161,7 +162,7 @@ class _ListMakananState extends State<ListMakanan> {
   }
 
   getList_FavoriteMakanan() async {
-    final getUrl = "https://www.zeroone.co.id/bst/food.php";
+    final getUrl = ServerConfig.newUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",
