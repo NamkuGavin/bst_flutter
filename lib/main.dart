@@ -7,6 +7,7 @@ import 'package:bst/page/intro.dart';
 import 'package:bst/page/login.dart';
 import 'package:bst/page/onboarding.dart';
 import 'package:bst/page/register_done.dart';
+import 'package:bst/page/register_socmed.dart';
 import 'package:bst/page/register_stepper.dart';
 import 'package:bst/view/notifikasi/NotifPage.dart';
 import 'package:bst/route/PageRoute.dart';
@@ -74,11 +75,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PageRouteView(),
+      home: Intro(),
       routes: {
         '/intro': (context) => Intro(),
         '/onboarding': (context) => OnboardingPage(),
         '/register': (context) => RegisterPage(),
+        '/registersocmed': (context) => RegisterSocmed(),
         '/registersuccess': (context) => RegisterSuccessPage(),
         '/login': (context) => LoginPage(),
         '/forgotpass': (context) => ForgotPassPage(),

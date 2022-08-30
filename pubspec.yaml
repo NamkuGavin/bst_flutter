@@ -53,8 +53,8 @@ dependencies:
   flutter_switch:
   horizontal_center_date_picker:
   mailto:
-
-
+  google_sign_in:
+  flutter_facebook_auth:
 
 dev_dependencies:
   flutter_test:

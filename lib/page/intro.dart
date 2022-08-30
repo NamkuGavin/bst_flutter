@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Intro extends StatefulWidget {
   Intro({Key? key}) : super(key: key);
@@ -11,6 +14,54 @@ class Intro extends StatefulWidget {
 
 class _IntroState extends State<Intro> {
   final _scaffoldkey = GlobalKey<ScaffoldState>();
+
+  Future _loginGoogle() async {
+    try {
+      final GoogleSignInAccount? account = await GoogleSignIn().signIn();
+
+      if (account == null) {
+        return;
+      }
+
+      print("account id : " + account.id);
+
+      Map<String, dynamic> data = {
+        "id": account.id,
+        "name": account.displayName,
+        "email": account.email,
+      };
+
+      Navigator.pushNamed(context, '/registersocmed', arguments: data);
+
+      GoogleSignIn().signOut();
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      return null;
+    }
+  }
+
+  Future _loginFacebook() async {
+    try {
+      final result = await FacebookAuth.instance.login(
+        permissions: ['public_profile', 'email'],
+      );
+
+      if (result.status == LoginStatus.success) {
+        var data = await FacebookAuth.instance.getUserData();
+
+        print(data);
+
+        Navigator.pushNamed(context, '/registersocmed', arguments: data);
+
+        FacebookAuth.instance.logOut();
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,6 +236,7 @@ class _IntroState extends State<Intro> {
                         child: OutlinedButton(
                           onPressed: () {
                             // Register with Google still not work
+                            _loginGoogle();
                           },
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -216,7 +268,8 @@ class _IntroState extends State<Intro> {
                         width: double.infinity,
                         child: OutlinedButton(
                           onPressed: () {
-                            // Register with Google still not work
+                            // Register with Facebook still not work
+                            _loginFacebook();
                           },
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
