@@ -55,6 +55,7 @@ dependencies:
   mailto:
   google_sign_in:
   flutter_facebook_auth:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:http/http.dart' as http;
@@ -105,7 +106,7 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
     };
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
+        await http.post(Uri.parse(ServerConfig.oldUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
@@ -161,7 +162,7 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
     print("body : " + body.toString());
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse(ServerConfig.oldUrl + 'home.php'),
+        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
@@ -171,6 +172,10 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
       if (map['response'] == "true") {
         idUser = map['id_user'];
         name = map['Fullname'];
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('type', type.toString());
+        prefs.setString('id_login', id.toString());
+        prefs.setString('parameter', email.text);
         Navigator.pushNamed(context, '/registersuccess');
         return "Success";
       } else {
