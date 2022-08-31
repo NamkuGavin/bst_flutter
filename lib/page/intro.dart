@@ -21,54 +21,53 @@ class Intro extends StatefulWidget {
 
 class _IntroState extends State<Intro> {
   final _scaffoldkey = GlobalKey<ScaffoldState>();
-  CheckModel? _checkModel;
-  String _check = "";
   bool _loadCheck = true;
   String _action = "";
 
-  Future _checkLogin() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      if (prefs.getString('type') == "1") {
-        setState(() {
-          _action = "google";
-        });
-      } else if (prefs.getString('type') == "2") {
-        setState(() {
-          _action = "facebook";
-        });
-      } else {
-        setState(() {
-          _action = "";
-        });
-      }
-      Map<String, dynamic> body = {
-        "apikey": "bstapp2022",
-        "action": _action,
-        "id_login": prefs.getString('id_login'),
-        "parameter": prefs.getString('parameter'),
-      };
-      print("BODY: " + body.toString());
-      final data = base64.encode(utf8.encode(jsonEncode(body)));
-      final response =
-          await http.post(Uri.parse(ServerConfig.newUrl + 'login.php'),
-              body: (<String, String>{
-                'data': data.toString(),
-              }));
-      print("DATA: " + response.body.toString());
-      if (response.statusCode == 200) {
-        _checkModel =
-            CheckModel.fromJson(json.decode(response.body.toString()));
-        _check = _checkModel!.response;
-        return _check;
-      } else {
-        throw Exception(
-            "Unable to reload data. Please check your internet connection.");
-      }
-    } catch (e) {
-      print(e.toString());
-    } finally {
-      return null;
+  _checkLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('type') == "1") {
+      setState(() {
+        _action = "google";
+      });
+    } else if (prefs.getString('type') == "2") {
+      setState(() {
+        _action = "facebook";
+      });
+    } else {
+      setState(() {
+        _action = "";
+      });
+    }
+    Map<String, dynamic> body = {
+      "apikey": "bstapp2022",
+      "action": _action,
+      "id_login": prefs.getString('id_login'),
+      "parameter": prefs.getString('parameter'),
+    };
+    // Map<String, dynamic> body = {
+    //   "apikey": "bstapp2022",
+    //   "action": "google",
+    //   "id_login": "13135454242645645",
+    //   "parameter": "Tiar@gmail.com",
+    // };
+    print("BODY: " + body.toString());
+    final data = base64.encode(utf8.encode(jsonEncode(body)));
+    final response =
+        await http.post(Uri.parse(ServerConfig.newUrl + 'login.php'),
+            body: (<String, String>{
+              'data': data.toString(),
+            }));
+    print("DATA: " + response.body.toString());
+    if (response.body.toString() == "null") {
+      setState(() {
+        _loadCheck = false;
+      });
+    } else {
+      setState(() {
+        _loadCheck = false;
+        Navigator.pushNamed(context, '/pagerouteview');
+      });
     }
   }
 
@@ -95,8 +94,6 @@ class _IntroState extends State<Intro> {
       GoogleSignIn().disconnect();
     } catch (e) {
       print(e.toString());
-    } finally {
-      return null;
     }
   }
 
@@ -126,8 +123,6 @@ class _IntroState extends State<Intro> {
       }
     } catch (e) {
       print(e.toString());
-    } finally {
-      return null;
     }
   }
 
@@ -136,16 +131,6 @@ class _IntroState extends State<Intro> {
     // TODO: implement initState
     super.initState();
     _checkLogin();
-    if (_check == "true") {
-      setState(() {
-        _loadCheck = false;
-      });
-      Navigator.pushNamed(context, '/pagerouteview');
-    } else {
-      setState(() {
-        _loadCheck = false;
-      });
-    }
   }
 
   @override
