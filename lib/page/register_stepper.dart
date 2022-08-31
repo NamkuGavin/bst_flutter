@@ -81,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
     };
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
+        await http.post(Uri.parse(ServerConfig.oldUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
@@ -103,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
     };
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
+        await http.post(Uri.parse(ServerConfig.oldUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));

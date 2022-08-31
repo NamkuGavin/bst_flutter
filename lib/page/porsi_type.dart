@@ -53,7 +53,7 @@ class _PorsiTypeState extends State<PorsiType> {
   }
 
   save_MakananType(DatumType _type) async {
-    final getUrl = ServerConfig.newUrl + "food.php";
+    final getUrl = ServerConfig.oldUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",
