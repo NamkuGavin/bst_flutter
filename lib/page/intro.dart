@@ -1,3 +1,4 @@
+import 'package:bst/model/FacebookModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +18,7 @@ class _IntroState extends State<Intro> {
 
   Future _loginGoogle() async {
     try {
+      final String type = "1";
       final GoogleSignInAccount? account = await GoogleSignIn().signIn();
 
       if (account == null) {
@@ -29,11 +31,12 @@ class _IntroState extends State<Intro> {
         "id": account.id,
         "name": account.displayName,
         "email": account.email,
+        "type": type,
       };
 
       Navigator.pushNamed(context, '/registersocmed', arguments: data);
 
-      GoogleSignIn().signOut();
+      GoogleSignIn().disconnect();
     } catch (e) {
       print(e.toString());
     } finally {
@@ -43,14 +46,23 @@ class _IntroState extends State<Intro> {
 
   Future _loginFacebook() async {
     try {
+      final String type = "2";
       final result = await FacebookAuth.instance.login(
         permissions: ['public_profile', 'email'],
       );
 
       if (result.status == LoginStatus.success) {
-        var data = await FacebookAuth.instance.getUserData();
+        final json = await FacebookAuth.instance.getUserData();
+        print("facebook json : " + json.toString());
 
-        print(data);
+        FacebookModel model = FacebookModel.fromJson(json);
+
+        Map<String, dynamic> data = {
+          'id': model.id,
+          'email': model.email,
+          'name': model.name,
+          'type': type,
+        };
 
         Navigator.pushNamed(context, '/registersocmed', arguments: data);
 
