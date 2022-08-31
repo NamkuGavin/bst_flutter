@@ -84,7 +84,7 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
     };
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
+        await http.post(Uri.parse(ServerConfig.oldUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
@@ -162,7 +162,7 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
     print("body : " + body.toString());
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
+        await http.post(Uri.parse(ServerConfig.oldUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
