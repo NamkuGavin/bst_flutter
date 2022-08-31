@@ -31,6 +31,8 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
   bool _calendarVisible = false;
   bool confirmTNC = false;
   String? tnc_txt;
+  String? type;
+  String? id;
 
   DateTime _selectedDate = DateTime.now();
   String? formattedDate;
@@ -135,13 +137,35 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
       "RegisterPurpose": _goal,
       "ClothesTarget": clothSize.text,
       "DietType": 1,
+      "type": type,
+      "id_login": id,
+      "parameter": email.text,
     };
+    // Map<String, dynamic> body = {
+    //   "apikey": "bstapp2022",
+    //   "action": "register",
+    //   "Fullname": "Hibatullah Fawwaz Hana",
+    //   "Email": "hiba.kudus@gmail.com",
+    //   "Password": "123456",
+    //   "Gender": 'M',
+    //   "Dob": "bebas",
+    //   "Height": "80",
+    //   "Weight": "80",
+    //   "RegisterPurpose": "goal",
+    //   "ClothesTarget": "80",
+    //   "DietType": 1,
+    //   "type": "1",
+    //   "id_login": "113330553434021010618",
+    //   "parameter": "hiba.kudus@gmail.com",
+    // };
+    print("body : " + body.toString());
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
+        await http.post(Uri.parse(ServerConfig.oldUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
+    print("response register : " + response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> map = jsonDecode(response.body);
       if (map['response'] == "true") {
@@ -1266,8 +1290,10 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
     final data = ModalRoute.of(context)!.settings.arguments as Map;
 
     if (data != null) {
+      id = data['id'];
       fullName.text = data["name"];
       email.text = data["email"];
+      type = data["type"];
     }
 
     return Scaffold(

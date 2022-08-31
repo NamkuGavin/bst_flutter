@@ -135,13 +135,18 @@ class _RegisterPageState extends State<RegisterPage> {
       "RegisterPurpose": _goal,
       "ClothesTarget": clothSize.text,
       "DietType": 1,
+      "type": "",
+      "id_login": "",
+      "parameter": "",
     };
+    print("response" + body.toString());
     final data = base64.encode(utf8.encode(jsonEncode(body)));
     final response =
-        await http.post(Uri.parse(ServerConfig.newUrl + 'home.php'),
+        await http.post(Uri.parse(ServerConfig.oldUrl + 'home.php'),
             body: (<String, String>{
               'data': data.toString(),
             }));
+    print("response register : " + response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> map = jsonDecode(response.body);
       if (map['response'] == "true") {
