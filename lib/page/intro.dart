@@ -21,29 +21,14 @@ class Intro extends StatefulWidget {
 
 class _IntroState extends State<Intro> {
   final _scaffoldkey = GlobalKey<ScaffoldState>();
-  bool _loadCheck = true;
-  String _action = "";
+  CheckModel? _checkModel;
 
-  _checkLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('type') == "1") {
-      setState(() {
-        _action = "google";
-      });
-    } else if (prefs.getString('type') == "2") {
-      setState(() {
-        _action = "facebook";
-      });
-    } else {
-      setState(() {
-        _action = "";
-      });
-    }
+  _checkLogin(String id, String param, String action) async {
     Map<String, dynamic> body = {
       "apikey": "bstapp2022",
-      "action": _action,
-      "id_login": prefs.getString('id_login'),
-      "parameter": prefs.getString('parameter'),
+      "action": action,
+      "id_login": id,
+      "parameter": param,
     };
     // Map<String, dynamic> body = {
     //   "apikey": "bstapp2022",
@@ -59,21 +44,13 @@ class _IntroState extends State<Intro> {
               'data': data.toString(),
             }));
     print("DATA: " + response.body.toString());
-    if (response.body.toString() == "null") {
-      setState(() {
-        _loadCheck = false;
-      });
-    } else {
-      setState(() {
-        _loadCheck = false;
-        Navigator.pushNamed(context, '/pagerouteview');
-      });
-    }
+    _checkModel = CheckModel.fromJson(json.decode(response.body.toString()));
   }
 
   Future _loginGoogle() async {
     try {
       final String type = "1";
+      final String action = "google";
       final GoogleSignInAccount? account = await GoogleSignIn().signIn();
 
       if (account == null) {
@@ -89,7 +66,12 @@ class _IntroState extends State<Intro> {
         "type": type,
       };
 
-      Navigator.pushNamed(context, '/registersocmed', arguments: data);
+      _checkLogin(account.id, account.email, action);
+      if (_checkModel!.response == "true") {
+        Navigator.pushNamed(context, '/pagerouteview');
+      } else {
+        Navigator.pushNamed(context, '/registersocmed', arguments: data);
+      }
 
       GoogleSignIn().disconnect();
     } catch (e) {
@@ -100,6 +82,7 @@ class _IntroState extends State<Intro> {
   Future _loginFacebook() async {
     try {
       final String type = "2";
+      final String action = "facebook";
       final result = await FacebookAuth.instance.login(
         permissions: ['public_profile', 'email'],
       );
@@ -117,20 +100,18 @@ class _IntroState extends State<Intro> {
           'type': type,
         };
 
-        Navigator.pushNamed(context, '/registersocmed', arguments: data);
+        _checkLogin(model.id.toString(), model.email.toString(), action);
+        if (_checkModel!.response == "true") {
+          Navigator.pushNamed(context, '/pagerouteview');
+        } else {
+          Navigator.pushNamed(context, '/registersocmed', arguments: data);
+        }
 
         FacebookAuth.instance.logOut();
       }
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _checkLogin();
   }
 
   @override
@@ -145,269 +126,240 @@ class _IntroState extends State<Intro> {
           ),
         ),
         child: Center(
-          child: _loadCheck
-              ? CircularProgressIndicator()
-              : SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(50.0, 24.0, 50.0, 16.0),
+                  height: MediaQuery.of(context).size.height * 3.7 / 7,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Balanzing Your Life with",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 25),
+                        Container(
+                          child:
+                              Image.asset('assets/images/logo.png', width: 250),
+                        ),
+                        SizedBox(height: 25),
+                        Text(
+                          "Punya sahabat yang nemenin kamu sampai dapat berat badan ideal, untuk mencapai hasil diet optimal!",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 12, height: 1.5),
+                        ),
+                        SizedBox(height: 25),
+                        Text(
+                          "#KawalSampaiIdeal",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  height: (MediaQuery.of(context).size.height * 3.3 / 7),
+                  padding: EdgeInsets.all(25),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(50),
+                      topLeft: Radius.circular(50),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 5,
+                        blurRadius: 12,
+                      ),
+                    ],
+                    color: Colors.white,
+                  ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(50.0, 24.0, 50.0, 16.0),
-                        height: MediaQuery.of(context).size.height * 3.7 / 7,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Balanzing Your Life with",
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 25),
-                              Container(
-                                child: Image.asset('assets/images/logo.png',
-                                    width: 250),
-                              ),
-                              SizedBox(height: 25),
-                              Text(
-                                "Punya sahabat yang nemenin kamu sampai dapat berat badan ideal, untuk mencapai hasil diet optimal!",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    height: 1.5),
-                              ),
-                              SizedBox(height: 25),
-                              Text(
-                                "#KawalSampaiIdeal",
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
+                    children: <Widget>[
+                      SizedBox(
+                        height: (MediaQuery.of(context).size.height * 0.4 / 6),
+                        width: double.infinity,
+                        child: TextButton(
+                          onPressed: () async {
+                            final value = await Navigator.pushNamed(
+                                context, '/onboarding');
+                            setState(() {
+                              FocusScope.of(context).unfocus();
+                            });
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text('Daftar',
+                                    style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )),
+                              ]),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xff818181)),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0)),
+                            ),
                           ),
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.bottomCenter,
-                        height: (MediaQuery.of(context).size.height * 3.3 / 7),
-                        padding: EdgeInsets.all(25),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(50),
-                            topLeft: Radius.circular(50),
+                      Padding(padding: EdgeInsets.only(top: 10)),
+                      SizedBox(
+                        height: (MediaQuery.of(context).size.height * 0.4 / 6),
+                        width: double.infinity,
+                        child: TextButton(
+                          onPressed: () async {
+                            final value =
+                                await Navigator.pushNamed(context, '/login');
+                            setState(() {
+                              FocusScope.of(context).unfocus();
+                            });
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text('MASUK',
+                                    style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 1.2,
+                                      ),
+                                    )),
+                              ]),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xff99CB57)),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0)),
+                            ),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.4),
-                              spreadRadius: 5,
-                              blurRadius: 12,
-                            ),
-                          ],
-                          color: Colors.white,
                         ),
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: (MediaQuery.of(context).size.height *
-                                  0.4 /
-                                  6),
-                              width: double.infinity,
-                              child: TextButton(
-                                onPressed: () async {
-                                  final value = await Navigator.pushNamed(
-                                      context, '/onboarding');
-                                  setState(() {
-                                    FocusScope.of(context).unfocus();
-                                  });
-                                },
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text('Daftar',
-                                          style: GoogleFonts.montserrat(
-                                            textStyle: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          )),
-                                    ]),
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Color(0xff818181)),
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0)),
-                                  ),
-                                ),
-                              ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20, bottom: 20),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Expanded(child: Divider(color: Color(0xFF818181))),
+                            SizedBox(width: 10),
+                            Text(
+                              'atau masuk melalui',
+                              style: TextStyle(
+                                  fontSize: 10.0, color: Color(0xFF818181)),
                             ),
-                            Padding(padding: EdgeInsets.only(top: 10)),
-                            SizedBox(
-                              height: (MediaQuery.of(context).size.height *
-                                  0.4 /
-                                  6),
-                              width: double.infinity,
-                              child: TextButton(
-                                onPressed: () async {
-                                  final value = await Navigator.pushNamed(
-                                      context, '/login');
-                                  setState(() {
-                                    FocusScope.of(context).unfocus();
-                                  });
-                                },
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text('MASUK',
-                                          style: GoogleFonts.montserrat(
-                                            textStyle: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing: 1.2,
-                                            ),
-                                          )),
-                                    ]),
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Color(0xff99CB57)),
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 20, bottom: 20),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                      child: Divider(color: Color(0xFF818181))),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'atau masuk melalui',
-                                    style: TextStyle(
-                                        fontSize: 10.0,
-                                        color: Color(0xFF818181)),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                      child: Divider(color: Color(0xFF818181))),
-                                  SizedBox(width: 10),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: (MediaQuery.of(context).size.height *
-                                  0.4 /
-                                  6),
-                              width: double.infinity,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  // Register with Google still not work
-                                  _loginGoogle();
-                                },
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 10)),
-                                      SvgPicture.asset(
-                                          'assets/icons/google.svg',
-                                          height: 20,
-                                          width: 20),
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 21)),
-                                      Text('Daftar dengan akun Google',
-                                          style: GoogleFonts.montserrat(
-                                            textStyle: TextStyle(
-                                              color: Color(0xff818181),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          )),
-                                    ]),
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(padding: EdgeInsets.only(top: 10)),
-                            SizedBox(
-                              height: (MediaQuery.of(context).size.height *
-                                  0.4 /
-                                  6),
-                              width: double.infinity,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  // Register with Facebook still not work
-                                  _loginFacebook();
-                                },
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 10)),
-                                      SvgPicture.asset(
-                                          'assets/icons/facebook.svg',
-                                          height: 20,
-                                          width: 20),
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 30)),
-                                      Text('Daftar dengan akun Facebook',
-                                          style: GoogleFonts.montserrat(
-                                            textStyle: TextStyle(
-                                              color: Color(0xff818181),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          )),
-                                    ]),
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: Text(
-                                '© 2022 - Balanz Shape Transformation',
-                                style: TextStyle(
-                                    fontSize: 10.0, color: Color(0xFF818181)),
-                              ),
-                            ),
+                            SizedBox(width: 10),
+                            Expanded(child: Divider(color: Color(0xFF818181))),
+                            SizedBox(width: 10),
                           ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: (MediaQuery.of(context).size.height * 0.4 / 6),
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            // Register with Google still not work
+                            _loginGoogle();
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(padding: EdgeInsets.only(left: 10)),
+                                SvgPicture.asset('assets/icons/google.svg',
+                                    height: 20, width: 20),
+                                Padding(padding: EdgeInsets.only(left: 21)),
+                                Text('Daftar dengan akun Google',
+                                    style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: Color(0xff818181),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )),
+                              ]),
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 10)),
+                      SizedBox(
+                        height: (MediaQuery.of(context).size.height * 0.4 / 6),
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            // Register with Facebook still not work
+                            _loginFacebook();
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(padding: EdgeInsets.only(left: 10)),
+                                SvgPicture.asset('assets/icons/facebook.svg',
+                                    height: 20, width: 20),
+                                Padding(padding: EdgeInsets.only(left: 30)),
+                                Text('Daftar dengan akun Facebook',
+                                    style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: Color(0xff818181),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )),
+                              ]),
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Text(
+                          '© 2022 - Balanz Shape Transformation',
+                          style: TextStyle(
+                              fontSize: 10.0, color: Color(0xFF818181)),
                         ),
                       ),
                     ],
                   ),
                 ),
+              ],
+            ),
+          ),
         ),
       ),
     );
