@@ -23,7 +23,7 @@ class _IntroState extends State<Intro> {
   final _scaffoldkey = GlobalKey<ScaffoldState>();
   CheckModel? _checkModel;
 
-  _checkLogin(String id, String param, String action) async {
+  Future _checkLogin(String id, String param, String action, Map argument) async {
     Map<String, dynamic> body = {
       "apikey": "bstapp2022",
       "action": action,
@@ -45,6 +45,12 @@ class _IntroState extends State<Intro> {
             }));
     print("DATA: " + response.body.toString());
     _checkModel = CheckModel.fromJson(json.decode(response.body.toString()));
+
+    if (_checkModel!.response == "true") {
+      Navigator.pushNamed(context, '/pagerouteview');
+    } else {
+      Navigator.pushNamed(context, '/registersocmed', arguments: argument);
+    }
   }
 
   Future _loginGoogle() async {
@@ -66,14 +72,9 @@ class _IntroState extends State<Intro> {
         "type": type,
       };
 
-      _checkLogin(account.id, account.email, action);
-      if (_checkModel!.response == "true") {
-        Navigator.pushNamed(context, '/pagerouteview');
-      } else {
-        Navigator.pushNamed(context, '/registersocmed', arguments: data);
-      }
+      _checkLogin(account.id, account.email, action, data);
 
-      GoogleSignIn().disconnect();
+      GoogleSignIn().signOut();
     } catch (e) {
       print(e.toString());
     }
@@ -100,12 +101,7 @@ class _IntroState extends State<Intro> {
           'type': type,
         };
 
-        _checkLogin(model.id.toString(), model.email.toString(), action);
-        if (_checkModel!.response == "true") {
-          Navigator.pushNamed(context, '/pagerouteview');
-        } else {
-          Navigator.pushNamed(context, '/registersocmed', arguments: data);
-        }
+        _checkLogin(model.id.toString(), model.email.toString(), action, data);
 
         FacebookAuth.instance.logOut();
       }
