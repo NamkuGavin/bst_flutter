@@ -172,10 +172,6 @@ class _RegisterSocmedState extends State<RegisterSocmed> {
       if (map['response'] == "true") {
         idUser = map['id_user'];
         name = map['Fullname'];
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString('type', type.toString());
-        prefs.setString('id_login', id.toString());
-        prefs.setString('parameter', email.text);
         Navigator.pushNamed(context, '/registersuccess');
         return "Success";
       } else {
