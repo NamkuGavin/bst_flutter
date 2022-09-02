@@ -31,7 +31,7 @@ Future<Null> likePost(int userid, int socid) async {
   };
   encoded1 = base64.encode(utf8.encode(json.encode(socbody)));
   final dbsoc = await http.post(
-      Uri.parse(ServerConfig.oldUrl + 'social.php'),
+      Uri.parse(ServerConfig.newUrl + 'social.php'),
       body: {"data": encoded1});
   if (dbsoc.statusCode == 200) {
     Map<String, dynamic> dbsocresponse = json.decode(dbsoc.body);
@@ -54,7 +54,7 @@ Future<Null> unlikePost(int userid, int socid) async {
   };
   encoded1 = base64.encode(utf8.encode(json.encode(socbody)));
   final dbsoc = await http.post(
-      Uri.parse(ServerConfig.oldUrl + 'social.php'),
+      Uri.parse(ServerConfig.newUrl + 'social.php'),
       body: {"data": encoded1});
   if (dbsoc.statusCode == 200) {
     Map<String, dynamic> dbsocresponse = json.decode(dbsoc.body);

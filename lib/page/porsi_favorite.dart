@@ -54,7 +54,7 @@ class _PorsiFavoriteState extends State<PorsiFavorite> {
   }
 
   save_MakananFavorite(DatumFavorite _favorite) async {
-    final getUrl = ServerConfig.oldUrl + "food.php";
+    final getUrl = ServerConfig.newUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",

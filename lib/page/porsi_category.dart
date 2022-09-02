@@ -52,7 +52,7 @@ class _PorsiCategoryState extends State<PorsiCategory> {
   }
 
   save_MakananCategory(DatumCategory _category) async {
-    final getUrl = ServerConfig.oldUrl + "food.php";
+    final getUrl = ServerConfig.newUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",
