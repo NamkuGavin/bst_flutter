@@ -44,7 +44,7 @@ class _InputMakananState extends State<InputMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = ServerConfig.oldUrl + "food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -61,7 +61,7 @@ class _InputMakananState extends State<InputMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = ServerConfig.oldUrl + "food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -78,7 +78,7 @@ class _InputMakananState extends State<InputMakanan> {
     };
     var dataUtf = utf8.encode(json.encode(body));
     var dataBase64 = base64.encode(dataUtf);
-    String url = ServerConfig.oldUrl + "food.php";
+    String url = ServerConfig.newUrl + "food.php";
     var res = await http.post(Uri.parse(url), body: {'data': dataBase64});
     var resBody = json.decode(res.body);
     setState(() {
@@ -315,7 +315,7 @@ class _InputMakananState extends State<InputMakanan> {
   }
 
   saveList_PilihanMakanan() async {
-    final getUrl = ServerConfig.oldUrl + "food.php";
+    final getUrl = ServerConfig.newUrl + "food.php";
     print(getUrl);
     Map<String, dynamic> data = {
       "apikey": "bstapp2022",
